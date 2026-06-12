@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { orders, productionStages } from "../../../../data/clientPortal";
 
-export default function OrderDetailsPage({
+export default async function OrderDetailsPage({
   params,
 }: {
-  params: { orderId: string };
+  params: Promise<{ orderId: string }>;
 }) {
-  const order =
-    orders.find((item) => item.id === params.orderId) ?? orders[0];
+  const { orderId } = await params;
+  const order = orders.find((item) => String(item.id) === orderId) ?? orders[0];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-sky-50 px-4 py-10 md:px-10">
@@ -76,7 +76,7 @@ export default function OrderDetailsPage({
                 <div className="rounded-2xl bg-sky-50 p-4">
                   <p className="text-xs text-slate-500">ETA</p>
                   <p className="mt-1 text-lg font-semibold text-slate-900">
-                    {order.eta}
+                    {order.eta ?? "Pending"}
                   </p>
                 </div>
               </div>

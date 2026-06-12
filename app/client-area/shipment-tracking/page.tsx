@@ -43,7 +43,8 @@ export default function ShipmentTrackingPage() {
       {/* Cards */}
       <div className="grid gap-6 lg:grid-cols-2">
         {shipments.map((shipment) => {
-          const hasReceipt = Boolean(shipment?.receiptImage);
+          const receiptImage = shipment.receiptImage;
+          const hasReceipt = Boolean(receiptImage);
 
           return (
             <div
@@ -73,7 +74,7 @@ export default function ShipmentTrackingPage() {
               <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
                 {hasReceipt ? (
                   <img
-                    src={shipment.receiptImage}
+                      src={receiptImage}
                     alt="Shipment Receipt"
                     className="h-64 w-full object-cover"
                   />
@@ -91,14 +92,14 @@ export default function ShipmentTrackingPage() {
 
               {/* Download Button */}
               <button
-                onClick={() =>
-                  hasReceipt
-                    ? handleDownload(
-                        shipment.receiptImage,
-                        `${shipment.tracking}-receipt.jpg`
-                      )
-                    : alert("No receipt available")
-                }
+                onClick={() => {
+                  if (!receiptImage) {
+                    alert("No receipt available");
+                    return;
+                  }
+
+                  handleDownload(receiptImage, `${shipment.tracking}-receipt.jpg`);
+                }}
                 disabled={!hasReceipt}
                 className={`mt-4 w-full rounded-xl px-4 py-2 text-sm font-semibold text-white
                   ${

@@ -72,6 +72,7 @@ export interface ShipmentRecord {
   eta: string;
   origin: string;
   destination: string;
+  receiptImage?: string;
 }
 
 export interface MessageThread {

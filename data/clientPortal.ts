@@ -31,22 +31,26 @@ export const quickActions: QuickAction[] = [
 
 
 
-  export const orders = [
-  {
-    id: 1001,
-    product: "Custom Hoodie",
-    quantity: 50,
-    status: "In Production",
-    date: "2026-06-01",
-  },
-  {
-    id: 1002,
-    product: "Basketball Jersey",
-    quantity: 120,
-    status: "Completed",
-    date: "2026-05-28",
-  },
-];
+  export const orders: OrderItem[] = [
+    {
+      id: "1001",
+      product: "Custom Hoodie",
+      quantity: 50,
+      status: "In Production",
+      date: "2026-06-01",
+      total: "$6,150",
+      eta: "2026-06-18",
+    },
+    {
+      id: "1002",
+      product: "Basketball Jersey",
+      quantity: 120,
+      status: "Completed",
+      date: "2026-05-28",
+      total: "$9,840",
+      eta: "2026-06-10",
+    },
+  ];
 
 
 export const productionStages: ProductionStage[] = [

@@ -1,8 +1,20 @@
+// app/portfolio/page.tsx
 import PortfolioPreview from "../../components/sections/PortfolioPreview";
+import CountUpNumber from "../../src/components/ui/CountUpNumber";
+import PageHero from "../../components/ui/PageHero"; 
+import FinalCTA from "../../components/sections/FinalCTA";
+import SectionHeading from "../../components/ui/SectionHeading"; // Reusable TSX component import kiya
 
-export const metadata = { title: "Portfolio - Manufacturing Work" };
+export const metadata = { 
+  title: "Portfolio - Manufacturing Work" 
+};
 
-const videoReviews = [
+interface VideoReview {
+  name: string;
+  video: string;
+}
+
+const videoReviews: VideoReview[] = [
   {
     name: "Sportswear Brand UK",
     video: "/videos/review1.mp4",
@@ -19,88 +31,90 @@ const videoReviews = [
 
 export default function Portfolio() {
   return (
-    <section className="container py-16 space-y-16">
+    <section className="bg-white">
+      
+      {/* 1. Reusable Video Background Hero Section */}
+      <PageHero 
+        title="Our Manufacturing Portfolio"
+        description="Premium sportswear, hoodies, jerseys, and custom apparel manufactured with top-tier precision for local and international brands."
+        videoSrc="/hero.mp4" 
+      />
 
-      {/* Hero Section */}
-      <div className="text-center space-y-3">
-        <h1 className="text-4xl font-bold text-slate-900">
-          Our Manufacturing Portfolio
-        </h1>
-        <p className="muted max-w-3xl mx-auto">
-          Premium sportswear, hoodies, jerseys, and custom apparel
-          manufactured for local and international clients.
-        </p>
-      </div>
-
-      {/* Portfolio Section */}
-      <div>
-        <PortfolioPreview full />
-      </div>
-
-      {/* Stats Section */}
-      <div className="grid grid-cols-1 gap-4 text-center sm:grid-cols-3 sm:gap-6">
-        <div className="rounded-xl bg-white p-5 shadow sm:p-6">
-          <h3 className="text-xl font-bold sm:text-2xl">500+</h3>
-          <p className="muted">Completed Orders</p>
+      {/* Main Content Body */}
+      <div className="container py-16 space-y-20">
+        
+        {/* 2. Portfolio Grid Layout */}
+        <div>
+          <PortfolioPreview full />
         </div>
-        <div className="rounded-xl bg-white p-5 shadow sm:p-6">
-          <h3 className="text-xl font-bold sm:text-2xl">100+</h3>
-          <p className="muted">Happy Clients</p>
-        </div>
-        <div className="rounded-xl bg-white p-5 shadow sm:p-6">
-          <h3 className="text-xl font-bold sm:text-2xl">5+ Years</h3>
-          <p className="muted">Manufacturing Experience</p>
-        </div>
-      </div>
 
-      {/* VIDEO TESTIMONIALS SECTION */}
-      <div className="space-y-6">
-        <h2 className="text-2xl font-semibold text-center">
-          Client Video Reviews
-        </h2>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {videoReviews.map((item, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-xl shadow overflow-hidden"
-            >
-              {/* Video */}
-              <video
-                className="h-52 w-full object-cover sm:h-60 md:h-64"
-                controls
-              >
-                <source src={item.video} type="video/mp4" />
-                Your browser does not support video.
-              </video>
-
-              {/* Name */}
-              <div className="p-4 text-center">
-                <p className="font-semibold text-slate-900">
-                  {item.name}
-                </p>
-              </div>
+        {/* 3. Stats Section with CountUp Component */}
+        <div className="bg-slate-50/60 rounded-3xl p-8 sm:p-12 border border-slate-100">
+          <div className="grid grid-cols-1 gap-6 text-center sm:grid-cols-3 sm:gap-8">
+            <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100/50 transition duration-300 hover:shadow-md">
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
+                <CountUpNumber value="500+" />
+              </h3>
+              <p className="mt-2 font-medium text-slate-500">Completed Orders</p>
             </div>
-          ))}
+            
+            <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100/50 transition duration-300 hover:shadow-md">
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
+                <CountUpNumber value="100+" />
+              </h3>
+              <p className="mt-2 font-medium text-slate-500">Happy Clients</p>
+            </div>
+            
+            <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100/50 transition duration-300 hover:shadow-md">
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
+                <CountUpNumber value="5+" /> <span className="text-xl sm:text-2xl font-bold">Years</span>
+              </h3>
+              <p className="mt-2 font-medium text-slate-500">Manufacturing Experience</p>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* CTA Section */}
-      <div className="rounded-xl bg-slate-900 p-6 text-center text-white sm:p-10">
-        <h2 className="mb-2 text-xl font-bold sm:text-2xl">
-          Want Similar Manufacturing for Your Brand?
-        </h2>
-        <p className="opacity-80 mb-4">
-          Contact us today and turn your ideas into premium apparel.
-        </p>
-        <a
-          href="/contact"
-          className="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-slate-900"
-        >
-          Get a Quote
-        </a>
-      </div>
+        {/* 4. Client Video Testimonials Section */}
+        <div className="space-y-8">
+          {/* Reusable SectionHeading Component yahan lagaya (With Center Alignment) */}
+          <SectionHeading 
+            title="Client Video Reviews"
+            description="See what global brand owners say about our custom manufacturing quality."
+            center={true}
+          />
 
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {videoReviews.map((item: VideoReview, i: number) => (
+              <div
+                key={i}
+                className="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              >
+                {/* Fixed Ratio Video Container to prevent layout shift */}
+                <div className="relative aspect-video w-full bg-black overflow-hidden">
+                  <video
+                    className="h-full w-full object-cover"
+                    controls
+                    preload="metadata"
+                  >
+                    <source src={item.video} type="video/mp4" />
+                    Your browser does not support video.
+                  </video>
+                </div>
+
+                {/* Card Title Footer */}
+                <div className="p-5 text-center bg-white border-t border-slate-50">
+                  <p className="font-semibold text-slate-800 group-hover:text-blue-700 transition-colors">
+                    {item.name}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 5. CTA */}
+        <FinalCTA />
+      </div>
     </section>
   );
 }

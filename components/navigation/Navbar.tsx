@@ -256,7 +256,7 @@ const navLinks = [
   { href: "/factory-production", label: "Production" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/product-categories", label: "Product Categories" },
-  { href: "/pricing-calculator", label: "Calculator", accent: true },
+  { href: "/reviews", label: "Reviews", accent: true },
   { href: "/contact", label: "Contact Us" },
 ];
 

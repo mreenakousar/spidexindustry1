@@ -2,12 +2,30 @@
 import Image from "next/image";
 import FinalCTA from "../../components/sections/FinalCTA";
 import CountUpNumber from "../../src/components/ui/CountUpNumber";
+import PageHero from "../../components/ui/PageHero"; 
+import SectionHeading from "../../components/ui/SectionHeading"; 
+import {
+  Factory,
+  MapPin,
+  Building2,
+  Users,
+  Package,
+  Globe2,
+  ShieldCheck,
+  CheckCircle2,
+} from "lucide-react";
 
 export const metadata = {
   title: "About Us - Speedx Industry",
 };
 
-const teamMembers = [
+interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
+}
+
+const teamMembers: TeamMember[] = [
   {
     name: "Muhammad Ali",
     role: "Chief Executive Officer",
@@ -33,46 +51,20 @@ const teamMembers = [
 export default function About() {
   return (
     <section className="bg-white">
-      {/* Hero Section with Video Background */}
-      <div className="relative bg-blue-900 text-white overflow-hidden">
-        {/* Background Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        >
-          <source src="/hero2.mp4" type="video/mp4" />
-          {/* Fallback color if video fails to load */}
-          Your browser does not support the video tag.
-        </video>
+      
+      {/* 1. Reusable Video Background Hero Section */}
+      <PageHero 
+        title="About Speedx Industry"
+        description="Speedx Industry is a trusted clothing manufacturing company specializing in premium custom apparel, private label production, OEM manufacturing, and worldwide export solutions for brands, startups, and wholesalers."
+        videoSrc="/hero.mp4"
+        overlayClass="bg-blue-950/70"
+      />
 
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-blue-950/70 z-10" />
-
-        {/* Hero Content */}
-        <div className="container relative z-20 py-14 sm:py-20">
-          <h1 className="text-3xl font-bold sm:text-4xl md:text-5xl">
-            About Speedx Industry
-          </h1>
-
-          <p className="mt-5 max-w-3xl text-base text-blue-100 sm:mt-6 sm:text-lg">
-            Speedx Industry is a trusted clothing manufacturing company
-            specializing in premium custom apparel, private label production,
-            OEM manufacturing, and worldwide export solutions for brands,
-            startups, and wholesalers.
-          </p>
-        </div>
-      </div>
-
-      {/* Company Story */}
-      <div className="container py-14 sm:py-20">
+      {/* 2. Company Story */}
+      <div className="container mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-              Our Story
-            </h2>
+            <SectionHeading title="Our Story" />
 
             <p className="mt-5 text-sm leading-7 text-slate-600 sm:mt-6 sm:text-base sm:leading-8">
               Speedx Industry was founded with a vision to provide premium
@@ -101,106 +93,140 @@ export default function About() {
         </div>
       </div>
 
-      {/* Stats */}
+      {/* 3. Stats Section */}
       <div className="bg-blue-50">
-        <div className="container py-12 sm:py-16">
+        <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
             <div className="rounded-xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="10+" /></h3>
-              <p className="mt-2 text-slate-600">
-                Years Experience
-              </p>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
+                <CountUpNumber value="10+" />
+              </h3>
+              <p className="mt-2 text-slate-600">Years Experience</p>
             </div>
 
             <div className="rounded-xl bg-white p-6 text-center shadow-sm sm:p-8">
               <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
                 <CountUpNumber value="25,000+" />
               </h3>
-              <p className="mt-2 text-slate-600">
-                Monthly Production Capacity
-              </p>
+              <p className="mt-2 text-slate-600">Monthly Production Capacity</p>
             </div>
 
             <div className="rounded-xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="40+" /></h3>
-              <p className="mt-2 text-slate-600">
-                Skilled Workers
-              </p>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
+                <CountUpNumber value="40+" />
+              </h3>
+              <p className="mt-2 text-slate-600">Skilled Workers</p>
             </div>
 
             <div className="rounded-xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="20+" /></h3>
-              <p className="mt-2 text-slate-600">
-                Countries Served
-              </p>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
+                <CountUpNumber value="20+" />
+              </h3>
+              <p className="mt-2 text-slate-600">Countries Served</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Factory Information */}
-      <div className="container py-14 sm:py-20">
-        <div className="grid gap-6 md:grid-cols-2 md:gap-10">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
-            <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">
-              Factory Information
-            </h3>
-
-            <ul className="mt-6 space-y-4 text-slate-600">
-              <li>
-                📍 Location: Sialkot, Pakistan
-              </li>
-
-              <li>
-                🏭 Factory Size: <CountUpNumber value="10,000+" className="inline-block" /> sq ft
-              </li>
-
-              <li>
-                👥 Workforce: <CountUpNumber value="40+" className="inline-block" /> Skilled Professionals
-              </li>
-
-              <li>
-                📦 Monthly Capacity: <CountUpNumber value="25,000+" className="inline-block" /> Pieces
-              </li>
-
-              <li>
-                🌍 Export Markets: USA, UK, Europe,
-                Australia & Middle East
-              </li>
-            </ul>
+      {/* 4. Factory Information & Quality Standards */}
+      <div className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          
+          {/* Left Side - Factory Video */}
+          <div className="overflow-hidden rounded-3xl border border-slate-200 aspect-video lg:aspect-square relative w-full bg-slate-100">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="h-full w-full object-cover"
+            >
+              <source src="/factory.mp4" type="video/mp4" />
+            </video>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
-            <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">
-              Quality Standards
-            </h3>
+          {/* Right Side - Production Excellence Details */}
+          <div>
+        
 
-            <ul className="mt-6 space-y-4 text-slate-600">
-              <li>✓ Fabric Inspection</li>
-              <li>✓ In-Line Quality Control</li>
-              <li>✓ AQL Sampling Inspection</li>
-              <li>✓ Final Product Verification</li>
-              <li>✓ Secure Packaging Standards</li>
-              <li>✓ International Shipping Compliance</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* Team */}
-      <div className="bg-slate-50">
-        <div className="container py-14 sm:py-20">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-              Meet Our Team
+            <h2 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Built for Quality.
+              <br />
+              Trusted Worldwide.
             </h2>
 
-            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">
-              Our experienced team ensures smooth production,
-              strict quality control, and professional customer
-              support for every project.
+            <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg">
+              Our manufacturing facility combines skilled craftsmanship,
+              advanced production processes, and strict quality control to
+              deliver premium sportswear for global brands.
             </p>
+
+            <div className="mt-8 space-y-4">
+              {[
+                "Premium Fabric Sourcing",
+                "Skilled Production Team",
+                "Multi-Stage Quality Inspection",
+                "Worldwide Export Capability",
+              ].map((item) => (
+                <div key={item} className="flex items-center gap-3">
+                  <div className="h-2 w-2 rounded-full bg-slate-900" />
+                  <span className="text-slate-700 font-medium">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Inner Grid Core Metrics */}
+            <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 border-t border-slate-100 pt-8">
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                  <CountUpNumber value="10,000+" />
+                </h3>
+                <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                  Sq Ft Facility
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                  <CountUpNumber value="40+" />
+                </h3>
+                <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                  Experts
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                  <CountUpNumber value="25,000+" />
+                </h3>
+                <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                  Monthly Units
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                  <CountUpNumber value="15+" />
+                </h3>
+                <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                  Export Markets
+                </p>
+              </div>
+            </div>
           </div>
+
+        </div>
+      </div>
+
+      {/* 5. Team Section */}
+      <div className="bg-slate-50">
+        <div className="container mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+          
+          <SectionHeading 
+            title="Meet Our Team"
+            description="Our experienced team ensures smooth production, strict quality control, and professional customer support for every project."
+            center={true}
+          />
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4 lg:gap-8">
             {teamMembers.map((member) => (
@@ -222,7 +248,7 @@ export default function About() {
                     {member.name}
                   </h3>
 
-                  <p className="text-blue-700 mt-1">
+                  <p className="text-blue-700 text-sm font-medium mt-1">
                     {member.role}
                   </p>
                 </div>
@@ -232,8 +258,8 @@ export default function About() {
         </div>
       </div>
 
-      {/* CTA */}
-     <FinalCTA/>
+      {/* 6. CTA */}
+      <FinalCTA />
     </section>
   );
 }

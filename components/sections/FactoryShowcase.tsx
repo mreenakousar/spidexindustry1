@@ -2,6 +2,7 @@
 "use client";
 
 import SectionHeader from "../ui/SectionHeader";
+import CountUpNumber from "../../src/components/ui/CountUpNumber";
 
 export default function FactoryShowcase() {
   const areas = [
@@ -114,22 +115,22 @@ export default function FactoryShowcase() {
         {/* Bottom Stats */}
         <div className="mt-12 grid grid-cols-2 gap-4 sm:gap-6 lg:mt-20 lg:grid-cols-4">
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center sm:p-6">
-            <h3 className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl">15+</h3>
+            <h3 className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl"><CountUpNumber value="15+" /></h3>
             <p className="text-gray-400 mt-2">Years Experience</p>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center sm:p-6">
-            <h3 className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl">100K+</h3>
+            <h3 className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl"><CountUpNumber value="100K+" /></h3>
             <p className="text-gray-400 mt-2">Monthly Capacity</p>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center sm:p-6">
-            <h3 className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl">50+</h3>
+            <h3 className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl"><CountUpNumber value="50+" /></h3>
             <p className="text-gray-400 mt-2">Team Members</p>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center sm:p-6">
-            <h3 className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl">100%</h3>
+            <h3 className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl"><CountUpNumber value="100%" /></h3>
             <p className="text-gray-400 mt-2">Quality Checked</p>
           </div>
         </div>

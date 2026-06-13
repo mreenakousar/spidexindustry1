@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Download, Search, Tag, Wallet, X } from "lucide-react";
+import CountUpNumber from "../../../src/components/ui/CountUpNumber";
 
 interface Invoice {
   id: string;
@@ -161,7 +162,7 @@ export default function InvoicesPage() {
             Total Invoices
           </p>
           <p className="mt-4 text-4xl font-semibold text-slate-900 dark:text-white">
-            {totals.total}
+            <CountUpNumber value={totals.total} />
           </p>
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
@@ -169,7 +170,7 @@ export default function InvoicesPage() {
             Total Revenue
           </p>
           <p className="mt-4 text-4xl font-semibold text-emerald-600">
-            {formatCurrency(totals.revenue)}
+            <CountUpNumber value={formatCurrency(totals.revenue)} />
           </p>
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
@@ -177,7 +178,7 @@ export default function InvoicesPage() {
             Paid Invoices
           </p>
           <p className="mt-4 text-4xl font-semibold text-sky-600">
-            {totals.paid}
+            <CountUpNumber value={totals.paid} />
           </p>
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
@@ -185,7 +186,7 @@ export default function InvoicesPage() {
             Overdue
           </p>
           <p className="mt-4 text-4xl font-semibold text-rose-600">
-            {totals.overdue}
+            <CountUpNumber value={totals.overdue} />
           </p>
         </div>
       </div>

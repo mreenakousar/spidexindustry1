@@ -152,6 +152,7 @@ import { useState, useEffect, useMemo } from "react";
 import { invoices } from "../../../data/clientPortal";
 import type { InvoiceRecord } from "../../../types/clientPortal";
 import Badge, { statusVariant } from "../../../components/ui/Badge";
+import CountUpNumber from "../../../src/components/ui/CountUpNumber";
 
 export default function InvoicesPage() {
   const [selectedInvoice, setSelectedInvoice] =
@@ -238,27 +239,29 @@ export default function InvoicesPage() {
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 sm:gap-6">
           <div className="rounded-3xl border bg-white p-5 shadow-sm sm:p-6">
             <p className="text-sm text-slate-500">Total</p>
-            <p className="text-2xl font-semibold">{totalInvoices}</p>
+            <p className="text-2xl font-semibold">
+              <CountUpNumber value={totalInvoices} />
+            </p>
           </div>
 
           <div className="rounded-3xl border bg-white p-5 shadow-sm sm:p-6">
             <p className="text-sm text-slate-500">Paid</p>
             <p className="text-2xl font-semibold text-emerald-600">
-              {paidInvoices}
+              <CountUpNumber value={paidInvoices} />
             </p>
           </div>
 
           <div className="rounded-3xl border bg-white p-5 shadow-sm sm:p-6">
             <p className="text-sm text-slate-500">Pending</p>
             <p className="text-2xl font-semibold text-amber-600">
-              {pendingInvoices}
+              <CountUpNumber value={pendingInvoices} />
             </p>
           </div>
 
           <div className="rounded-3xl border bg-white p-5 shadow-sm sm:p-6">
             <p className="text-sm text-slate-500">Revenue</p>
             <p className="text-2xl font-semibold text-sky-600">
-              ${totalRevenue}
+              <CountUpNumber value={`$${totalRevenue}`} />
             </p>
           </div>
         </div>

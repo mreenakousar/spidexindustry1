@@ -2,6 +2,7 @@ import React from "react";
 import DashboardWidgets from "../../components/admin/DashboardWidgets";
 import { recentOrders } from "../../data/adminMock";
 import OrdersTable from "../../components/admin/OrdersTable";
+import CountUpNumber from "../../src/components/ui/CountUpNumber";
 
 const quickInsights = [
   {
@@ -57,7 +58,7 @@ export default function AdminPage() {
                   {item.title}
                 </p>
                 <p className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">
-                  {item.value}
+                  <CountUpNumber value={item.value} />
                 </p>
                 <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
                   {item.detail}
@@ -101,7 +102,7 @@ export default function AdminPage() {
                   </span>
                 </div>
                 <p className="mt-3 text-lg font-semibold text-slate-900 dark:text-white">
-                  {client.value}
+                  <CountUpNumber value={client.value} />
                 </p>
               </div>
             ))}

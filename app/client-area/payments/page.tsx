@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { payments as initialPayments } from "../../../data/clientPortal";
+import CountUpNumber from "../../../src/components/ui/CountUpNumber";
 
 export default function PaymentsPage() {
   const [payments, setPayments] = useState(initialPayments || []);
@@ -99,18 +100,22 @@ export default function PaymentsPage() {
       <div className="grid gap-6 xl:grid-cols-3">
         <div className="rounded-3xl border bg-white p-6 shadow-sm">
           <p className="text-sm uppercase text-slate-500">Paid invoices</p>
-          <p className="mt-4 text-3xl font-semibold">{paidInvoices}</p>
+          <p className="mt-4 text-3xl font-semibold">
+            <CountUpNumber value={paidInvoices} />
+          </p>
         </div>
 
         <div className="rounded-3xl border bg-white p-6 shadow-sm">
           <p className="text-sm uppercase text-slate-500">Pending invoices</p>
-          <p className="mt-4 text-3xl font-semibold">{pendingInvoices}</p>
+          <p className="mt-4 text-3xl font-semibold">
+            <CountUpNumber value={pendingInvoices} />
+          </p>
         </div>
 
         <div className="rounded-3xl border bg-white p-6 shadow-sm">
           <p className="text-sm uppercase text-slate-500">Last transaction</p>
           <p className="mt-4 text-3xl font-semibold">
-            {lastTransaction?.amount ?? "$0"}
+            <CountUpNumber value={lastTransaction?.amount ?? "$0"} />
           </p>
         </div>
       </div>

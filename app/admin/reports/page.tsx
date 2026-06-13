@@ -8,6 +8,7 @@ import {
   Search,
   TrendingUp,
 } from "lucide-react";
+import CountUpNumber from "../../../src/components/ui/CountUpNumber";
 
 interface ReportCard {
   title: string;
@@ -78,7 +79,7 @@ export default function ReportsPage() {
               <span className="text-sm font-medium">{card.title}</span>
             </div>
             <p className="mt-6 text-3xl font-semibold text-slate-900 dark:text-white">
-              {card.value}
+              <CountUpNumber value={card.value} />
             </p>
             <p className="mt-2 text-sm text-emerald-600">
               {card.change} vs last period
@@ -137,7 +138,7 @@ export default function ReportsPage() {
                   Average Lead Time
                 </p>
                 <p className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">
-                  4.8 wks
+                  <CountUpNumber value="4.8 wks" />
                 </p>
               </div>
               <div className="rounded-3xl bg-white p-5 shadow-sm dark:bg-slate-900">
@@ -145,21 +146,23 @@ export default function ReportsPage() {
                   Quality Pass Rate
                 </p>
                 <p className="mt-3 text-3xl font-semibold text-emerald-600">
-                  96%
+                  <CountUpNumber value="96%" />
                 </p>
               </div>
               <div className="rounded-3xl bg-white p-5 shadow-sm dark:bg-slate-900">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
                   On-Time Delivery
                 </p>
-                <p className="mt-3 text-3xl font-semibold text-sky-600">89%</p>
+                <p className="mt-3 text-3xl font-semibold text-sky-600">
+                  <CountUpNumber value="89%" />
+                </p>
               </div>
               <div className="rounded-3xl bg-white p-5 shadow-sm dark:bg-slate-900">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
                   Cost per Unit
                 </p>
                 <p className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">
-                  $15.20
+                  <CountUpNumber value="$15.20" />
                 </p>
               </div>
             </div>
@@ -181,7 +184,7 @@ export default function ReportsPage() {
                         {item.label}
                       </p>
                       <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
-                        {item.value}
+                        <CountUpNumber value={item.value} />
                       </p>
                     </div>
                     <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">

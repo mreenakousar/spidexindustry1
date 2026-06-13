@@ -8,6 +8,7 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import SectionHeader from "../ui/SectionHeader";
+import CountUpNumber from "../../src/components/ui/CountUpNumber";
 
 export default function WhyChooseUs() {
   const items = [
@@ -98,17 +99,17 @@ export default function WhyChooseUs() {
         {/* Bottom Stats */}
         <div className="mt-12 grid grid-cols-2 gap-4 sm:gap-6 md:mt-20 md:grid-cols-4">
           <div className="rounded-xl border bg-white p-4 text-center shadow-sm sm:p-6">
-            <h3 className="text-2xl font-bold text-blue-600 sm:text-3xl">500+</h3>
+            <h3 className="text-2xl font-bold text-blue-600 sm:text-3xl"><CountUpNumber value="500+" /></h3>
             <p className="text-slate-600 mt-2">Projects Completed</p>
           </div>
 
           <div className="rounded-xl border bg-white p-4 text-center shadow-sm sm:p-6">
-            <h3 className="text-2xl font-bold text-blue-600 sm:text-3xl">50+</h3>
+            <h3 className="text-2xl font-bold text-blue-600 sm:text-3xl"><CountUpNumber value="50+" /></h3>
             <p className="text-slate-600 mt-2">Countries Served</p>
           </div>
 
           <div className="rounded-xl border bg-white p-4 text-center shadow-sm sm:p-6">
-            <h3 className="text-2xl font-bold text-blue-600 sm:text-3xl">99%</h3>
+            <h3 className="text-2xl font-bold text-blue-600 sm:text-3xl"><CountUpNumber value="99%" /></h3>
             <p className="text-slate-600 mt-2">Quality Satisfaction</p>
           </div>
 

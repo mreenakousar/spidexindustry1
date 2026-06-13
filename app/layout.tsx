@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import WhatsAppWidget from "../components/ui/WhatsAppWidget";
+import ScrollRevealProvider from "../components/animations/ScrollRevealProvider";
 
 export const metadata = {
   title: "Premium Custom Clothing Manufacturing",
@@ -32,6 +33,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
+        <ScrollRevealProvider />
         <main className="min-h-screen">{children}</main>
         <Footer />
         <WhatsAppWidget />

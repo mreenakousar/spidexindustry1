@@ -1,6 +1,7 @@
 
 import Image from "next/image";
 import FinalCTA from "../../components/sections/FinalCTA";
+import CountUpNumber from "../../src/components/ui/CountUpNumber";
 
 export const metadata = {
   title: "About Us - Speedx Industry",
@@ -105,7 +106,7 @@ export default function About() {
         <div className="container py-12 sm:py-16">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
             <div className="rounded-xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">10+</h3>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="10+" /></h3>
               <p className="mt-2 text-slate-600">
                 Years Experience
               </p>
@@ -113,7 +114,7 @@ export default function About() {
 
             <div className="rounded-xl bg-white p-6 text-center shadow-sm sm:p-8">
               <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
-                25,000+
+                <CountUpNumber value="25,000+" />
               </h3>
               <p className="mt-2 text-slate-600">
                 Monthly Production Capacity
@@ -121,14 +122,14 @@ export default function About() {
             </div>
 
             <div className="rounded-xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">40+</h3>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="40+" /></h3>
               <p className="mt-2 text-slate-600">
                 Skilled Workers
               </p>
             </div>
 
             <div className="rounded-xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">20+</h3>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="20+" /></h3>
               <p className="mt-2 text-slate-600">
                 Countries Served
               </p>
@@ -151,15 +152,15 @@ export default function About() {
               </li>
 
               <li>
-                🏭 Factory Size: 10,000+ sq ft
+                🏭 Factory Size: <CountUpNumber value="10,000+" className="inline-block" /> sq ft
               </li>
 
               <li>
-                👥 Workforce: 40+ Skilled Professionals
+                👥 Workforce: <CountUpNumber value="40+" className="inline-block" /> Skilled Professionals
               </li>
 
               <li>
-                📦 Monthly Capacity: 25,000+ Pieces
+                📦 Monthly Capacity: <CountUpNumber value="25,000+" className="inline-block" /> Pieces
               </li>
 
               <li>

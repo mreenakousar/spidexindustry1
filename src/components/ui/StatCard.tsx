@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react";
+import CountUpNumber from "./CountUpNumber";
 
 interface StatCardProps {
   title: string;
@@ -24,7 +25,10 @@ export default function StatCard({
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
             {title}
           </p>
-          <p className={`mt-4 text-3xl font-semibold ${valueClassName}`}>{value}</p>
+          <CountUpNumber
+            value={value}
+            className={`mt-4 text-3xl font-semibold ${valueClassName}`}
+          />
         </div>
         {Icon ? (
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">

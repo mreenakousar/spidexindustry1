@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Search, Tag, Truck, Star, X } from "lucide-react";
+import CountUpNumber from "../../../src/components/ui/CountUpNumber";
 
 interface Product {
   id: string;
@@ -103,20 +104,20 @@ export default function ProductsPage() {
             Product Catalog
           </p>
           <p className="mt-4 text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
-            {productData.length}
+            <CountUpNumber value={productData.length} />
           </p>
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900 sm:p-6">
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
             Categories
           </p>
-          <p className="mt-4 text-3xl font-semibold text-sky-600 sm:text-4xl">5</p>
+          <p className="mt-4 text-3xl font-semibold text-sky-600 sm:text-4xl"><CountUpNumber value="5" /></p>
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900 sm:p-6">
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
             Low Stock
           </p>
-          <p className="mt-4 text-3xl font-semibold text-amber-600 sm:text-4xl">1</p>
+          <p className="mt-4 text-3xl font-semibold text-amber-600 sm:text-4xl"><CountUpNumber value="1" /></p>
         </div>
       </div>
 

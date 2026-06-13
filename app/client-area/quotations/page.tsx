@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { quotations } from "../../../data/clientPortal";
+import CountUpNumber from "../../../src/components/ui/CountUpNumber";
 
 export default function QuotationsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,20 +64,26 @@ export default function QuotationsPage() {
           <div className="grid grid-cols-3 gap-3 text-sm text-slate-600">
             <div className="rounded-3xl bg-slate-50 p-4">
               <p className="font-semibold text-slate-900">Submitted</p>
-              <p className="mt-2">{quotations.length}</p>
+              <p className="mt-2">
+                <CountUpNumber value={quotations.length} />
+              </p>
             </div>
 
             <div className="rounded-3xl bg-slate-50 p-4">
               <p className="font-semibold text-slate-900">Approved</p>
               <p className="mt-2">
-                {quotations.filter((item) => item.status === "Approved").length}
+                <CountUpNumber
+                  value={quotations.filter((item) => item.status === "Approved").length}
+                />
               </p>
             </div>
 
             <div className="rounded-3xl bg-slate-50 p-4">
               <p className="font-semibold text-slate-900">Pending</p>
               <p className="mt-2">
-                {quotations.filter((item) => item.status === "Pending").length}
+                <CountUpNumber
+                  value={quotations.filter((item) => item.status === "Pending").length}
+                />
               </p>
             </div>
           </div>

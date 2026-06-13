@@ -1,6 +1,7 @@
 
 import Image from "next/image";
 import FinalCTA from "../../components/sections/FinalCTA";
+import CountUpNumber from "../../src/components/ui/CountUpNumber";
 
 export const metadata = {
   title: "Factory & Production - Speedx Industry",
@@ -176,24 +177,24 @@ export default function FactoryProductionPage() {
         <div className="container py-12 sm:py-16">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
             <div className="rounded-2xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">10+</h3>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="10+" /></h3>
               <p className="mt-2 text-slate-600">Years Experience</p>
             </div>
 
             <div className="rounded-2xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">40+</h3>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="40+" /></h3>
               <p className="mt-2 text-slate-600">Skilled Workers</p>
             </div>
 
             <div className="rounded-2xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">25,000+</h3>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="25,000+" /></h3>
               <p className="mt-2 text-slate-600">
                 Monthly Capacity
               </p>
             </div>
 
             <div className="rounded-2xl bg-white p-6 text-center shadow-sm sm:p-8">
-              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">20+</h3>
+              <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl"><CountUpNumber value="20+" /></h3>
               <p className="mt-2 text-slate-600">
                 Countries Served
               </p>
@@ -375,9 +376,9 @@ export default function FactoryProductionPage() {
 
             <ul className="mt-6 space-y-4 text-slate-600">
               <li>📍 Location: Sialkot, Pakistan</li>
-              <li>🏭 Factory Size: 10,000+ Sq Ft</li>
-              <li>👥 Workforce: 40+ Employees</li>
-              <li>📦 Capacity: 25,000+ Pieces Monthly</li>
+              <li>🏭 Factory Size: <CountUpNumber value="10,000+" className="inline-block" /> Sq Ft</li>
+              <li>👥 Workforce: <CountUpNumber value="40+" className="inline-block" /> Employees</li>
+              <li>📦 Capacity: <CountUpNumber value="25,000+" className="inline-block" /> Pieces Monthly</li>
               <li>🌎 Export Markets Worldwide</li>
             </ul>
           </div>

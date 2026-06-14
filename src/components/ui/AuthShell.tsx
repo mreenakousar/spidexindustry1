@@ -16,21 +16,21 @@ export default function AuthShell({
   children,
 }: AuthShellProps) {
   return (
-    <main className="container mx-auto px-4 py-20">
-      <div className="mx-auto max-w-3xl overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-        <div className="bg-primary/5 px-8 py-10 text-center sm:px-12 sm:py-14">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">
+    <main className="container mx-auto px-4 py-12 sm:py-20">
+      <div className="mx-auto w-full max-w-lg sm:max-w-xl md:max-w-2xl overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+        <div className="bg-primary/5 px-6 py-8 text-center sm:px-10 sm:py-12">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary sm:text-sm">
             {eyebrow}
           </p>
-          <h1 className="mt-4 text-3xl font-bold text-slate-900 sm:text-4xl">
+          <h1 className="mt-4 text-2xl font-bold text-slate-900 sm:text-3xl md:text-4xl">
             {title}
           </h1>
-          <p className="muted mx-auto mt-4 max-w-2xl">{description}</p>
+          <p className="muted mx-auto mt-3 max-w-xl text-sm sm:text-base sm:mt-4">{description}</p>
         </div>
 
-        <div className="p-8 sm:p-10">
+        <div className="p-6 sm:p-8 md:p-10">
           {children}
-          <div className="mt-8">{footer}</div>
+          <div className="mt-6 sm:mt-8">{footer}</div>
         </div>
       </div>
     </main>

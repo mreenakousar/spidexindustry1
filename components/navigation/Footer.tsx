@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-200 border-t border-slate-800 mt-20">
       {/* Main Footer Content */}
-      <div className="container mx-auto grid grid-cols-1 gap-10 px-4 py-14 md:grid-cols-2 lg:grid-cols-4 lg:py-16">
+      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4 lg:py-16 sm:gap-10">
         
         {/* Column 1: Brand, About & Newsletter */}
         <div className="space-y-6">
@@ -24,7 +24,7 @@ export default function Footer() {
           {/* Email Newsletter Input */}
           <div className="space-y-2">
             <h5 className="text-xs font-semibold uppercase tracking-wider text-slate-300">Newsletter</h5>
-            <form onSubmit={(e) => e.preventDefault()} className="relative flex max-w-sm items-center">
+            <form onSubmit={(e) => e.preventDefault()} className="relative flex w-full max-w-sm items-center">
               <input 
                 type="email" 
                 placeholder="Enter your business email" 

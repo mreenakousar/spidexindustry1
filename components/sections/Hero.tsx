@@ -51,9 +51,9 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 via-transparent to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto flex min-h-[92vh] items-center px-4 py-20 sm:px-6 sm:py-24 lg:py-0">
+      <div className="relative z-10 container mx-auto flex min-h-[92vh] items-center px-4 py-20 sm:px-6 md:px-8 sm:py-24 lg:py-0">
         <div className="flex w-full max-w-5xl flex-col justify-center">
-          <h1 className="flex flex-col gap-2 text-3xl font-bold leading-tight text-white sm:gap-3 sm:text-4xl md:text-6xl lg:text-7xl">
+          <h1 className="flex flex-col gap-2 text-3xl font-bold leading-tight text-white sm:gap-3 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
             <span>Premium Custom</span>
 
             <span className="text-blue-400">

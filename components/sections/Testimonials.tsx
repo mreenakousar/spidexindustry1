@@ -85,7 +85,7 @@ export default function Testimonials() {
 />
 
         {/* Stats */}
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:mt-14 lg:grid-cols-4">
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-4 lg:mt-14">
           <div className="rounded-2xl border bg-white p-4 text-center shadow sm:p-6">
             <h3 className="text-2xl font-bold text-blue-600 sm:text-3xl"><CountUpNumber value="500+" /></h3>
             <p className="text-slate-600 mt-2">Orders Delivered</p>

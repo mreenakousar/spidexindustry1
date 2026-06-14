@@ -117,7 +117,7 @@ export default function ManufacturingCapabilities() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative overflow-hidden py-16 font-sans text-white sm:py-20 md:py-32">
+    <section ref={containerRef} className="relative overflow-hidden py-16 font-sans text-white sm:py-20 md:py-24">
       
       <div className="absolute inset-0 opacity-60 pointer-events-none" />
       
@@ -131,7 +131,7 @@ export default function ManufacturingCapabilities() {
         />
 
         {/* Premium Apparel Grid */}
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
+        <div className="grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 sm:gap-y-10 md:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12">
           {premiumCapabilities.map((c) => {
             return (
               <Link 
@@ -155,9 +155,9 @@ export default function ManufacturingCapabilities() {
                 </div>
 
                 {/* Content Details */}
-                <div className="relative flex flex-grow flex-col bg-black p-5 sm:p-6">
-                  <div className="mb-3 flex items-start justify-between gap-3 sm:gap-4">
-                    <h3 className="text-lg font-bold uppercase tracking-tight text-white transition-colors duration-300 group-hover:text-blue-400 sm:text-xl">
+                <div className="relative flex flex-grow flex-col bg-black p-4 sm:p-5">
+                  <div className="mb-3 flex items-start justify-between gap-2 sm:gap-4">
+                    <h3 className="text-base font-bold uppercase tracking-tight text-white transition-colors duration-300 group-hover:text-blue-400 sm:text-lg">
                       {c.title}
                     </h3>
                     <div className="arrow-rotate flex h-8 w-8 items-center justify-center rounded-full border border-zinc-800 bg-zinc-900 text-zinc-400 transition-colors duration-300 group-hover:border-blue-500 group-hover:bg-blue-600 group-hover:text-white">
@@ -165,7 +165,7 @@ export default function ManufacturingCapabilities() {
                     </div>
                   </div>
                   
-                  <p className="flex-grow text-sm font-normal leading-relaxed text-zinc-400 sm:text-[15px]">
+                  <p className="flex-grow text-xs font-normal leading-relaxed text-zinc-400 sm:text-sm">
                     {c.description}
                   </p>
                 </div>

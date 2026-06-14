@@ -2,26 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
+:root {
   --color-primary: #0F3D91;
 }
 
-html,body,#root{
-  height:100%;
+html,
+body,
+#root {
+  height: 100%;
 }
 
-body{
+body {
   @apply bg-white text-gray-800 font-sans;
 }
 
-.container{
-  @apply max-w-6xl mx-auto px-6;
+/* Responsive container: fluid padding across all breakpoints */
+.container {
+  @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-.section-heading{
-  @apply text-3xl md:text-4xl font-semibold text-primary mb-4;
+/* Legacy container-custom alias used in FactoryShowcase */
+.container-custom {
+  @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-.muted{
+.section-heading {
+  @apply text-2xl sm:text-3xl md:text-4xl font-semibold text-primary mb-4;
+}
+
+.muted {
   @apply text-gray-600;
+}
+
+/* Hide scrollbar for subcategory pill overflow */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }

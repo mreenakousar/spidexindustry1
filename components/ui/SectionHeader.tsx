@@ -27,7 +27,7 @@ export default function SectionHeader({
       </div>
 
       {/* Heading */}
-      <h2 className="section-header-anim text-3xl font-black uppercase tracking-tight leading-[0.92] sm:text-5xl sm:leading-[0.9] md:text-7xl lg:text-8xl">
+      <h2 className="section-header-anim text-3xl font-black uppercase tracking-tight leading-[0.92] sm:text-4xl sm:leading-[0.9] md:text-5xl lg:text-7xl xl:text-8xl">
         <span className="block text-blue-500">{title1}</span>
 
         <span className="block text-transparent bg-clip-text bg-gradient-to-b from-zinc-300 to-zinc-600">

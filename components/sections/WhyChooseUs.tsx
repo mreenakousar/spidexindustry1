@@ -60,7 +60,7 @@ export default function WhyChooseUs() {
   description="We help startups, established brands, and wholesalers manufacture premium-quality apparel with reliable production, quality control, and worldwide logistics support."
 />
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3 sm:mt-14">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 md:gap-6 xl:grid-cols-3 sm:mt-12 md:mt-14">
           {items.map((item) => {
             const Icon = item.icon;
 
@@ -97,7 +97,7 @@ export default function WhyChooseUs() {
         </div>
 
         {/* Bottom Stats */}
-        <div className="mt-12 grid grid-cols-2 gap-4 sm:gap-6 md:mt-20 md:grid-cols-4">
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 md:mt-16 md:grid-cols-4">
           <div className="rounded-xl border bg-white p-4 text-center shadow-sm sm:p-6">
             <h3 className="text-2xl font-bold text-blue-600 sm:text-3xl"><CountUpNumber value="500+" /></h3>
             <p className="text-slate-600 mt-2">Projects Completed</p>

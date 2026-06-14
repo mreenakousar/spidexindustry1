@@ -32,13 +32,13 @@ export default function PageHero({
       <div className={`absolute inset-0 z-10 ${overlayClass}`} />
 
       {/* Hero Content */}
-      <div className="container relative z-20 py-16 sm:py-24 text-center max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+      <div className="container relative z-20 py-14 sm:py-20 md:py-24 text-center max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
           {title}
         </h1>
 
         {description && (
-          <p className="mt-6 text-base text-blue-100 sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+          <p className="mt-4 text-sm text-blue-100 sm:mt-6 sm:text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
             {description}
           </p>
         )}

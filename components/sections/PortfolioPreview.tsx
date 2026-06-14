@@ -21,7 +21,7 @@ export default function PortfolioPreview({ full = false }: Props) {
       />
 
       {/* Grid */}
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 md:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((p) => (
           <div
             key={p.id}
@@ -34,7 +34,7 @@ export default function PortfolioPreview({ full = false }: Props) {
                 alt={p.title}
                 width={600}
                 height={400}
-                className="h-40 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 sm:h-44 md:h-48"
+                className="h-44 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 sm:h-48 lg:h-52"
               />
 
               {/* Hover overlay */}

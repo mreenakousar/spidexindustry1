@@ -48,7 +48,7 @@ export default function ProcessTimeline() {
   ];
 
   return (
-    <section className="mt-16 py-12">
+    <section className="mt-8 py-10 sm:mt-16 sm:py-12">
       <SectionHeader
         label="Process"
         title1="Manufacturing"
@@ -56,10 +56,10 @@ export default function ProcessTimeline() {
         description="From concept to delivery, every step is carefully managed to ensure premium quality and customer satisfaction."
       />
 
-      <div className="relative max-w-7xl mx-auto mt-16 px-4 sm:px-6">
+      <div className="relative max-w-7xl mx-auto mt-10 px-4 sm:mt-16 sm:px-6 lg:px-8">
         
-        {/* Center Line (Adjusted for image weight) */}
-        <div className="absolute left-6 lg:left-1/2 top-0 h-full w-[2px] bg-primary/20 -translate-x-1/2"></div>
+        {/* Center Line - hidden on mobile to avoid collision */}
+        <div className="absolute left-6 lg:left-1/2 top-0 h-full w-[2px] bg-primary/20 -translate-x-1/2 hidden sm:block"></div>
 
         <div className="space-y-16 lg:space-y-12">
           {steps.map((item, idx) => {
@@ -76,12 +76,12 @@ export default function ProcessTimeline() {
                 <div className="hidden lg:block w-[46%]" />
 
                 {/* 2. Timeline Center Number Badge */}
-                <div className="absolute left-0 lg:left-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white font-bold shadow-xl -translate-x-0 lg:-translate-x-1/2 transition-transform duration-300 group-hover:scale-110 border-2 border-slate-900">
+                <div className="absolute left-0 sm:left-0 lg:left-1/2 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-primary text-white font-bold shadow-xl -translate-x-0 lg:-translate-x-1/2 transition-transform duration-300 group-hover:scale-110 border-2 border-slate-900 text-sm sm:text-base">
                   {idx + 1}
                 </div>
 
                 {/* 3. High-End Image + Content Card Combined */}
-                <div className="w-full lg:w-[46%] pl-14 lg:pl-0">
+                <div className="w-full lg:w-[46%] pl-14 sm:pl-16 lg:pl-0">
                   <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-primary/40 hover:bg-white/10 lg:hover:scale-[1.01] shadow-2xl">
                     
                     {/* Inner Content Grid */}

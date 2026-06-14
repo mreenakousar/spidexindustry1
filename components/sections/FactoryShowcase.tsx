@@ -56,14 +56,14 @@ export default function FactoryShowcase() {
   description="From cutting and sewing to printing, embroidery, and packaging, every step is managed under strict quality standards."
 />
 
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+        <div className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:gap-8">
           {areas.map((area, index) => (
             <div
               key={index}
               className="group rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-sm hover:border-primary/40 transition-all duration-500 hover:-translate-y-2"
             >
               {/* Video */}
-              <div className="relative h-[240px] overflow-hidden sm:h-[280px] md:h-[320px]">
+              <div className="relative h-[200px] overflow-hidden sm:h-[260px] md:h-[300px] lg:h-[320px]">
                 <video
                   autoPlay
                   muted

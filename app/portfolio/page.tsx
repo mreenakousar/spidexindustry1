@@ -1,12 +1,12 @@
 // app/portfolio/page.tsx
 import PortfolioPreview from "../../components/sections/PortfolioPreview";
 import CountUpNumber from "../../src/components/ui/CountUpNumber";
-import PageHero from "../../components/ui/PageHero"; 
+import PageHero from "../../components/ui/PageHero";
 import FinalCTA from "../../components/sections/FinalCTA";
 import SectionHeading from "../../components/ui/SectionHeading"; // Reusable TSX component import kiya
 
-export const metadata = { 
-  title: "Portfolio - Manufacturing Work" 
+export const metadata = {
+  title: "Portfolio - Manufacturing Work"
 };
 
 interface VideoReview {
@@ -32,17 +32,17 @@ const videoReviews: VideoReview[] = [
 export default function Portfolio() {
   return (
     <section className="bg-white">
-      
+
       {/* 1. Reusable Video Background Hero Section */}
-      <PageHero 
+      <PageHero
         title="Our Manufacturing Portfolio"
         description="Premium sportswear, hoodies, jerseys, and custom apparel manufactured with top-tier precision for local and international brands."
-        videoSrc="/hero.mp4" 
+        videoSrc="/hero.mp4"
       />
 
       {/* Main Content Body */}
       <div className="container py-16 space-y-20">
-        
+
         {/* 2. Portfolio Grid Layout */}
         <div>
           <PortfolioPreview full />
@@ -57,14 +57,14 @@ export default function Portfolio() {
               </h3>
               <p className="mt-2 font-medium text-slate-500">Completed Orders</p>
             </div>
-            
+
             <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100/50 transition duration-300 hover:shadow-md">
               <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
                 <CountUpNumber value="100+" />
               </h3>
               <p className="mt-2 font-medium text-slate-500">Happy Clients</p>
             </div>
-            
+
             <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100/50 transition duration-300 hover:shadow-md">
               <h3 className="text-3xl font-bold text-blue-700 sm:text-4xl">
                 <CountUpNumber value="5+" /> <span className="text-xl sm:text-2xl font-bold">Years</span>
@@ -77,7 +77,7 @@ export default function Portfolio() {
         {/* 4. Client Video Testimonials Section */}
         <div className="space-y-8">
           {/* Reusable SectionHeading Component yahan lagaya (With Center Alignment) */}
-          <SectionHeading 
+          <SectionHeading
             title="Client Video Reviews"
             description="See what global brand owners say about our custom manufacturing quality."
             center={true}

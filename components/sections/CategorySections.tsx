@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -13,7 +14,6 @@ interface CategoryData {
   products: Product[];
 }
 
-// DYNAMIC CATEGORY DATA ARRAY (100% Original Content)
 const categoriesData: CategoryData[] = [
   {
     id: "sportware",
@@ -81,7 +81,6 @@ export default function CategorySections() {
   return (
     <section className="bg-white text-slate-900 selection:bg-blue-600 selection:text-white antialiased">
 
-      {/* 1. Reusable Video Background Hero Section Integrated */}
       <PageHero
         title="Our Production Catalogues"
         description="Explore Speedx Industry's comprehensive custom apparel configurations, premium technical subcategories, and active streetwear material specifications designed for global exports."
@@ -96,18 +95,15 @@ export default function CategorySections() {
             id={category.id}
             className="scroll-mt-24 lg:scroll-mt-28 border-t border-slate-100 pt-16 first:border-t-0 first:pt-0"
           >
-            {/* Header Content Section */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-              <div className="max-w-xl">
-
+            <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-12 gap-5">
+              <div>
                 <SectionHeading title={category.label} />
                 <p className="text-sm text-slate-500 mt-2.5 leading-relaxed font-normal">
                   {category.description}
                 </p>
               </div>
 
-              {/* Subcategories Chips */}
-              <div className="flex flex-wrap items-center gap-1.5 md:max-w-md md:justify-end">
+              <div className="flex flex-wrap items-center justify-center gap-1.5 w-full">
                 {category.subcategories.map((sub) => (
                   <span
                     key={sub}
@@ -119,7 +115,6 @@ export default function CategorySections() {
               </div>
             </div>
 
-            {/* Showcase Product Matrix Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {category.products.map((product) => (
                 <ProductCard key={product.name} product={product} />

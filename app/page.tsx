@@ -33,7 +33,7 @@ export default function Home() {
       </section>
       <section className="py-16 bg-white">
         <div className="container">
-          <PortfolioPreview />
+          {/* <PortfolioPreview /> */}
           <Testimonials />
         </div>
       </section>

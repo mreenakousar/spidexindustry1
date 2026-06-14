@@ -2,8 +2,8 @@
 import Image from "next/image";
 import FinalCTA from "../../components/sections/FinalCTA";
 import CountUpNumber from "../../src/components/ui/CountUpNumber";
-import PageHero from "../../components/ui/PageHero"; 
-import SectionHeading from "../../components/ui/SectionHeading"; 
+import PageHero from "../../components/ui/PageHero";
+import SectionHeading from "../../components/ui/SectionHeading";
 import {
   Factory,
   MapPin,
@@ -51,16 +51,14 @@ const teamMembers: TeamMember[] = [
 export default function About() {
   return (
     <section className="bg-white">
-      
-      {/* 1. Reusable Video Background Hero Section */}
-      <PageHero 
+
+      <PageHero
         title="About Speedx Industry"
         description="Speedx Industry is a trusted clothing manufacturing company specializing in premium custom apparel, private label production, OEM manufacturing, and worldwide export solutions for brands, startups, and wholesalers."
         videoSrc="/hero.mp4"
         overlayClass="bg-blue-950/70"
       />
 
-      {/* 2. Company Story */}
       <div className="container mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <div>
@@ -84,7 +82,7 @@ export default function About() {
 
           <div className="relative h-[280px] overflow-hidden rounded-2xl shadow-xl sm:h-[360px] md:h-[420px]">
             <Image
-              src="/factory/factory-main.jpg"
+              src="/speedxteam.jpg"
               alt="Speedx Industry Factory"
               fill
               className="object-cover"
@@ -93,7 +91,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* 3. Stats Section */}
       <div className="bg-blue-50">
         <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
@@ -128,11 +125,9 @@ export default function About() {
         </div>
       </div>
 
-      {/* 4. Factory Information & Quality Standards */}
       <div className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          
-          {/* Left Side - Factory Video */}
+
           <div className="overflow-hidden rounded-3xl border border-slate-200 aspect-video lg:aspect-square relative w-full bg-slate-100">
             <video
               autoPlay
@@ -145,9 +140,8 @@ export default function About() {
             </video>
           </div>
 
-          {/* Right Side - Production Excellence Details */}
           <div>
-        
+
 
             <h2 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
               Built for Quality.
@@ -221,8 +215,8 @@ export default function About() {
       {/* 5. Team Section */}
       <div className="bg-slate-50">
         <div className="container mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
-          
-          <SectionHeading 
+
+          <SectionHeading
             title="Meet Our Team"
             description="Our experienced team ensures smooth production, strict quality control, and professional customer support for every project."
             center={true}

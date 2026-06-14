@@ -4,30 +4,38 @@ import Image from "next/image";
 import SectionHeader from "../ui/SectionHeader";
 
 export default function TeamShowcase() {
+  // Shimmer base64 placeholder for clean premium theme blur look
+  const blurPlaceholderUrl = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMTExIi8+PC9zdmc+";
+
   return (
     <section className="mt-20">
-    <SectionHeader
-  label="Our Team"
-  title1="The People Behind"
-  title2="Every Product"
-  description="Our skilled designers, technicians, and production specialists work together to ensure every product meets the highest standards of quality and craftsmanship."
-/>
+      <SectionHeader
+        label="Our Team"
+        title1="The People Behind"
+        title2="Every Product"
+        description="Our skilled designers, technicians, and production specialists work together to ensure every product meets the highest standards of quality and craftsmanship."
+      />
 
       <div className="mx-auto mt-10 max-w-6xl px-4 sm:mt-12 sm:px-0">
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm">
-          {/* Team Group Photo */}
+
+          {/* Relative wrapper container for responsive Next.js Image fill */}
           <div className="relative h-[240px] w-full sm:h-[300px] md:h-[500px]">
             <Image
               src="/speedxteam.jpg"
               alt="Our Team"
               fill
+              sizes="(max-w-6xl) 100vw, 1200px"
               className="object-cover"
+              placeholder="blur"
+              blurDataURL={blurPlaceholderUrl}
+              priority={false} // Dynamic lazy load settings
             />
 
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+            {/* Dark elegant gradient overlay to blend with the industrial vibe */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10" />
 
-            <div className="absolute bottom-0 left-0 p-5 sm:p-8 md:p-12">
+            <div className="absolute bottom-0 left-0 p-5 sm:p-8 md:p-12 z-20">
               <h3 className="text-2xl font-bold text-white sm:text-3xl">
                 Dedicated Professionals
               </h3>
@@ -40,7 +48,6 @@ export default function TeamShowcase() {
             </div>
           </div>
 
-          {/* Bottom Features */}
           <div className="grid gap-5 p-5 sm:p-8 md:grid-cols-3 md:gap-6">
             <div>
               <h4 className="text-lg font-semibold text-white sm:text-xl">

@@ -3,16 +3,16 @@ import React from "react";
 
 interface PageHeroProps {
   title: string;
-  description?: string; // Optional prop kyuki humne isme conditional check lagaya hua hai
-  videoSrc?: string;     // Optional prop with a default value
-  overlayClass?: string; // Optional prop with a default value
+  description?: string;
+  videoSrc?: string;
+  overlayClass?: string;
 }
 
-export default function PageHero({ 
-  title, 
-  description, 
-  videoSrc = "/hero2.mp4", 
-  overlayClass = "bg-blue-950/70" 
+export default function PageHero({
+  title,
+  description,
+  videoSrc = "/hero2.mp4",
+  overlayClass = "bg-blue-950/70"
 }: PageHeroProps) {
   return (
     <div className="relative bg-blue-900 text-white overflow-hidden">

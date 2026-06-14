@@ -1,7 +1,9 @@
+
 "use client";
 
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight } from 'lucide-react';
@@ -58,30 +60,28 @@ if (typeof window !== "undefined") {
 
 export default function ManufacturingCapabilities() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const blurPlaceholderUrl = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMTExIi8+PC9zdmc+";
 
   useEffect(() => {
-    // GSAP context clean-up ke liye taake memory leak na ho
     const ctx = gsap.context(() => {
-      
-      // 1. Section Header Title Animation
-      gsap.fromTo(".section-header-anim", 
+
+      gsap.fromTo(".section-header-anim",
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 1, ease: "power4.out", stagger: 0.2 }
       );
 
-      // 2. High Performance ScrollTrigger Batch Processing for Cards
       ScrollTrigger.batch(".streetwear-card", {
         interval: 0.1,
         batchMax: 3,
         onEnter: (elements) => {
           gsap.fromTo(elements,
             { opacity: 0, y: 60, scale: 0.98 },
-            { 
-              opacity: 1, 
-              y: 0, 
-              scale: 1, 
-              duration: 1.2, 
-              ease: "power4.out", 
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 1.2,
+              ease: "power4.out",
               stagger: 0.15,
               overwrite: "auto"
             }
@@ -91,23 +91,19 @@ export default function ManufacturingCapabilities() {
         once: true
       });
 
-      // 3. Card Inner Elements Hover Animations (Fixed Selectors)
       const cards = gsap.utils.toArray<HTMLElement>('.streetwear-card');
       cards.forEach((card) => {
         const image = card.querySelector('.product-image-zoom');
         const arrow = card.querySelector('.arrow-rotate');
-        const overlay = card.querySelector('.dark-overlay');
 
         card.addEventListener('mouseenter', () => {
-          if (image) gsap.to(image, { scale: 1.08, filter: "grayscale(0%) contrast(100%)", duration: 0.6, ease: "power2.out" });
+          if (image) gsap.to(image, { scale: 1.06, duration: 0.6, ease: "power2.out" });
           if (arrow) gsap.to(arrow, { rotation: 45, x: 3, y: -3, scale: 1.1, duration: 0.4, ease: "back.out(2)" });
-          if (overlay) gsap.to(overlay, { opacity: 0.1, duration: 0.4 });
         });
 
         card.addEventListener('mouseleave', () => {
-          if (image) gsap.to(image, { scale: 1, filter: "grayscale(100%) contrast(110%)", duration: 0.6, ease: "power2.out" });
+          if (image) gsap.to(image, { scale: 1, duration: 0.6, ease: "power2.out" });
           if (arrow) gsap.to(arrow, { rotation: 0, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power2.out" });
-          if (overlay) gsap.to(overlay, { opacity: 0.4, duration: 0.4 });
         });
       });
 
@@ -118,11 +114,9 @@ export default function ManufacturingCapabilities() {
 
   return (
     <section ref={containerRef} className="relative overflow-hidden py-16 font-sans text-white sm:py-20 md:py-24">
-      
       <div className="absolute inset-0 opacity-60 pointer-events-none" />
-      
+
       <div className="container mx-auto max-w-7xl px-4 relative z-10 sm:px-6">
-        
         <SectionHeader
           label="Built For Global Brands"
           title1="Manufacturing"
@@ -130,31 +124,27 @@ export default function ManufacturingCapabilities() {
           description="Advanced production facilities, skilled craftsmanship, and precision-driven quality control systems engineered to transform ambitious apparel concepts into premium products trusted by leading streetwear, sportswear, and private-label brands worldwide."
         />
 
-        {/* Premium Apparel Grid */}
         <div className="grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 sm:gap-y-10 md:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12">
           {premiumCapabilities.map((c) => {
             return (
-              <Link 
-                href={c.slug} 
-                key={c.id} 
+              <Link
+                href={c.slug}
+                key={c.id}
                 className="streetwear-card group flex h-full flex-col overflow-hidden rounded-none border border-zinc-900 bg-zinc-900/40 transition-all duration-500 hover:border-zinc-800 backdrop-blur-sm"
               >
-                {/* Product/Fabric Image Showcase */}
                 <div className="relative aspect-[4/5] w-full overflow-hidden border-b border-zinc-900 bg-zinc-950">
-                  <img
+                  <Image
                     src={c.image}
                     alt={c.title}
-                    className="product-image-zoom w-full h-full object-cover object-center transition-all"
-                    style={{ filter: "grayscale(100%) contrast(110%)" }}
-                    loading="lazy"
+                    fill
+                    sizes="(max-w-7xl) 33vw, 400px"
+                    className="product-image-zoom object-cover object-center transition-all"
+                    placeholder="blur"
+                    blurDataURL={blurPlaceholderUrl}
                   />
-                  {/* Dark Elegant Overlay Controlled By GSAP */}
-                  <div className="dark-overlay absolute inset-0 bg-black opacity-45 transition-all pointer-events-none" />
-                  {/* Premium Subtle Flash Grid Reflection */}
-                  <div className="absolute inset-0 bg-white/0 transition-all duration-700 group-hover:bg-white/5 pointer-events-none" />
+                  <div className="absolute inset-0 bg-white/0 transition-all duration-700 group-hover:bg-white/5 pointer-events-none z-10" />
                 </div>
 
-                {/* Content Details */}
                 <div className="relative flex flex-grow flex-col bg-black p-4 sm:p-5">
                   <div className="mb-3 flex items-start justify-between gap-2 sm:gap-4">
                     <h3 className="text-base font-bold uppercase tracking-tight text-white transition-colors duration-300 group-hover:text-blue-400 sm:text-lg">
@@ -164,7 +154,7 @@ export default function ManufacturingCapabilities() {
                       <ArrowUpRight className="w-4 h-4" />
                     </div>
                   </div>
-                  
+
                   <p className="flex-grow text-xs font-normal leading-relaxed text-zinc-400 sm:text-sm">
                     {c.description}
                   </p>
@@ -173,7 +163,6 @@ export default function ManufacturingCapabilities() {
             );
           })}
         </div>
-
       </div>
     </section>
   );

@@ -155,6 +155,7 @@ export default function About() {
               deliver premium sportswear for global brands.
             </p>
 
+
             <div className="mt-8 space-y-4">
               {[
                 "Premium Fabric Sourcing",
@@ -162,14 +163,12 @@ export default function About() {
                 "Multi-Stage Quality Inspection",
                 "Worldwide Export Capability",
               ].map((item) => (
-                <div key={item} className="flex items-center gap-3">
-                  <div className="h-2 w-2 rounded-full bg-slate-900" />
+                <div key={item} className="flex items-center">
                   <span className="text-slate-700 font-medium">{item}</span>
                 </div>
               ))}
             </div>
 
-            {/* Inner Grid Core Metrics */}
             <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 border-t border-slate-100 pt-8">
               <div>
                 <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">

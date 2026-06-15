@@ -142,7 +142,6 @@ export default function Services() {
     }
   ];
 
-  // 3. Structured B2B Onboarding Sequence (How brands work with you)
   const b2bWorkflow: B2BWorkflowStep[] = [
     { step: "01", title: "Tech-Pack & Design Submission", process: "Send us your custom vector files, measurement charts, or physical reference samples. Our engineering team conducts a strict structural production analysis." },
     { step: "02", title: "Pre-Bulk Sampling Phase", process: "We source your requested fabric blend and manufacture a physical fit sample. This step locks in sizing accuracy, fabric weight, and custom printing or embroidery details." },
@@ -154,7 +153,6 @@ export default function Services() {
   return (
     <section className="bg-white text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
 
-      {/* 1. Industrial B2B Hero Section - Rich Cobalt Identity overlay */}
       <PageHero
         title="Apparel Production Partner"
         description="Speedx Industry is a certified, full-scale clothing manufacturer providing premium cut & sew, custom printing, embroidery, and private label services for global clothing brands."
@@ -162,155 +160,125 @@ export default function Services() {
         overlayClass="bg-blue-950/70 backdrop-blur-[1px]"
       />
 
-      {/* 2. Core Manufacturing Verticals Section */}
-      <div className="container py-24 lg:py-32 relative overflow-hidden bg-white">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
 
-        <SectionHeading
-          title="Our Production Portfolio"
-          description="We manufacture clothing lines from scratch according to exact brand parameters. Select your category to begin manufacturing."
-          center={true}
-        />
+      <div className="bg-white relative py-24 lg:py-32">
+        <div className="container relative z-10 mx-auto px-4">
+          <SectionHeading
+            title="Our Production Portfolio"
+            description="We manufacture clothing lines from scratch according to exact brand parameters. Select your category to begin manufacturing."
+            center={true}
+          />
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {productionCategories.map((service) => (
-            <div
-              key={service.id}
-              className="group flex flex-col justify-between rounded-3xl border border-slate-200 bg-gradient-to-b from-white to-blue-50/20 p-6 transition-all duration-500 hover:border-blue-600 hover:bg-white hover:-translate-y-2 hover:shadow-[0_24px_50px_rgba(37,99,235,0.09)]"
-            >
-              <div>
-                {/* Visual Cover Frame */}
-                <div className="relative h-56 w-full rounded-2xl overflow-hidden bg-slate-100 shadow-inner">
+          <div className="mt-20 grid gap-16 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
+            {productionCategories.map((service) => (
+              <div key={service.id} className="flex flex-col gap-6 group">
+                <div className="w-full aspect-[16/11] overflow-hidden rounded-xl bg-slate-100 relative border border-slate-200">
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-950/90 via-blue-950/20 to-transparent" />
-
-                  {/* Segment Badge Tag */}
-                  <div className="absolute top-4 left-4 bg-blue-600/95 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-md">
+                  <div className="absolute top-4 left-4 bg-slate-900/90 backdrop-blur-sm text-white text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">
                     {service.segment}
                   </div>
-
-                  {/* Dynamic Serial Identity */}
-                  <div className="absolute bottom-4 right-4 text-4xl font-black text-white/20 tracking-tighter font-mono">
-                    {service.id}
-                  </div>
                 </div>
 
-                {/* Typography Block */}
-                <div className="mt-6">
-                  <h3 className="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-blue-600 transition duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="mt-2.5 text-[12px] leading-relaxed text-slate-600 font-medium">
-                    {service.desc}
-                  </p>
-                </div>
-
-                <div className="my-5 border-t border-dashed border-blue-100" />
-
-                {/* Technical Mill Fabric List */}
-                <div className="space-y-2">
-                  <div className="text-[10px] font-bold uppercase tracking-widest text-blue-600">Available Fabrics</div>
-                  <div className="flex flex-col gap-1.5">
-                    {service.fabrics.map((fab) => (
-                      <div key={fab} className="flex items-center gap-2 text-xs font-semibold text-slate-800 bg-blue-50/60 border border-blue-100/40 px-3 py-1.5 rounded-xl transition-colors group-hover:bg-blue-50/90">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
-                        {fab}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Structural Capabilities Checklist */}
-                <div className="mt-5 space-y-2">
-                  <div className="text-[10px] font-bold uppercase tracking-widest text-blue-600">Technical Customizations</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {service.specs.map((spec) => (
-                      <span key={spec} className="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-xl bg-blue-600 text-white shadow-sm transition-transform duration-300 hover:scale-[1.02]">
-                        <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0 animate-pulse" />
-                        {spec}
+                <div className="px-1 flex flex-col justify-between flex-1">
+                  <div>
+                    <div className="flex items-start justify-between gap-4 mb-3">
+                      <h3 className="text-xl font-bold text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors duration-300">
+                        {service.title}
+                      </h3>
+                      <span className="text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded shrink-0">
+                        {service.moq}
                       </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                    </div>
 
-              {/* B2B Framework Constraints - Dynamic Blue/White Footer Highlight */}
-              <div className="mt-6 pt-4 border-t border-blue-50 flex items-center justify-between">
-                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                  Sourcing Matrix
-                </div>
-                <div className="text-[11px] font-bold text-blue-600 bg-blue-50 border border-blue-200/60 px-3 py-1.5 rounded-lg shadow-inner">
-                  {service.moq}
+                    <p className="text-sm leading-relaxed text-slate-500 font-normal mb-6">
+                      {service.desc}
+                    </p>
+
+                    <div className="grid grid-cols-1 gap-x-6 gap-y-3 pt-5 border-t border-slate-100">
+                      <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                        Available Fabrics:
+                      </div>
+                      <div className="grid grid-cols-1 gap-2">
+                        {service.fabrics.map((fab) => (
+                          <div key={fab} className="flex items-center gap-2.5 text-xs font-semibold text-slate-700">
+                            <svg className="w-3.5 h-3.5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span className="leading-none">{fab}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
 
-      {/* 3. CORE CUSTOMIZATION FACILITY: Printing, Embroidery, Hardware & Labels */}
-      <div className="bg-gradient-to-b from-blue-50/40 to-white border-t border-b border-blue-100/50 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="container py-24 lg:py-32 relative z-10">
+      <div className="bg-white relative py-24 lg:py-32">
+        <div className="container relative z-10 mx-auto px-4">
           <SectionHeading
             title="Industrial Customization Divisions"
             description="Our heavy-duty facility integrates advanced printing inks, high-stitch embroidery setups, and precise custom trims under one production ecosystem."
             center={true}
           />
 
-          <div className="mt-16 grid gap-8 md:grid-cols-2">
-            {customizationLabs.map((mod) => (
+          <div className="mt-20 flex flex-col gap-12 max-w-5xl mx-auto">
+            {customizationLabs.map((mod, index) => (
               <div
                 key={mod.id}
-                className="group bg-white rounded-2xl border border-slate-200 p-6 lg:p-8 flex flex-col justify-between transition-all duration-300 hover:border-blue-600 hover:shadow-[0_20px_40px_rgba(37,99,235,0.06)] hover:-translate-y-1"
+                className={`flex flex-col md:flex-row gap-8 lg:gap-12 items-stretch py-8 border-b border-slate-200 group ${index % 2 === 1 ? 'md:flex-row-reverse' : ''
+                  }`}
               >
-                <div>
-                  {/* Division Header Layout */}
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                    <div>
-                      <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">{mod.division}</span>
-                      <h3 className="text-xl font-bold text-slate-900 tracking-tight mt-0.5 group-hover:text-blue-600 transition-colors duration-300">
-                        {mod.title}
-                      </h3>
+                <div className="w-full md:w-[40%] h-64 md:h-auto min-h-[240px] overflow-hidden rounded-xl bg-slate-100 relative">
+                  <img
+                    src={mod.image || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"}
+                    alt={mod.title}
+                    className="w-full h-full object-cover grayscale opacity-90 contrast-105 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                  />
+                </div>
+
+                <div className="flex-1 flex flex-col justify-between py-2">
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600">
+                        {mod.division}
+                      </span>
+                      <span className="w-1 h-1 bg-slate-300 rounded-full" />
+                      <span className="text-xs font-medium text-slate-400">
+                        {mod.badge}
+                      </span>
                     </div>
-                    <span className="text-xs font-bold bg-blue-50 border border-blue-100 text-blue-600 px-2.5 py-1 rounded-lg shrink-0">
-                      {mod.badge}
-                    </span>
+
+                    <h3 className="text-2xl font-bold text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors duration-300 mb-4">
+                      {mod.title}
+                    </h3>
+
+                    <p className="text-sm leading-relaxed text-slate-500 max-w-xl">
+                      {mod.desc}
+                    </p>
                   </div>
 
-                  {/* Core Capacity Description */}
-                  <p className="mt-4 text-xs leading-relaxed text-slate-600">
-                    {mod.desc}
-                  </p>
-
-                  {/* Operational Capabilities Framework */}
-                  <div className="mt-6 space-y-1.5">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Available Production Tech:</div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="mt-6">
+                    <div className="grid grid-cols-2 gap-2 max-w-md">
                       {mod.options.map((option) => (
-                        <div key={option} className="flex items-center gap-2 text-xs font-medium text-slate-700 bg-blue-50/30 border border-blue-100/30 p-2 rounded-xl group-hover:border-blue-100">
-                          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0" />
-                          <span className="leading-tight">{option}</span>
+                        <div key={option} className="flex items-center gap-2 text-xs font-semibold text-slate-800">
+                          <span className="w-1 h-1 bg-blue-600 rounded-full" />
+                          {option}
                         </div>
                       ))}
                     </div>
-                  </div>
-                </div>
 
-                {/* Quality / Industrial Benchmarks Output */}
-                <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-2">
-                  {mod.benchmarks.map((bench) => (
-                    <span key={bench} className="text-[10px] font-semibold text-blue-700 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-md">
-                      ✓ {bench}
-                    </span>
-                  ))}
+
+                  </div>
                 </div>
               </div>
             ))}
@@ -319,76 +287,76 @@ export default function Services() {
       </div>
 
 
-      {/* 4. Supply Chain Solutions & Formats */}
-      <div className="bg-white relative">
-        <div className="container py-24 lg:py-32 relative z-10">
+      <div className="bg-slate-50/50 relative py-24 lg:py-32">
+        <div className="container relative z-10 mx-auto px-4">
           <SectionHeading
             title="Flexible B2B Sourcing Frameworks"
             description="Whether you require complete bespoke Cut & Sew production loops or white-label high-volume solutions, we manage your supply chain seamlessly."
             center={true}
           />
 
-          <div className="mt-16 grid gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="mt-20 grid gap-12 lg:grid-cols-2 max-w-7xl mx-auto">
             {[
               {
                 title: "Bespoke Cut & Sew Production",
                 desc: "Full execution of your brand's unique patterns, specs, and measurements. Your team provides the tech packs, and our facility crafts the garments from scratch with extreme stitch precision.",
                 tag: "Custom Manufacturing",
-                image: "https://images.unsplash.com/photo-1551232864-3f0890e580d9?auto=format&fit=crop&w=800&q=80",
+                image: "https://images.unsplash.com/photo-1524295928322-4e92e4de7ff2?auto=format&fit=crop&w=1000&q=80",
                 specs: ["Custom Technical Patterns", "Tailored Fit Profiles", "Heavy GSM Fabric Developments"],
               },
               {
                 title: "OEM / Volume Sourcing Loops",
                 desc: "High-output production runs designed for scalable clothing lines. We offer stable raw material pricing and rapid repeat manufacturing capability under secure international trade terms.",
                 tag: "Mass Scale Assembly",
-                image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=80",
+                image: "https://images.unsplash.com/photo-1558449028-b53a39d100fc?auto=format&fit=crop&w=1000&q=80",
                 specs: ["Automated High-Speed Cutting", "Consistent Color-Lot Matching", "High Volume Tier Discounts"],
               },
               {
                 title: "White Label & Private Tagging",
                 desc: "Accelerate your market entry by utilizing our premium existing blanks. Customize the garments using high-density neck patches, custom side tags, and screen-printed interior branding.",
                 tag: "Fast Turnaround Option",
-                image: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=800&q=80",
+                image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=80",
                 specs: ["Premium Blank Bases In-Stock", "Custom Relabeling Infrastructure", "Rapid Prototype Dispatch"],
               },
               {
                 title: "Export Packaging Configurations",
                 desc: "Protect your retail inventory during international transit. We wrap and bundle every piece under export-compliant guidelines ready for barcode scanners and warehouse sortation.",
                 tag: "Retail Distribution Standard",
-                image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
+                image: "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?auto=format&fit=crop&w=1000&q=80",
                 specs: ["Custom Frosted Zip Bags", "Master Carton Barcoding Layouts", "Moisture-Absorbent Packing Packs"],
               },
-            ].map((item) => (
+            ].map((item, idx) => (
               <div
                 key={item.title}
-                className="group flex flex-col md:flex-row overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-r from-white to-blue-50/10 transition-all duration-500 hover:border-blue-600 hover:bg-white hover:shadow-[0_15px_35px_rgba(37,99,235,0.07)]"
+                className="flex flex-col sm:flex-row bg-white border border-slate-200/80 rounded-xl overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md hover:border-blue-600/50 group"
               >
-                <div className="relative w-full md:w-[42%] h-56 md:h-auto min-h-[220px] overflow-hidden bg-slate-100">
+                <div className="w-full sm:w-[45%] h-64 sm:h-auto relative overflow-hidden bg-slate-100 shrink-0">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-white/90 via-transparent to-transparent md:from-white md:via-transparent" />
-                  <div className="absolute top-4 left-4 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-md shadow-md">
-                    {item.tag}
-                  </div>
                 </div>
 
-                <div className="p-6 md:p-8 flex-1 flex flex-col justify-between">
+                <div className="p-8 flex-1 flex flex-col justify-between bg-white">
                   <div>
-                    <h3 className="text-xl font-bold text-slate-900 tracking-tight group-hover:text-blue-600 transition duration-300">
+
+
+                    <h3 className="text-xl font-bold text-slate-900 tracking-tight mb-3">
                       {item.title}
                     </h3>
-                    <p className="mt-3 text-xs leading-relaxed text-slate-600">
+
+                    <p className="text-sm leading-relaxed text-slate-500 font-normal">
                       {item.desc}
                     </p>
                   </div>
 
-                  <div className="mt-5 pt-4 border-t border-slate-100 grid grid-cols-1 gap-2">
+                  <div className="mt-8 pt-5 border-t border-slate-100 space-y-2">
                     {item.specs.map((spec) => (
-                      <div key={spec} className="flex items-center gap-2 text-[11px] font-semibold text-slate-700">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0" />
+                      <div key={spec} className="flex items-center gap-2.5 text-xs font-medium text-slate-700">
+                        <svg className="w-4 h-4 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
                         {spec}
                       </div>
                     ))}
@@ -400,7 +368,6 @@ export default function Services() {
         </div>
       </div>
 
-      {/* 5. B2B Client Workflow Onboarding Sequencer */}
       <div className="bg-gradient-to-b from-white to-blue-50/30 border-t border-slate-200 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(37,99,235,0.05),transparent_50%)]" />
 
@@ -431,7 +398,6 @@ export default function Services() {
         </div>
       </div>
 
-      {/* 6. Commercial Terms & Guarantees Bar */}
       <div className="container py-20 lg:py-28 border-t border-slate-200 bg-white">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
@@ -455,7 +421,6 @@ export default function Services() {
         </div>
       </div>
 
-      {/* 7. Final Conversion B2B Conversion Hook */}
       <FinalCTA />
     </section>
   );

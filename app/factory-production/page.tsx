@@ -1,15 +1,14 @@
-// app/factory-production/page.tsx
+
 import Image from "next/image";
 import FinalCTA from "../../components/sections/FinalCTA";
-import PageHero from "../../components/ui/PageHero"; 
+import PageHero from "../../components/ui/PageHero";
 import CountUpNumber from "../../src/components/ui/CountUpNumber";
-import SectionHeading from "../../components/ui/SectionHeading"; // Reusable TSX component import kiya
+import SectionHeading from "../../components/ui/SectionHeading";
 
 export const metadata = {
   title: "Factory & Production - Speedx Industry",
 };
 
-// TypeScript Interfaces for strict type checking
 interface ProcessStep {
   step: string;
   title: string;
@@ -106,16 +105,13 @@ const videos: ProductionVideo[] = [
 export default function FactoryProductionPage() {
   return (
     <section className="bg-white">
-      
-      {/* 1. Reusable Video Background Hero Section */}
-      <PageHero 
+      <PageHero
         title="Factory & Production"
         description="Explore our manufacturing facility, production process, machinery, quality control systems, and factory operations that help us deliver premium garments worldwide."
-        videoSrc="/hero.mp4" 
+        videoSrc="/hero.mp4"
         overlayClass="bg-blue-950/70"
       />
 
-      {/* 2. Stats Section */}
       <div className="bg-blue-50">
         <div className="container py-12 sm:py-16">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
@@ -142,13 +138,9 @@ export default function FactoryProductionPage() {
         </div>
       </div>
 
-      
-
-      {/* 4. Factory Gallery Section */}
       <div className="bg-slate-50">
         <div className="container py-14 sm:py-20 lg:py-24">
-          {/* Reusable SectionHeading Component */}
-          <SectionHeading 
+          <SectionHeading
             title="Factory Gallery"
             description="Inside our production facility."
             center={true}
@@ -158,7 +150,7 @@ export default function FactoryProductionPage() {
             {departments.map((dept: Department) => (
               <div
                 key={dept.title}
-                className="overflow-hidden rounded-2xl bg-white shadow-sm"
+                className="overflow-hidden rounded-2xl bg-blue-50/60 border border-blue-100/80 shadow-sm"
               >
                 <div className="relative h-56 sm:h-64 md:h-72">
                   <Image
@@ -170,7 +162,7 @@ export default function FactoryProductionPage() {
                 </div>
 
                 <div className="p-5 sm:p-6">
-                  <h3 className="text-lg font-semibold sm:text-xl">
+                  <h3 className="text-lg font-semibold sm:text-xl text-slate-900">
                     {dept.title}
                   </h3>
                 </div>
@@ -180,10 +172,8 @@ export default function FactoryProductionPage() {
         </div>
       </div>
 
-      {/* 5. Machinery & Equipment Section */}
       <div className="container py-14 sm:py-20 lg:py-24">
-        {/* Reusable SectionHeading Component */}
-        <SectionHeading 
+        <SectionHeading
           title="Machinery & Equipment"
           description="Modern machinery ensuring precision and efficiency."
           center={true}
@@ -193,7 +183,7 @@ export default function FactoryProductionPage() {
           {machines.map((machine: Machine) => (
             <div
               key={machine.name}
-              className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg"
+              className="overflow-hidden rounded-2xl bg-blue-50/60 border border-blue-100/80 shadow-sm transition hover:shadow-md"
             >
               <div className="relative h-56 sm:h-64 md:h-72">
                 <Image
@@ -218,11 +208,9 @@ export default function FactoryProductionPage() {
         </div>
       </div>
 
-      {/* 6. Production Videos Section */}
       <div className="bg-blue-50">
         <div className="container py-14 sm:py-20 lg:py-24">
-          {/* Reusable SectionHeading Component */}
-          <SectionHeading 
+          <SectionHeading
             title="Production Videos"
             description="Watch our production process in action."
             center={true}
@@ -254,96 +242,86 @@ export default function FactoryProductionPage() {
         </div>
       </div>
 
-      {/* 7. Factory Information & Quality Assurance Details */}
-     <div className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
-            <div className="grid items-center gap-12 lg:grid-cols-2">
-              
-              {/* Left Side - Factory Video */}
-              <div className="overflow-hidden rounded-3xl border border-slate-200 aspect-video lg:aspect-square relative w-full bg-slate-100">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="h-full w-full object-cover"
-                >
-                  <source src="/factory.mp4" type="video/mp4" />
-                </video>
-              </div>
-    
-              {/* Right Side - Production Excellence Details */}
+      <div className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div className="overflow-hidden rounded-3xl border border-slate-200 aspect-video lg:aspect-square relative w-full bg-slate-100">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="h-full w-full object-cover"
+            >
+              <source src="/factory.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          <div>
+            <h2 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Built for Quality.
+              <br />
+              Trusted Worldwide.
+            </h2>
+
+            <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg">
+              Our manufacturing facility combines skilled craftsmanship,
+              advanced production processes, and strict quality control to
+              deliver premium sportswear for global brands.
+            </p>
+
+            <div className="mt-8 space-y-4">
+              {[
+                "Premium Fabric Sourcing",
+                "Skilled Production Team",
+                "Multi-Stage Quality Inspection",
+                "Worldwide Export Capability",
+              ].map((item) => (
+                <div key={item} className="flex items-center">
+                  <span className="text-slate-700 font-medium">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 border-t border-slate-100 pt-8">
               <div>
-            
-    
-                <h2 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                  Built for Quality.
-                  <br />
-                  Trusted Worldwide.
-                </h2>
-    
-                <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg">
-                  Our manufacturing facility combines skilled craftsmanship,
-                  advanced production processes, and strict quality control to
-                  deliver premium sportswear for global brands.
+                <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                  <CountUpNumber value="10,000+" />
+                </h3>
+                <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                  Sq Ft Facility
                 </p>
-    
-                <div className="mt-8 space-y-4">
-                  {[
-                    "Premium Fabric Sourcing",
-                    "Skilled Production Team",
-                    "Multi-Stage Quality Inspection",
-                    "Worldwide Export Capability",
-                  ].map((item) => (
-                    <div key={item} className="flex items-center gap-3">
-                      <div className="h-2 w-2 rounded-full bg-slate-900" />
-                      <span className="text-slate-700 font-medium">{item}</span>
-                    </div>
-                  ))}
-                </div>
-    
-                {/* Inner Grid Core Metrics */}
-                <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 border-t border-slate-100 pt-8">
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                      <CountUpNumber value="10,000+" />
-                    </h3>
-                    <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-                      Sq Ft Facility
-                    </p>
-                  </div>
-    
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                      <CountUpNumber value="40+" />
-                    </h3>
-                    <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-                      Experts
-                    </p>
-                  </div>
-    
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                      <CountUpNumber value="25,000+" />
-                    </h3>
-                    <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-                      Monthly Units
-                    </p>
-                  </div>
-    
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                      <CountUpNumber value="15+" />
-                    </h3>
-                    <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-                      Export Markets
-                    </p>
-                  </div>
-                </div>
               </div>
-    
+
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                  <CountUpNumber value="40+" />
+                </h3>
+                <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                  Experts
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                  <CountUpNumber value="25,000+" />
+                </h3>
+                <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                  Monthly Units
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                  <CountUpNumber value="15+" />
+                </h3>
+                <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                  Export Markets
+                </p>
+              </div>
             </div>
           </div>
-      {/* 8. Call To Action Section */}
+        </div>
+      </div>
       <FinalCTA />
     </section>
   );

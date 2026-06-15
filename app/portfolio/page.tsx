@@ -33,22 +33,18 @@ export default function Portfolio() {
   return (
     <section className="bg-white">
 
-      {/* 1. Reusable Video Background Hero Section */}
       <PageHero
         title="Our Manufacturing Portfolio"
         description="Premium sportswear, hoodies, jerseys, and custom apparel manufactured with top-tier precision for local and international brands."
         videoSrc="/hero.mp4"
       />
 
-      {/* Main Content Body */}
       <div className="container py-16 space-y-20">
 
-        {/* 2. Portfolio Grid Layout */}
         <div>
           <PortfolioPreview full />
         </div>
 
-        {/* 3. Stats Section with CountUp Component */}
         <div className="bg-slate-50/60 rounded-3xl p-8 sm:p-12 border border-slate-100">
           <div className="grid grid-cols-1 gap-6 text-center sm:grid-cols-3 sm:gap-8">
             <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100/50 transition duration-300 hover:shadow-md">
@@ -74,9 +70,7 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* 4. Client Video Testimonials Section */}
         <div className="space-y-8">
-          {/* Reusable SectionHeading Component yahan lagaya (With Center Alignment) */}
           <SectionHeading
             title="Client Video Reviews"
             description="See what global brand owners say about our custom manufacturing quality."
@@ -89,7 +83,6 @@ export default function Portfolio() {
                 key={i}
                 className="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
               >
-                {/* Fixed Ratio Video Container to prevent layout shift */}
                 <div className="relative aspect-video w-full bg-black overflow-hidden">
                   <video
                     className="h-full w-full object-cover"
@@ -101,7 +94,6 @@ export default function Portfolio() {
                   </video>
                 </div>
 
-                {/* Card Title Footer */}
                 <div className="p-5 text-center bg-white border-t border-slate-50">
                   <p className="font-semibold text-slate-800 group-hover:text-blue-700 transition-colors">
                     {item.name}

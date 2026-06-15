@@ -13,9 +13,6 @@ export default function PortfolioPreview({ full = false }: Props) {
 
   return (
     <section className="mt-20">
-
-      {/* Header */}
-
       <SectionHeading
         title="Our Work & Portfolio"
         description="A collection of premium apparel projects crafted for global brands with precision, creativity, and high-end manufacturing standards."
@@ -26,9 +23,8 @@ export default function PortfolioPreview({ full = false }: Props) {
         {items.map((p) => (
           <div
             key={p.id}
-            className="group overflow-hidden rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:border-blue-500/40"
+            className="group overflow-hidden rounded-lg bg-blue-50/90 border border-blue-200 shadow-md transition-all duration-500 hover:shadow-xl hover:border-blue-400"
           >
-            {/* Image */}
             <div className="relative overflow-hidden">
               <Image
                 src={p.image}
@@ -37,17 +33,14 @@ export default function PortfolioPreview({ full = false }: Props) {
                 height={400}
                 className="h-44 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 sm:h-48 lg:h-52"
               />
-
-
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500" />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500" />
             </div>
 
-            <div className="p-3 sm:p-4">
-              <h4 className="font-semibold text-white group-hover:text-blue-400 transition-colors duration-300">
+            <div className="p-3 sm:p-4 bg-blue-50/40 border-t border-blue-100/60">
+              <h4 className="font-semibold text-slate-900 group-hover:text-blue-700 transition-colors duration-300">
                 {p.title}
               </h4>
-
-              <p className="text-gray-400 mt-2 text-sm">
+              <p className="text-slate-600 mt-2 text-sm font-medium">
                 {p.category}
               </p>
             </div>

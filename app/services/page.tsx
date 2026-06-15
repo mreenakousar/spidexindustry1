@@ -29,6 +29,7 @@ interface CapabilityModule {
   options: string[];
   benchmarks: string[];
   badge: string;
+  image?: string;
 }
 
 interface B2BWorkflowStep {

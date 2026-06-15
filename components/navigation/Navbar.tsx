@@ -6,17 +6,18 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { productCategories } from "../../data/site";
 import * as CategoryIcons from "../ui/CategoryIcons";
-import { ChevronDownIcon, XMarkIcon, UserIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, XMarkIcon, UserIcon, Squares2X2Icon, BuildingOfficeIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
-  { href: "/services", label: "Services" },
-  { href: "/factory-production", label: "Production" },
+  { href: "/product-categories", label: "Services & Capabilities", isMega: true },
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/product-categories", label: "Product Categories" },
-  { href: "/reviews", label: "Reviews", accent: true },
+  { href: "/about", label: "About Us", isDropdown: true },
   { href: "/contact", label: "Contact Us" },
+];
+
+const aboutDropdownLinks = [
+  { href: "/about", label: "About Us", desc: "Our history, team & facility" },
+  { href: "/reviews", label: "Client Reviews", desc: "Customer experiences & testimonials" },
 ];
 
 export default function Navbar() {
@@ -42,15 +43,12 @@ export default function Navbar() {
     return () => window.removeEventListener("click", handleOutsideClick);
   }, [authDropdownOpen]);
 
-  const linkClass = (href: string, accent?: boolean) => {
-    const isActive = pathname === href;
-
+  const linkClass = (href: string, active: boolean) => {
     return `
       flex items-center gap-1
-      px-3 py-2 text-sm xl:text-[15px]
+      px-4 py-2 text-sm xl:text-[15px] font-medium
       rounded-md transition-all whitespace-nowrap
-      ${isActive ? "text-blue-600 font-semibold" : "text-slate-700 hover:text-blue-600"}
-      ${accent ? "bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100" : ""}
+      ${active ? "text-blue-600 font-semibold" : "text-slate-700 hover:text-blue-600"}
     `;
   };
 
@@ -63,113 +61,175 @@ export default function Navbar() {
           <Image src="/logo.svg" alt="logo" width={140} height={40} className="w-[120px] md:w-[140px] h-auto" />
         </Link>
 
-        {/* DESKTOP NAV (Hidden on tablet/mobile screens) */}
+        {/* DESKTOP NAV */}
         <nav className="hidden xl:flex items-center gap-1">
-          {navLinks.map((link) =>
-            link.href === "/product-categories" ? (
-              <div key="mega" className="relative group">
-                <Link
-                  href="/product-categories"
-                  className={`${linkClass(link.href, link.accent)} flex items-center gap-1`}
-                >
-                  {link.label}
-                  <ChevronDownIcon className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                </Link>
+          {navLinks.map((link) => {
+            const isCapabilitiesActive = pathname === "/product-categories" || pathname === "/services" || pathname === "/factory-production";
+            const isAboutActive = pathname === "/about" || pathname === "/reviews";
+            const isActive = link.isMega ? isCapabilitiesActive : link.isDropdown ? isAboutActive : pathname === link.href;
 
-                {/* MEGA MENU */}
-                <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-0 top-full mt-2 w-[780px] bg-white border rounded-xl shadow-xl transition-all duration-200 z-[9999]">
-                  <div className="flex">
-                    {/* LEFT */}
-                    <div className="w-60 border-r p-4">
-                      {productCategories.map((cat) => {
-                        const Icon = (CategoryIcons as any)[cat.icon];
-                        const active = hoveredCat === cat.id;
+            if (link.isMega) {
+              return (
+                <div key="mega" className="relative group">
+                  <Link
+                    href="/product-categories"
+                    className={`${linkClass(link.href, isActive)} flex items-center gap-1`}
+                  >
+                    {link.label}
+                    <ChevronDownIcon className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  </Link>
 
-                        return (
-                          <Link
-                            key={cat.id}
-                            href={`/product-categories#${cat.id}`}
-                            onMouseEnter={() => {
-                              setHoveredCat(cat.id);
-                              setHoveredSub(cat.sub?.[0]?.href ?? null);
-                            }}
-                            className={`flex w-full items-center gap-3 px-3 py-2 rounded-md text-sm transition ${active ? "bg-slate-50" : "hover:bg-slate-50"
-                              }`}
-                          >
-                            {Icon && (
-                              <Icon className={`w-5 h-5 ${active ? "text-blue-600" : "text-slate-500"}`} />
-                            )}
-                            <span className="font-medium text-slate-800">
-                              {cat.label}
-                            </span>
+                  {/* MEGA MENU */}
+                  <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-0 top-full mt-2 w-[920px] bg-white border rounded-xl shadow-xl transition-all duration-200 z-[9999]">
+                    <div className="flex">
+                      {/* MEGA MENU LEFT: GENERAL OVERVIEWS */}
+                      <div className="w-64 border-r p-4 bg-slate-50/50 rounded-l-xl">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Production Ecosystem</h4>
+                        <div className="space-y-1">
+                          <Link href="/services" className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-slate-100 transition">
+                            <Squares2X2Icon className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                            <div>
+                              <div className="text-sm font-semibold text-slate-800">Sourcing & Services</div>
+                              <p className="text-[11px] text-slate-500 leading-normal">Full-scale manufacturing loops</p>
+                            </div>
                           </Link>
-                        );
-                      })}
-                    </div>
-
-                    {/* RIGHT */}
-                    <div className="flex-1 p-5">
-                      {productCategories.map((cat) => {
-                        if (cat.id !== hoveredCat) return null;
-
-                        return (
-                          <div key={cat.id} className="grid grid-cols-2 gap-6">
+                          <Link href="/factory-production" className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-slate-100 transition">
+                            <BuildingOfficeIcon className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
                             <div>
-                              <h4 className="text-sm font-semibold mb-3">Sub Categories</h4>
-                              <div className="space-y-1">
-                                {cat.sub.map((s) => (
-                                  <Link
-                                    key={s.href}
-                                    href={`/product-categories#${cat.id}`}
-                                    onMouseEnter={() => setHoveredSub(s.href)}
-                                    className={`w-full text-left px-2 py-2 rounded-md text-sm block ${hoveredSub === s.href
-                                      ? "bg-slate-50 text-blue-600 font-medium"
-                                      : "text-slate-700 hover:bg-slate-50"
-                                      }`}
-                                  >
-                                    {s.label}
-                                  </Link>
-                                ))}
-                              </div>
+                              <div className="text-sm font-semibold text-slate-800">Factory & Facilities</div>
+                              <p className="text-[11px] text-slate-500 leading-normal">Multi-stage QA and setup</p>
                             </div>
-
+                          </Link>
+                          <Link href="/product-categories" className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-slate-100 transition">
+                            <DocumentTextIcon className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
                             <div>
-                              <h4 className="text-sm font-semibold mb-3">Details</h4>
-                              <div className="space-y-1">
-                                {cat.sub
-                                  .find((s) => s.href === hoveredSub)
-                                  ?.sub?.map((item) => (
+                              <div className="text-sm font-semibold text-slate-800">Complete Catalog</div>
+                              <p className="text-[11px] text-slate-500 leading-normal">Interactive apparel specs</p>
+                            </div>
+                          </Link>
+                        </div>
+                      </div>
+
+                      {/* MEGA MENU MIDDLE: CATEGORIES */}
+                      <div className="w-60 border-r p-4">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Product Categories</h4>
+                        {productCategories.map((cat) => {
+                          const Icon = (CategoryIcons as any)[cat.icon];
+                          const active = hoveredCat === cat.id;
+
+                          return (
+                            <Link
+                              key={cat.id}
+                              href={`/product-categories#${cat.id}`}
+                              onMouseEnter={() => {
+                                setHoveredCat(cat.id);
+                                setHoveredSub(cat.sub?.[0]?.href ?? null);
+                              }}
+                              className={`flex w-full items-center gap-3 px-3 py-2 rounded-md text-sm transition ${active ? "bg-blue-50/50 text-blue-600 font-semibold" : "hover:bg-slate-50 text-slate-700"
+                                }`}
+                            >
+                              {Icon && (
+                                <Icon className={`w-5 h-5 ${active ? "text-blue-600" : "text-slate-500"}`} />
+                              )}
+                              <span>
+                                {cat.label}
+                              </span>
+                            </Link>
+                          );
+                        })}
+                      </div>
+
+                      {/* MEGA MENU RIGHT: SUB-CATEGORIES & DETAILS */}
+                      <div className="flex-1 p-5 bg-white rounded-r-xl">
+                        {productCategories.map((cat) => {
+                          if (cat.id !== hoveredCat) return null;
+
+                          return (
+                            <div key={cat.id} className="grid grid-cols-2 gap-6">
+                              <div>
+                                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Sub Categories</h4>
+                                <div className="space-y-1">
+                                  {cat.sub.map((s) => (
                                     <Link
-                                      key={item.href}
-                                      href={item.href}
-                                      className="block text-sm text-slate-600 hover:text-blue-600 py-1"
+                                      key={s.href}
+                                      href={`/product-categories#${cat.id}`}
+                                      onMouseEnter={() => setHoveredSub(s.href)}
+                                      className={`w-full text-left px-2 py-2 rounded-md text-sm block ${hoveredSub === s.href
+                                        ? "bg-slate-50 text-blue-600 font-medium"
+                                        : "text-slate-700 hover:bg-slate-50"
+                                        }`}
                                     >
-                                      {item.label}
+                                      {s.label}
                                     </Link>
-                                  )) ?? (
-                                    <p className="text-sm text-slate-400">Select category</p>
-                                  )}
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div>
+                                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Material Options</h4>
+                                <div className="space-y-1">
+                                  {cat.sub
+                                    .find((s) => s.href === hoveredSub)
+                                    ?.sub?.map((item) => (
+                                      <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className="block text-sm text-slate-600 hover:text-blue-600 py-1"
+                                      >
+                                        {item.label}
+                                      </Link>
+                                    )) ?? (
+                                      <p className="text-sm text-slate-400">Select sub-category</p>
+                                    )}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <Link key={link.href} href={link.href} className={linkClass(link.href, link.accent)}>
+              );
+            }
+
+            if (link.isDropdown) {
+              return (
+                <div key="dropdown" className="relative group">
+                  <span className={`${linkClass(link.href, isActive)} flex items-center gap-1 cursor-pointer`}>
+                    {link.label}
+                    <ChevronDownIcon className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  </span>
+
+                  {/* SUB DROPDOWN */}
+                  <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-0 top-full mt-2 w-64 bg-white border border-slate-100 rounded-xl shadow-xl py-2 z-[9999] animate-in fade-in slide-in-from-top-2 duration-150">
+                    {aboutDropdownLinks.map((subLink) => (
+                      <Link
+                        key={subLink.href}
+                        href={subLink.href}
+                        className="block px-4 py-2.5 text-sm hover:bg-blue-50 text-slate-700 hover:text-blue-600 transition-colors"
+                      >
+                        <div className="font-semibold">{subLink.label}</div>
+                        <div className="text-[11px] text-slate-400 font-normal">{subLink.desc}</div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <Link key={link.href} href={link.href} className={linkClass(link.href, isActive)}>
                 {link.label}
               </Link>
-            )
-          )}
+            );
+          })}
         </nav>
 
-        {/* ACTIONS (Desktop & Laptop screens) */}
+        {/* ACTIONS */}
         <div className="hidden lg:flex items-center gap-4">
 
-          {/* NEW ICON BASED LOGIN/SIGNUP DROPDOWN */}
+          {/* LOGIN/SIGNUP DROPDOWN */}
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setAuthDropdownOpen(!authDropdownOpen)}
@@ -231,18 +291,50 @@ export default function Navbar() {
         </div>
 
         <div className="p-5 flex flex-col gap-1 overflow-y-auto h-[calc(100vh-70px)]">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className={`text-base py-3 border-b border-slate-50 text-slate-800 flex justify-between items-center ${pathname === link.href ? "text-blue-600 font-semibold" : ""
-                }`}
-            >
-              {link.label}
-              {link.accent && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-normal">Featured</span>}
-            </Link>
-          ))}
+          {/* Mobile Capabilities */}
+          <div className="py-2 border-b border-slate-50">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">Services & Capabilities</span>
+            <div className="pl-2 space-y-2.5">
+              <Link href="/services" onClick={() => setMenuOpen(false)} className="block text-sm text-slate-800 hover:text-blue-600 font-medium">Sourcing & Services</Link>
+              <Link href="/factory-production" onClick={() => setMenuOpen(false)} className="block text-sm text-slate-800 hover:text-blue-600 font-medium">Factory & Facilities</Link>
+              <Link href="/product-categories" onClick={() => setMenuOpen(false)} className="block text-sm text-slate-800 hover:text-blue-600 font-medium">Complete Catalog</Link>
+            </div>
+          </div>
+
+          {/* Mobile Portfolio */}
+          <Link
+            href="/portfolio"
+            onClick={() => setMenuOpen(false)}
+            className="text-base py-3 border-b border-slate-50 text-slate-800 flex justify-between items-center"
+          >
+            Portfolio
+          </Link>
+
+          {/* Mobile About Us Dropdown */}
+          <div className="py-2 border-b border-slate-50">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">About Speedx</span>
+            <div className="pl-2 space-y-2.5">
+              {aboutDropdownLinks.map((subLink) => (
+                <Link
+                  key={subLink.href}
+                  href={subLink.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="block text-sm text-slate-800 hover:text-blue-600 font-medium"
+                >
+                  {subLink.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile Contact */}
+          <Link
+            href="/contact"
+            onClick={() => setMenuOpen(false)}
+            className="text-base py-3 border-b border-slate-50 text-slate-800 flex justify-between items-center"
+          >
+            Contact Us
+          </Link>
 
           <div className="mt-6 flex flex-col gap-3">
             <div className="grid grid-cols-2 gap-3">

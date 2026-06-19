@@ -121,7 +121,7 @@ if (typeof window !== "undefined") {
 export default function ManufacturingCapabilities() {
   const containerRef = useRef<HTMLDivElement>(null);
   const blurPlaceholderUrl = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMTExIi8+PC9zdmc+";
-
+  const footballRef = useRef<HTMLImageElement>(null);
   const [selectedCard, setSelectedCard] = useState<CapabilityDetail | null>(null);
 
   useEffect(() => {
@@ -152,6 +152,66 @@ export default function ManufacturingCapabilities() {
         start: "top 88%",
         once: true
       });
+      /* =========================
+   FOOTBALL ANIMATION
+========================= */
+      if (footballRef.current) {
+
+        if (footballRef.current) {
+          const tl = gsap.timeline({
+            repeat: -1,
+            yoyo: true,
+            defaults: { ease: "power2.inOut" },
+          });
+
+          // 🟢 floating + horizontal move
+          tl.to(footballRef.current, {
+            x: 120,
+            y: -20,
+            rotate: 180,
+            duration: 1.2,
+          });
+
+          // 🟢 jump (bounce effect)
+          tl.to(footballRef.current, {
+            y: -80,
+            scale: 1.1,
+            rotate: 260,
+            duration: 0.6,
+            ease: "power2.out",
+          });
+
+          // 🟢 drop (gravity feel)
+          tl.to(footballRef.current, {
+            y: 0,
+            scale: 1,
+            rotate: 360,
+            duration: 0.8,
+            ease: "bounce.out",
+          });
+
+          // 🟢 scroll based movement (extra layer)
+          gsap.to(footballRef.current, {
+            y: -140,
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 90%",
+              end: "bottom 10%",
+              scrub: 1,
+            },
+          });
+        }
+
+        gsap.to(footballRef.current, {
+          y: -120,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 90%",
+            end: "bottom 10%",
+            scrub: 1,
+          },
+        });
+      }
 
       const cards = gsap.utils.toArray<HTMLElement>('.streetwear-card');
       cards.forEach((card) => {
@@ -177,9 +237,22 @@ export default function ManufacturingCapabilities() {
   return (
     <>
       <section ref={containerRef} className="relative overflow-hidden py-16 font-sans text-white sm:py-20 md:py-24">
+
+        <img
+
+          ref={footballRef}
+
+          src="/images/football.webp"
+
+          className="absolute top-20 left-10 w-12 h-12 pointer-events-none z-20"
+
+        />
+
         <div className="absolute inset-0 opacity-60 pointer-events-none" />
 
+
         <div className="container mx-auto max-w-7xl px-4 relative z-10 sm:px-6">
+
           <SectionHeader
             label="Built For Global Brands"
             title1="Manufacturing"

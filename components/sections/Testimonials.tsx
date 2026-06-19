@@ -1,11 +1,11 @@
 "use client";
-
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
+
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -43,6 +43,8 @@ const reviews = [
 ];
 
 export default function Testimonials() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const footballRef = useRef<HTMLImageElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeVideos, setActiveVideos] = useState<{ [key: number]: boolean }>({});
 
@@ -77,6 +79,53 @@ export default function Testimonials() {
 
     return () => ctx.revert();
   }, []);
+  /* =========================
+       FOOTBALL ANIMATION
+     ========================= */
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    if (footballRef.current) {
+      const tl = gsap.timeline({
+        repeat: -1,
+        yoyo: true,
+        defaults: { ease: "power2.inOut" },
+      });
+
+      tl.to(footballRef.current, {
+        x: 120,
+        y: -20,
+        rotate: 180,
+        duration: 1.2,
+      });
+
+      tl.to(footballRef.current, {
+        y: -80,
+        scale: 1.1,
+        rotate: 260,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+
+      tl.to(footballRef.current, {
+        y: 0,
+        scale: 1,
+        rotate: 360,
+        duration: 0.8,
+        ease: "bounce.out",
+      });
+
+      gsap.to(footballRef.current, {
+        y: -140,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 90%",
+          end: "bottom 10%",
+          scrub: 1,
+        },
+      });
+    }
+  }, []);
 
   return (
     <section
@@ -90,6 +139,15 @@ export default function Testimonials() {
             title1="What Our Clients"
             title2="Say About Us"
             description="Real feedback from international brands that trusted us with their apparel manufacturing."
+          />
+          <img
+
+            ref={footballRef}
+
+            src="/images/football.webp"
+
+            className="absolute top-20 left-10 w-12 h-12 pointer-events-none z-20"
+
           />
         </div>
 

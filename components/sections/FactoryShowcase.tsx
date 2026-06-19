@@ -1,11 +1,15 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SectionHeader from "../ui/SectionHeader";
 import CountUpNumber from "../../src/components/ui/CountUpNumber";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function FactoryShowcase() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const footballRef = useRef<HTMLImageElement>(null);
   const areas = [
     {
       title: "Production Lines",
@@ -51,6 +55,53 @@ export default function FactoryShowcase() {
     setActiveVideos((prev) => ({ ...prev, [index]: true }));
   };
 
+  /* =========================
+       FOOTBALL ANIMATION
+     ========================= */
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    if (footballRef.current) {
+      const tl = gsap.timeline({
+        repeat: -1,
+        yoyo: true,
+        defaults: { ease: "power2.inOut" },
+      });
+
+      tl.to(footballRef.current, {
+        x: 120,
+        y: -20,
+        rotate: 180,
+        duration: 1.2,
+      });
+
+      tl.to(footballRef.current, {
+        y: -80,
+        scale: 1.1,
+        rotate: 260,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+
+      tl.to(footballRef.current, {
+        y: 0,
+        scale: 1,
+        rotate: 360,
+        duration: 0.8,
+        ease: "bounce.out",
+      });
+
+      gsap.to(footballRef.current, {
+        y: -140,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 90%",
+          end: "bottom 10%",
+          scrub: 1,
+        },
+      });
+    }
+  }, []);
   return (
     <section className="relative overflow-hidden py-16 sm:py-20 md:py-24">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
@@ -61,6 +112,15 @@ export default function FactoryShowcase() {
           title1="Inside Our"
           title2="Production"
           description="From cutting and sewing to printing, embroidery, and packaging, every step is managed under strict quality standards."
+        />
+        <img
+
+          ref={footballRef}
+
+          src="/images/football.webp"
+
+          className="absolute top-20 left-10 w-12 h-12 pointer-events-none z-20"
+
         />
 
         <div className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:gap-8">

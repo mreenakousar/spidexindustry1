@@ -2,18 +2,76 @@
 
 import Image from "next/image";
 import SectionHeader from "../ui/SectionHeader";
-
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useEffect, useRef } from "react";
 export default function TeamShowcase() {
-  // Shimmer base64 placeholder for clean premium theme blur look
+  const containerRef = useRef<HTMLDivElement>(null);
+  const footballRef = useRef<HTMLImageElement>(null);
   const blurPlaceholderUrl = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMTExIi8+PC9zdmc+";
+  /* =========================
+      FOOTBALL ANIMATION
+    ========================= */
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
 
+    if (footballRef.current) {
+      const tl = gsap.timeline({
+        repeat: -1,
+        yoyo: true,
+        defaults: { ease: "power2.inOut" },
+      });
+
+      tl.to(footballRef.current, {
+        x: 120,
+        y: -20,
+        rotate: 180,
+        duration: 1.2,
+      });
+
+      tl.to(footballRef.current, {
+        y: -80,
+        scale: 1.1,
+        rotate: 260,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+
+      tl.to(footballRef.current, {
+        y: 0,
+        scale: 1,
+        rotate: 360,
+        duration: 0.8,
+        ease: "bounce.out",
+      });
+
+      gsap.to(footballRef.current, {
+        y: -140,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 90%",
+          end: "bottom 10%",
+          scrub: 1,
+        },
+      });
+    }
+  }, []);
   return (
-    <section className="mt-20">
+    <section ref={containerRef} className="relative mt-20">
       <SectionHeader
         label="Our Team"
         title1="The People Behind"
         title2="Every Product"
         description="Our skilled designers, technicians, and production specialists work together to ensure every product meets the highest standards of quality and craftsmanship."
+      />
+      <img
+
+        ref={footballRef}
+
+        src="/images/football.webp"
+
+        className="absolute top-20 left-10 w-12 h-12 pointer-events-none z-20"
+
       />
 
       <div className="mx-auto mt-10 max-w-6xl px-4 sm:mt-12 sm:px-0">

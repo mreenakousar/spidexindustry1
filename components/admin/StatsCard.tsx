@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import StatCard from "../../src/components/ui/StatCard";
+import StatCard from "../ui/StatCard";
 
 interface Props {
   title: string;

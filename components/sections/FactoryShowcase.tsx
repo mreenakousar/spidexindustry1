@@ -3,7 +3,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import SectionHeader from "../ui/SectionHeader";
-import CountUpNumber from "../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../ui/CountUpNumber";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 

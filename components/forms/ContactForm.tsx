@@ -1,8 +1,8 @@
 "use client";
 import { useForm } from "react-hook-form";
 import Button from "../ui/Button";
-import Input from "../../src/components/ui/Input";
-import Textarea from "../../src/components/ui/Textarea";
+import Input from "../ui/Input";
+import Textarea from "../ui/Textarea";
 import { submitContactAction } from "../../src/actions/contact";
 
 export default function ContactForm() {

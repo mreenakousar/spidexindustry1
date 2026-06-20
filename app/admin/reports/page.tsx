@@ -8,7 +8,7 @@ import {
   Search,
   TrendingUp,
 } from "lucide-react";
-import CountUpNumber from "../../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../../components/ui/CountUpNumber";
 
 interface ReportCard {
   title: string;

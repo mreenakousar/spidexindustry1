@@ -25,8 +25,8 @@ import {
   listOrdersAction,
   updateOrderAction,
 } from "../../../src/actions/orders";
-import Modal from "../../../src/components/ui/Modal";
-import StatCard from "../../../src/components/ui/StatCard";
+import Modal from "../../../components/ui/Modal";
+import StatCard from "../../../components/ui/StatCard";
 
 const statusOptions = [
   "All",

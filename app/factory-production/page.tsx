@@ -2,7 +2,7 @@
 import Image from "next/image";
 import FinalCTA from "../../components/sections/FinalCTA";
 import PageHero from "../../components/ui/PageHero";
-import CountUpNumber from "../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../components/ui/CountUpNumber";
 import SectionHeading from "../../components/ui/SectionHeading";
 
 export const metadata = {

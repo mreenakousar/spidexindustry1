@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Download, Search, Tag, Wallet, X } from "lucide-react";
-import CountUpNumber from "../../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../../components/ui/CountUpNumber";
 
 interface Invoice {
   id: string;

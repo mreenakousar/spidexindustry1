@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import LogoutButton from "../../src/components/ui/LogoutButton";
+import LogoutButton from "../ui/LogoutButton";
 
 export default function TopNav() {
   return (

@@ -1,6 +1,6 @@
 // app/portfolio/page.tsx
 import PortfolioPreview from "../../components/sections/PortfolioPreview";
-import CountUpNumber from "../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../components/ui/CountUpNumber";
 import PageHero from "../../components/ui/PageHero";
 import FinalCTA from "../../components/sections/FinalCTA";
 import SectionHeading from "../../components/ui/SectionHeading"; // Reusable TSX component import kiya

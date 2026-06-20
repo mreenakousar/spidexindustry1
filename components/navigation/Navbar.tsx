@@ -296,6 +296,16 @@ export default function Navbar() {
                 >
                   Sign Up
                 </Link>
+                <div className="border-t border-slate-800/60 my-1" />
+                <button
+                  onClick={() => {
+                    setAuthDropdownOpen(false);
+                    window.location.href = "/";
+                  }}
+                  className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-white/5 hover:text-red-300 transition-colors"
+                >
+                  Logout
+                </button>
               </div>
             )}
           </div>
@@ -404,6 +414,15 @@ export default function Navbar() {
                 Sign Up
               </Link>
             </div>
+            <button
+              onClick={() => {
+                setMenuOpen(false);
+                window.location.href = "/";
+              }}
+              className="border border-red-500/30 p-3 rounded-full text-center text-sm font-semibold text-red-400 bg-red-500/10 hover:bg-red-500/20 transition-all w-full"
+            >
+              Logout
+            </button>
             <Link
               href="/get-quote"
               onClick={() => setMenuOpen(false)}

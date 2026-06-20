@@ -152,7 +152,7 @@ import { useState, useEffect, useMemo } from "react";
 import { invoices } from "../../../data/clientPortal";
 import type { InvoiceRecord } from "../../../types/clientPortal";
 import Badge, { statusVariant } from "../../../components/ui/Badge";
-import CountUpNumber from "../../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../../components/ui/CountUpNumber";
 
 export default function InvoicesPage() {
   const [selectedInvoice, setSelectedInvoice] =

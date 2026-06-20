@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import StatCard from "../../src/components/ui/StatCard";
+import StatCard from "../ui/StatCard";
 
 export default function ClientPortalStatCard({
   icon: Icon,

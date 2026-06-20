@@ -11,7 +11,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import SectionHeader from "../ui/SectionHeader";
-import CountUpNumber from "../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../ui/CountUpNumber";
 
 gsap.registerPlugin(ScrollTrigger);
 

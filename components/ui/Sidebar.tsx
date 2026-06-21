@@ -112,14 +112,15 @@ export default function Sidebar({
         <div className="flex h-20 items-center justify-between px-6 border-b border-slate-900 bg-slate-950/80">
           <div className="flex items-center gap-3">
             
-            <div>
+            <Link href="/">
+              
               <h2 className="text-base font-bold text-white tracking-wider uppercase leading-none">
                 {brandName}
               </h2>
               <span className="text-[10px] text-slate-500 uppercase tracking-widest mt-1 block">
                 {brandSubtitle}
               </span>
-            </div>
+            </Link>
           </div>
           
           {/* Close button inside sidebar (visible only on mobile) */}

@@ -4,10 +4,10 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signupAction } from "../../src/actions/auth";
-import AuthShell from "../../src/components/ui/AuthShell";
-import Button from "../../src/components/ui/Button";
-import Field from "../../src/components/ui/Field";
-import Input from "../../src/components/ui/Input";
+import AuthShell from "../../components/ui/AuthShell";
+import Button from "../../components/ui/Button";
+import Field from "../../components/ui/Field";
+import Input from "../../components/ui/Input";
 
 export default function SignupPage() {
   const router = useRouter();

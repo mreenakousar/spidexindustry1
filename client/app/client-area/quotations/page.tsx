@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { quotations } from "../../../data/clientPortal";
-import CountUpNumber from "../../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../../components/ui/CountUpNumber";
 
 export default function QuotationsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);

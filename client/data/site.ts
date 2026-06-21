@@ -88,6 +88,50 @@ export const productCategories = [
       { label: "Sport Gloves", href: "/product-categories/gloves/sport", sub: [] },
     ],
   },
+  {
+    id: "garment-accessories",
+    label: "Garment Accessories",
+    icon: "AccessoriesIcon",
+    href: "/product-categories/garment-accessories",
+    sub: [
+      { label: "Tags & Labels", href: "/product-categories/garment-accessories/tags", sub: [] },
+      { label: "Zippers & Buttons", href: "/product-categories/garment-accessories/zippers", sub: [] },
+      { label: "Drawstrings", href: "/product-categories/garment-accessories/drawstrings", sub: [] },
+    ],
+  },
+  {
+    id: "packing-bags",
+    label: "Packing Bags",
+    icon: "BagsIcon",
+    href: "/product-categories/packing-bags",
+    sub: [
+      { label: "Polymailers", href: "/product-categories/packing-bags/polymailers", sub: [] },
+      { label: "Tote Bags", href: "/product-categories/packing-bags/tote-bags", sub: [] },
+      { label: "Drawstring Bags", href: "/product-categories/packing-bags/drawstring", sub: [] },
+    ],
+  },
+  {
+    id: "jeans",
+    label: "Jeans",
+    icon: "JeansIcon",
+    href: "/product-categories/jeans",
+    sub: [
+      { label: "Slim Fit", href: "/product-categories/jeans/slim-fit", sub: [] },
+      { label: "Regular Fit", href: "/product-categories/jeans/regular-fit", sub: [] },
+      { label: "Relaxed Fit", href: "/product-categories/jeans/relaxed-fit", sub: [] },
+    ],
+  },
+  {
+    id: "caps",
+    label: "Caps",
+    icon: "CapsIcon",
+    href: "/product-categories/caps",
+    sub: [
+      { label: "Baseball Caps", href: "/product-categories/caps/baseball", sub: [] },
+      { label: "Snapbacks", href: "/product-categories/caps/snapbacks", sub: [] },
+      { label: "Trucker Hats", href: "/product-categories/caps/trucker", sub: [] },
+    ],
+  },
 ];
 
 export const capabilities = [

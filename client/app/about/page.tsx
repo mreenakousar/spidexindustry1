@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import FinalCTA from "../../components/sections/FinalCTA";
-import CountUpNumber from "../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../components/ui/CountUpNumber";
 import PageHero from "../../components/ui/PageHero";
 import SectionHeading from "../../components/ui/SectionHeading";
 import {

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Search, Tag, Truck, Star, X } from "lucide-react";
-import CountUpNumber from "../../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../../components/ui/CountUpNumber";
 
 interface Product {
   id: string;

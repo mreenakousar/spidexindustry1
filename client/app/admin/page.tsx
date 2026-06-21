@@ -2,7 +2,7 @@ import React from "react";
 import DashboardWidgets from "../../components/admin/DashboardWidgets";
 import { recentOrders } from "../../data/adminMock";
 import OrdersTable from "../../components/admin/OrdersTable";
-import CountUpNumber from "../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../components/ui/CountUpNumber";
 
 const quickInsights = [
   {

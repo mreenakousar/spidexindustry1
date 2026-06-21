@@ -1,34 +1,14 @@
 import express from "express";
-import { prisma } from "./lib/prisma.ts";
+import "dotenv/config";
+import cookieParser from "cookie-parser";
+import authRoutes from "./routes/auth.route.ts";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
-app.post("/", async (req, res) => {
-  try {
-    const { email, name } = req.body;
+app.use("/api", authRoutes);
 
-    // Validate the input
-    if (!email) {
-      return res.status(400).json({ error: "Email is required" });
-    }
-
-    // Create a new user in the database
-    const newUser = await prisma.user.create({
-      data: {
-        email,
-        name,
-      },
-    });
-
-    res.status(201).json(newUser);
-  } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(3001, () => {
+  console.log("Server is running on port 3001");
 });

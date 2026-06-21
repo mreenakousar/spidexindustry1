@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { payments as initialPayments } from "../../../data/clientPortal";
-import CountUpNumber from "../../../src/components/ui/CountUpNumber";
+import CountUpNumber from "../../../components/ui/CountUpNumber";
 
 export default function PaymentsPage() {
   const [payments, setPayments] = useState(initialPayments || []);

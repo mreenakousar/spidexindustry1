@@ -14,20 +14,42 @@ export default function FootballAnimation({
   useEffect(() => {
     if (!footballRef.current) return;
 
-
     const animateRandomly = () => {
-      gsap.to(footballRef.current, {
-        x: Math.random() * (window.innerWidth - 100),
-        y: Math.random() * (window.innerHeight - 100),
+      const el = footballRef.current;
+      if (!el) return;
+
+      const parent = (el.offsetParent || el.parentElement) as HTMLElement;
+      if (!parent) return;
+
+      const parentWidth = parent.clientWidth || window.innerWidth;
+      const parentHeight = parent.clientHeight || window.innerHeight;
+
+      // Absolute original offsets relative to offsetParent
+      const offsetLeft = el.offsetLeft;
+      const offsetTop = el.offsetTop;
+      const footballWidth = el.offsetWidth || 48;
+      const footballHeight = el.offsetHeight || 48;
+
+      // We restrict x and y translation within the parent container's borders
+      const minX = -offsetLeft;
+      const maxX = Math.max(0, parentWidth - offsetLeft - footballWidth);
+      const minY = -offsetTop;
+      const maxY = Math.max(0, parentHeight - offsetTop - footballHeight);
+
+      // Generate random translation coordinates
+      const targetX = minX + Math.random() * (maxX - minX);
+      const targetY = minY + Math.random() * (maxY - minY);
+
+      gsap.to(el, {
+        x: targetX,
+        y: targetY,
         duration: Math.random() * 2 + 2,
         ease: "power1.inOut",
         onComplete: animateRandomly,
       });
     };
 
-
     animateRandomly();
-
 
     return () => {
       gsap.killTweensOf(footballRef.current);

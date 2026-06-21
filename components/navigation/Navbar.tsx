@@ -32,6 +32,12 @@ function Logo({ className = "text-white" }: { className?: string }) {
 
 export default function Navbar() {
   const pathname = usePathname();
+
+  // Hide navbar in admin and client area panels
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/client-area")) {
+    return null;
+  }
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [authDropdownOpen, setAuthDropdownOpen] = useState(false);
 

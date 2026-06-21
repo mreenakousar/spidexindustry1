@@ -1,10 +1,17 @@
-
 "use client"; 
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Mail, Phone, MapPin, ArrowUpRight, Send } from "lucide-react";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide footer in admin and client area panels
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/client-area")) {
+    return null;
+  }
+
   return (
     <footer className="bg-slate-900 text-slate-200 border-t border-slate-800 mt-20">
       {/* Main Footer Content */}

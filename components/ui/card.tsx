@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "white" | "primary" | "pending" | "secondary";
@@ -16,7 +16,7 @@ export const Card = ({
     white: "bg-white text-[#0A2540]",
     primary: "bg-[var(--color-primary)] text-white",
     pending: "bg-[var(--color-pending-bg)] text-[var(--color-pending)]",
-    secondary: "bg-[var(--color-secondary-bg)] text-[#053B70]",
+    secondary: "bg-[#E5F0F6] text-[#053B70]",
   };
 
   return (

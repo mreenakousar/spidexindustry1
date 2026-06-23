@@ -87,7 +87,7 @@ export default function Sidebar({
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed top-4 left-4 z-50 md:hidden flex items-center justify-center h-10 w-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition active:scale-95 shadow-md shadow-black/20"
+          className="fixed top-4 left-4 z-50 md:hidden flex items-center justify-center h-10 w-10 bg-slate-900 text-slate-300"
           aria-label="Open menu"
         >
           <Menu className="h-5 w-5" />
@@ -149,7 +149,7 @@ export default function Sidebar({
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-3.5 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 group ${
+                className={`flex items-center gap-3.5  px-4 py-3 text-sm font-medium transition-all duration-200 group ${
                   active
                     ? "bg-blue-600/10 text-blue-400 font-semibold shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]"
                     : "text-slate-400 hover:text-white hover:bg-slate-900"

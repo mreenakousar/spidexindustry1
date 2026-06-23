@@ -4,7 +4,26 @@
 
 :root {
   --color-primary: #0F3D91;
+  
+  /* Table Theme Variables - matching site primary theme */
+  --color-table-header-bg: #E5F0F6;     /* Soft blue header background */
+  --color-table-header-text: #0F3D91;   /* Primary theme blue text */
+  --color-table-border: #E2E8F0;        /* Cool grey borders */
+  --color-table-hover: #F8FAFC;         /* Light slate hover background */
+  --color-table-even: #F8FAFC;          /* Light slate alternating row background */
+  --color-table-accent: #0F3D91;        /* Primary theme blue for active pagination */
 }
+
+.dark {
+  /* Dark Mode Table variables */
+  --color-table-header-bg: #1E293B;
+  --color-table-header-text: #F8FAFC;
+  --color-table-border: #334155;
+  --color-table-hover: #0F172A;
+  --color-table-even: #0F172A;
+  --color-table-accent: #3B82F6;
+}
+
 
 html,
 body,

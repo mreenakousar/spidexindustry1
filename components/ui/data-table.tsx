@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import Card from "./Card";
 import { cn } from "../../lib/utils";
+import { Card } from "./card";
 
 export interface TableHeader {
   key: string;
@@ -41,8 +41,8 @@ export const DataTable = <T extends { id: string }>({
   currentPage,
   totalPages,
   onPageChange,
-  HeaderBgColor = "bg-[#FFE8D7]",
-  BorderColor = "border-gray-200",
+  HeaderBgColor = "bg-[var(--color-table-header-bg)]",
+  BorderColor = "border-[var(--color-table-border)]",
   pageSize = 10,
   totalEntries,
   headerActions,
@@ -64,7 +64,7 @@ export const DataTable = <T extends { id: string }>({
       {/* Table */}
       <div className="w-full overflow-x-auto">
         <table className={`w-full border-collapse border ${BorderColor}`}>
-          <thead className={`${HeaderBgColor} font-bold text-gray-900`}>
+          <thead className={`${HeaderBgColor} font-bold text-[var(--color-table-header-text)]`}>
             <tr>
               {/* Universal Serial Number Column */}
               <th
@@ -95,18 +95,18 @@ export const DataTable = <T extends { id: string }>({
               TableData.map((row, index) => (
                 <tr
                   key={row.id}
-                  className={`border ${BorderColor} hover:bg-gray-100 even:bg-gray-50`}
+                  className={`border ${BorderColor} hover:bg-[var(--color-table-hover)] even:bg-[var(--color-table-even)]`}
                 >
                   {/* Universal Serial Number Cell */}
                   <td
-                    className={`border ${BorderColor} px-[clamp(12px,1.5vw,16px)] py-[clamp(10px,1vw,12px)] text-[clamp(13px,1.2vw,14px)] font-medium text-gray-500 whitespace-nowrap`}
+                    className={`border ${BorderColor} px-[clamp(12px,1.5vw,16px)] py-[clamp(10px,1vw,12px)] text-[clamp(13px,1.2vw,14px)] font-medium text-gray-800 whitespace-nowrap`}
                   >
                     {(currentPage - 1) * pageSize + index + 1}
                   </td>
                   {TableHeaders.map((header) => (
                     <td
                       key={`${row.id}-${header.key}`}
-                      className={`border ${BorderColor} px-[clamp(12px,1.5vw,16px)] py-[clamp(10px,1vw,12px)] text-[clamp(13px,1.2vw,14px)] whitespace-nowrap`}
+                      className={`border ${BorderColor} px-[clamp(12px,1.5vw,16px)] py-[clamp(10px,1vw,12px)] text-[clamp(13px,1.2vw,14px)] text-gray-800 whitespace-wrap`}
                     >
                       {row[header.key as keyof T] as React.ReactNode}
                     </td>
@@ -194,7 +194,7 @@ export const DataTable = <T extends { id: string }>({
               >
                 ‹
               </button>
-              <span className="mx-1 rounded-md bg-[#FF6A00] px-[clamp(10px,1vw,12px)] py-[clamp(5px,0.5vw,6px)] text-[clamp(12px,1.1vw,13px)] font-medium text-white">
+              <span className="mx-1 rounded-md bg-[var(--color-table-accent)] px-[clamp(10px,1vw,12px)] py-[clamp(5px,0.5vw,6px)] text-[clamp(12px,1.1vw,13px)] font-medium text-white">
                 {currentPage}
               </span>
               <button

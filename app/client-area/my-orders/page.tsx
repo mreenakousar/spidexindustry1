@@ -1,9 +1,14 @@
-
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Eye, RefreshCw, Package, X } from "lucide-react";
+import { Card } from "../../../components/ui/card";
+import { Modal } from "../../../components/ui/modal";
+import { DataTable } from "../../../components/ui/data-table";
+import { Input } from "../../../components/ui/Input";
+import { Button } from "../../../components/ui/Button";
+import { Textarea } from "../../../components/ui/Textarea";
 import { orders } from "../../../data/clientPortal";
 
 type OrderForm = {
@@ -16,11 +21,9 @@ type OrderForm = {
 };
 
 export default function MyOrdersPage() {
-  const router = useRouter();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [viewMode, setViewMode] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<(typeof orders)[0] | null>(null);
 
   const [form, setForm] = useState<OrderForm>({
     product: "",
@@ -36,311 +39,468 @@ export default function MyOrdersPage() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    const selectedFiles = Array.from(e.target.files);
-    setFiles((prev) => [...prev, ...selectedFiles]);
+    setFiles((prev) => [...prev, ...Array.from(e.target.files!)]);
   };
 
   const removeFile = (index: number) => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const openCreateModal = () => {
-    setViewMode(false);
-    setSelectedOrder(null);
-    setForm({
-      product: "",
-      quantity: "",
-      sizes: "",
-      color: "",
-      gsm: "",
-      designNotes: "",
-    });
-    setFiles([]);
-    setIsModalOpen(true);
+  const openViewModal = (order: (typeof orders)[0]) => {
+    setSelectedOrder(order);
+    setIsViewOpen(true);
   };
 
-  const openViewModal = (order: any) => {
-    setViewMode(true);
-    setSelectedOrder(order);
-    setIsModalOpen(true);
+  const openCreateModal = () => {
+    setForm({ product: "", quantity: "", sizes: "", color: "", gsm: "", designNotes: "" });
+    setFiles([]);
+    setIsCreateOpen(true);
   };
 
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-
-    console.log("ORDER DATA:", form);
-    console.log("FILES:", files);
-
     alert("Order submitted successfully!");
-
-    setIsModalOpen(false);
-    router.push("/client-area/my-orders");
+    setIsCreateOpen(false);
   };
 
+  // ── Table config ──────────────────────────────────────────────────────────
+  const tableHeaders = [
+    { key: "product", label: "Product" },
+    { key: "quantity", label: "Quantity" },
+    { key: "status", label: "Status" },
+    { key: "date", label: "Date" },
+    { key: "total", label: "Total" },
+  ];
+
+  const tableData = orders.map((order) => ({
+    id: String(order.id),
+    product: order.product,
+    quantity: String(order.quantity),
+    status: (
+      <span
+        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${
+          order.status === "Completed"
+            ? "bg-emerald-50 text-emerald-700"
+            : order.status === "In Production"
+            ? "bg-amber-50 text-amber-700"
+            : "bg-slate-100 text-slate-600"
+        }`}
+      >
+        {order.status}
+      </span>
+    ),
+    date: order.date,
+    total: order.total,
+  }));
+
+  const tableButtons = [
+    {
+      icon: <Eye className="h-4 w-4" />,
+      text: "View",
+      className: "bg-slate-950 text-white",
+      onClick: (row: { id: string }) => {
+        const order = orders.find((o) => String(o.id) === row.id);
+        if (order) openViewModal(order);
+      },
+    },
+    {
+      icon: <RefreshCw className="h-4 w-4" />,
+      text: "Reorder",
+      className: "border border-slate-200 bg-slate-50 text-slate-900",
+      onClick: (_row: { id: string }) => {},
+    },
+  ];
+
+  const headerActions = (
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <button
+        onClick={openCreateModal}
+        className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-700"
+      >
+        + New Order
+      </button>
+      <Link
+        href="/client-area/my-orders/1002"
+        className="rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+      >
+        View Latest
+      </Link>
+    </div>
+  );
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-[clamp(1.5rem,3vw,2rem)]">
 
-      {/* HEADER */}
-      <div className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
+      {/* ── HEADER ─────────────────────────────────────────────────────────── */}
+      <Card className="p-[clamp(1.25rem,2.5vw,2rem)] rounded-none bg-slate-900 border border-slate-800 shadow-sm">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-600">
+            <p className="text-[clamp(11px,1vw,12px)] font-semibold uppercase tracking-[0.24em] text-sky-600">
               My Orders
             </p>
-
-            <h1 className="mt-3 text-3xl font-semibold text-slate-900">
+            <h1 className="mt-3 text-[clamp(1.5rem,2.5vw,1.875rem)] font-semibold text-white">
               Order Management
             </h1>
-
-            <p className="mt-2 text-slate-600">
-              Create production orders, track status, and manage workflow.
+            <p className="mt-2 text-[clamp(13px,1.1vw,14px)] text-slate-300">
+              Create production orders, track status, and manage your workflow.
             </p>
           </div>
+        </div>
+      </Card>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      {/* ── TABLE ──────────────────────────────────────────────────────────── */}
+      <Card className="border border-slate-100 p-0">
+        <DataTable
+          heading="All Orders"
+          TableHeaders={tableHeaders}
+          TableData={tableData}
+          TableButtons={tableButtons}
+          currentPage={1}
+          totalPages={1}
+          onPageChange={() => {}}
+          pageSize={orders.length}
+          totalEntries={orders.length}
+          headerActions={headerActions}
+        />
+      </Card>
 
-            <button
-              onClick={openCreateModal}
-              className="rounded-2xl bg-sky-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-sky-700"
+      {/* ── VIEW ORDER MODAL ────────────────────────────────────────────────── */}
+      <Modal
+        isOpen={isViewOpen}
+        onClose={() => setIsViewOpen(false)}
+        showHeader={false}
+        className="w-full max-w-4xl overflow-hidden bg-white"
+      >
+        {selectedOrder && (
+          <>
+            {/* Coloured header — same pattern as payment modal */}
+            <div
+              className="flex items-center justify-between bg-sky-600"
+              style={{ padding: "clamp(10px,2vw,16px) clamp(14px,3vw,24px)" }}
             >
-              + New Order
-            </button>
-
-            <Link
-              href="/client-area/my-orders/1002"
-              className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-            >
-              View Latest
-            </Link>
-
-          </div>
-
-        </div>
-      </div>
-
-      {/* TABLE */}
-      <div className="overflow-hidden rounded-3xl bg-white shadow-sm">
-
-        <div className="border-b border-slate-200 bg-slate-50 px-4 py-4 sm:px-6 sm:py-5">
-          <p className="text-sm font-semibold text-slate-900">
-            Order Table
-          </p>
-        </div>
-
-        <div className="overflow-x-auto">
-
-            <table className="min-w-full divide-y divide-slate-200 text-sm">
-
-            <thead className="bg-slate-100 text-left text-xs uppercase tracking-[0.24em] text-slate-500">
-              <tr>
-                <th className="px-4 py-4 sm:px-6">Order ID</th>
-                <th className="px-4 py-4 sm:px-6">Product</th>
-                <th className="px-4 py-4 sm:px-6">Quantity</th>
-                <th className="px-4 py-4 sm:px-6">Status</th>
-                <th className="px-4 py-4 sm:px-6">Date</th>
-                <th className="px-4 py-4 sm:px-6">Actions</th>
-              </tr>
-            </thead>
-
-            <tbody className="divide-y divide-slate-200 bg-white text-sm text-slate-700">
-
-              {orders.map((order) => (
-                <tr key={order.id}>
-                  <td className="px-4 py-5 font-semibold text-slate-900 sm:px-6">
-                    #{order.id}
-                  </td>
-
-                  <td className="px-4 py-5 sm:px-6">{order.product}</td>
-                  <td className="px-4 py-5 sm:px-6">{order.quantity}</td>
-
-                  <td className="px-4 py-5 sm:px-6">
-                    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                      order.status === "Completed"
-                        ? "bg-emerald-100 text-emerald-700"
-                        : order.status === "In Production"
-                        ? "bg-amber-100 text-amber-700"
-                        : "bg-slate-100 text-slate-700"
-                    }`}>
-                      {order.status}
-                    </span>
-                  </td>
-
-                  <td className="px-4 py-5 sm:px-6">{order.date}</td>
-
-                  <td className="flex gap-2 px-4 py-5 sm:px-6">
-
-                    {/* VIEW POPUP */}
-                    <button
-                      onClick={() => openViewModal(order)}
-                      className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 transition"
-                    >
-                      View
-                    </button>
-
-                    <button className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-900 hover:bg-slate-100 transition">
-                      Reorder
-                    </button>
-
-                  </td>
-                </tr>
-              ))}
-
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* MODAL */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-
-          <div className="flex max-h-[90vh] w-full max-w-3xl flex-col overflow-y-auto rounded-3xl bg-white p-4 shadow-xl sm:p-6">
-
-            {/* HEADER */}
-            <div className="flex items-center justify-between border-b pb-4">
-              <h2 className="text-lg font-semibold text-slate-900">
-                {viewMode ? "Order Details" : "Create Production Order"}
-              </h2>
-
+              <div className="flex items-center" style={{ gap: "clamp(6px,1vw,10px)" }}>
+                <Package
+                  className="text-white"
+                  style={{ width: "clamp(14px,2vw,20px)", height: "clamp(14px,2vw,20px)" }}
+                />
+                <span
+                  className="font-medium capitalize text-white"
+                  style={{ fontSize: "clamp(11px,1.5vw,14px)" }}
+                >
+                  Order Details
+                </span>
+              </div>
               <button
-                onClick={() => setIsModalOpen(false)}
-                className="text-slate-500 hover:text-slate-900"
+                onClick={() => setIsViewOpen(false)}
+                className="text-white/80 hover:text-white transition"
               >
-                ✕
+                <X style={{ width: "clamp(16px,2vw,22px)", height: "clamp(16px,2vw,22px)" }} />
               </button>
             </div>
 
-            {/* BODY */}
-            <div className="flex-1 mt-5">
+            {/* Scrollable body */}
+            <div className="overflow-y-auto" style={{ maxHeight: "calc(85vh - 70px)" }}>
+              <div className="flex flex-col md:flex-row">
 
-              {viewMode ? (
-                <div className="space-y-3 text-sm text-slate-700">
-                  <p><b>Product:</b> {selectedOrder?.product}</p>
-                  <p><b>Quantity:</b> {selectedOrder?.quantity}</p>
-                  <p><b>Status:</b> {selectedOrder?.status}</p>
-                  <p><b>Date:</b> {selectedOrder?.date}</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Left — order info */}
+                <div
+                  className="flex-1"
+                  style={{
+                    padding: "clamp(16px,3vw,28px)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "clamp(16px,2.5vw,28px)",
+                  }}
+                >
+                  {/* Title & meta */}
+                  <div>
+                    <div
+                      className="capitalize text-slate-500"
+                      style={{
+                        fontSize: "clamp(10px,1.2vw,13px)",
+                        marginBottom: "clamp(2px,0.4vw,6px)",
+                      }}
+                    >
+                      order • {selectedOrder.date}
+                    </div>
+                    <h2
+                      className="font-semibold text-slate-900"
+                      style={{ fontSize: "clamp(16px,2.5vw,26px)" }}
+                    >
+                      {selectedOrder.product}
+                    </h2>
+                    <div
+                      className="mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                      style={{ fontSize: "clamp(11px,1.1vw,13px)" }}
+                    >
+                      <span
+                        className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                          selectedOrder.status === "Completed"
+                            ? "bg-emerald-50 text-emerald-700"
+                            : selectedOrder.status === "In Production"
+                            ? "bg-amber-50 text-amber-700"
+                            : "bg-slate-100 text-slate-600"
+                        }`}
+                      >
+                        {selectedOrder.status}
+                      </span>
+                    </div>
+                  </div>
 
-                  <input
-                    name="product"
-                    value={form.product}
-                    onChange={handleChange}
-                    placeholder="Product Name"
-                    className="w-full rounded-xl border p-3"
-                    required
-                  />
-
-                  <input
-                    name="quantity"
-                    value={form.quantity}
-                    onChange={handleChange}
-                    placeholder="Quantity"
-                    className="w-full rounded-xl border p-3"
-                    required
-                  />
-
-                  <input
-                    name="sizes"
-                    value={form.sizes}
-                    onChange={handleChange}
-                    placeholder="S=10, M=20, L=30"
-                    className="w-full rounded-xl border p-3"
-                  />
-
-                  <input
-                    name="color"
-                    value={form.color}
-                    onChange={handleChange}
-                    placeholder="Color"
-                    className="w-full rounded-xl border p-3"
-                  />
-
-                  <input
-                    name="gsm"
-                    value={form.gsm}
-                    onChange={handleChange}
-                    placeholder="Fabric / GSM"
-                    className="w-full rounded-xl border p-3"
-                  />
-
-                  <textarea
-                    name="designNotes"
-                    value={form.designNotes}
-                    onChange={handleChange}
-                    rows={4}
-                    placeholder="Design instructions"
-                    className="w-full rounded-xl border p-3"
-                  />
-
-                  <input
-                    type="file"
-                    multiple
-                    accept=".pdf,image/*"
-                    onChange={handleFileChange}
-                    className="w-full rounded-xl border p-3"
-                  />
-
-                  {files.length > 0 && (
-                    <div className="rounded-xl border p-3 bg-slate-50 space-y-2">
-                      <p className="text-sm font-semibold">Files</p>
-
-                      {files.map((file, i) => (
-                        <div key={i} className="flex justify-between text-sm">
-                          <span>📎 {file.name}</span>
-                          <button
-                            type="button"
-                            onClick={() => removeFile(i)}
-                            className="text-red-500"
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      ))}
+                  {/* Total amount */}
+                  {selectedOrder.total && (
+                    <div>
+                      <p
+                        className="text-slate-500"
+                        style={{
+                          fontSize: "clamp(10px,1.2vw,13px)",
+                          marginBottom: "clamp(2px,0.4vw,6px)",
+                        }}
+                      >
+                        Order Total
+                      </p>
+                      <p
+                        className="font-bold tabular-nums text-sky-600"
+                        style={{ fontSize: "clamp(18px,3vw,28px)" }}
+                      >
+                        {selectedOrder.total}
+                      </p>
                     </div>
                   )}
 
-                </form>
-              )}
+                  {/* Details grid */}
+                  <div
+                    className="grid grid-cols-2 rounded bg-slate-50"
+                    style={{
+                      gap: "clamp(10px,1.5vw,18px)",
+                      padding: "clamp(12px,2vw,20px)",
+                    }}
+                  >
+                    {[
+                      { label: "Order ID", value: `#${selectedOrder.id}` },
+                      { label: "Quantity", value: `${selectedOrder.quantity} pcs` },
+                      { label: "Order Date", value: selectedOrder.date },
+                      { label: "ETA", value: selectedOrder.eta ?? "Pending" },
+                    ].map(({ label, value }) => (
+                      <div key={label}>
+                        <p
+                          className="capitalize text-slate-500"
+                          style={{
+                            fontSize: "clamp(9px,1vw,12px)",
+                            marginBottom: "clamp(2px,0.3vw,5px)",
+                          }}
+                        >
+                          {label}
+                        </p>
+                        <p
+                          className="font-medium text-slate-900"
+                          style={{ fontSize: "clamp(11px,1.3vw,14px)" }}
+                        >
+                          {value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
+                {/* Right — product image (payment-style attachment panel) */}
+                <div
+                  className="w-full shrink-0 bg-slate-50 md:w-[280px]"
+                  style={{ padding: "clamp(14px,2.5vw,24px)" }}
+                >
+                  <h3
+                    className="font-medium text-slate-700"
+                    style={{
+                      fontSize: "clamp(11px,1.3vw,14px)",
+                      marginBottom: "clamp(10px,1.5vw,18px)",
+                    }}
+                  >
+                    Product Image
+                  </h3>
+                  <img
+                    src="/receptPlaceholder.png"
+                    alt={selectedOrder.product}
+                    className="h-auto max-w-full rounded border border-slate-200 object-contain"
+                  />
+                  <Link
+                    href={`/client-area/my-orders/${selectedOrder.id}`}
+                    className="mt-4 block w-full rounded-lg bg-sky-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-sky-700"
+                  >
+                    View Full Details →
+                  </Link>
+                </div>
+
+              </div>
+            </div>
+          </>
+        )}
+      </Modal>
+
+      {/* ── CREATE ORDER MODAL ──────────────────────────────────────────────── */}
+      <Modal
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+        showHeader={false}
+        className="w-full max-w-2xl overflow-hidden bg-white"
+      >
+        {/* Coloured header */}
+        <div
+          className="flex items-center justify-between bg-slate-900"
+          style={{ padding: "clamp(10px,2vw,16px) clamp(14px,3vw,24px)" }}
+        >
+          <div className="flex items-center" style={{ gap: "clamp(6px,1vw,10px)" }}>
+            <Package
+              className="text-white"
+              style={{ width: "clamp(14px,2vw,20px)", height: "clamp(14px,2vw,20px)" }}
+            />
+            <span
+              className="font-medium text-white"
+              style={{ fontSize: "clamp(11px,1.5vw,14px)" }}
+            >
+              Create Production Order
+            </span>
+          </div>
+          <button
+            onClick={() => setIsCreateOpen(false)}
+            className="text-white/80 hover:text-white transition"
+          >
+            <X style={{ width: "clamp(16px,2vw,22px)", height: "clamp(16px,2vw,22px)" }} />
+          </button>
+        </div>
+
+        {/* Form body */}
+        <div
+          className="overflow-y-auto"
+          style={{ maxHeight: "calc(85vh - 70px)", padding: "clamp(16px,3vw,28px)" }}
+        >
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Two-column grid for short fields */}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                id="product"
+                name="product"
+                label="Product Name"
+                placeholder="e.g. Custom Hoodie"
+                value={form.product}
+                onChange={handleChange}
+                required
+              />
+              <Input
+                id="quantity"
+                name="quantity"
+                label="Quantity"
+                placeholder="e.g. 100"
+                value={form.quantity}
+                onChange={handleChange}
+                required
+              />
+              <Input
+                id="sizes"
+                name="sizes"
+                label="Sizes"
+                placeholder="S=10, M=20, L=30"
+                value={form.sizes}
+                onChange={handleChange}
+              />
+              <Input
+                id="color"
+                name="color"
+                label="Color"
+                placeholder="e.g. Navy Blue"
+                value={form.color}
+                onChange={handleChange}
+              />
+              <Input
+                id="gsm"
+                name="gsm"
+                label="Fabric / GSM"
+                placeholder="e.g. 320gsm French Terry"
+                value={form.gsm}
+                onChange={handleChange}
+              />
             </div>
 
-            {/* FOOTER BUTTONS */}
-            <div className="mt-6 flex justify-end gap-3 border-t pt-4">
+            {/* Design notes — full width */}
+            <div className="flex flex-col gap-[clamp(0.3rem,1vw,0.5rem)]">
+              <label
+                htmlFor="designNotes"
+                className="text-[clamp(0.7rem,1vw,0.8rem)] font-bold text-[#475569] uppercase tracking-wide"
+              >
+                Design Instructions
+              </label>
+              <Textarea
+                id="designNotes"
+                name="designNotes"
+                value={form.designNotes}
+                onChange={handleChange}
+                rows={4}
+                placeholder="Describe artwork, embroidery placement, special requirements…"
+              />
+            </div>
 
-              <button
+            {/* File upload */}
+            <div className="flex flex-col gap-[clamp(0.3rem,1vw,0.5rem)]">
+              <label
+                htmlFor="fileUpload"
+                className="text-[clamp(0.7rem,1vw,0.8rem)] font-bold text-[#475569] uppercase tracking-wide"
+              >
+                Attachments
+              </label>
+              <input
+                id="fileUpload"
+                type="file"
+                multiple
+                accept=".pdf,image/*"
+                onChange={handleFileChange}
+                className="w-full rounded-md bg-[var(--color-secondary-bg)] border border-transparent p-[clamp(0.6rem,1.5vw,0.875rem)] text-[clamp(0.875rem,1vw+0.2rem,1rem)] text-slate-600 file:mr-3 file:rounded file:border-0 file:bg-sky-50 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-sky-600 hover:file:bg-sky-100 transition"
+              />
+            </div>
+
+            {files.length > 0 && (
+              <div className="space-y-2 rounded-md border border-slate-200 bg-slate-50 p-3">
+                <p className="text-[clamp(12px,1.1vw,13px)] font-semibold text-slate-700">
+                  Attached files
+                </p>
+                {files.map((file, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between text-[clamp(12px,1.1vw,13px)] text-slate-700"
+                  >
+                    <span>📎 {file.name}</span>
+                    <Button
+                      type="button"
+                      variant="danger"
+                      onClick={() => removeFile(i)}
+                      className="!py-0.5 !px-2 text-xs"
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Footer buttons */}
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <Button
                 type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="rounded-xl border px-5 py-2 text-sm"
+                variant="outline"
+                onClick={() => setIsCreateOpen(false)}
               >
                 Cancel
-              </button>
-
-              {!viewMode && (
-                <button
-                  onClick={() => handleSubmit()}
-                  className="rounded-xl bg-sky-600 px-5 py-2 text-sm font-semibold text-white hover:bg-sky-700"
-                >
-                  Submit Order
-                </button>
-              )}
-
+              </Button>
+              <Button type="submit" variant="primary">
+                Submit Order
+              </Button>
             </div>
-
-          </div>
-
+          </form>
         </div>
-      )}
+      </Modal>
 
     </div>
   );

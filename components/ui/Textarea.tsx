@@ -1,14 +1,35 @@
-import React from "react";
+import React, { TextareaHTMLAttributes } from 'react';
 
-interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  className?: string;
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
 }
 
-export default function Textarea({ className = "", ...props }: TextareaProps) {
+export const Textarea = ({ label, id, className = '', ...props }: TextareaProps) => {
   return (
-    <textarea
-      {...props}
-      className={`w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 ${className}`}
-    />
+    <div className="flex flex-col gap-[clamp(0.3rem,1vw,0.5rem)] w-full">
+      
+      {label && (
+        <label 
+          htmlFor={id} 
+          className="text-[clamp(0.7rem,1vw,0.8rem)] font-bold text-[#475569] uppercase tracking-wide"
+        >
+          {label}
+          {props.required && <span className="text-red-500 ml-1">*</span>}
+        </label>
+      )}
+
+      <textarea
+        id={id}
+        className={`
+          w-full bg-[var(--color-secondary)] text-[#1E293B] placeholder-[#94A3B8]
+          rounded-md outline-none transition-all duration-200 border border-transparent resize-y min-h-[100px]
+          focus:border-[var(--color-primary)] focus:bg-white focus:shadow-sm
+          p-[clamp(0.6rem,1.5vw,0.875rem)]
+          text-[clamp(0.875rem,1vw+0.2rem,1rem)]
+          ${className}
+        `}
+        {...props}
+      />
+    </div>
   );
 }

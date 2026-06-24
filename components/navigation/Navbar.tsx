@@ -346,8 +346,7 @@ export default function Navbar() {
       />
 
       {/* MOBILE & TABLET DRAWER SLIDE-IN FROM RIGHT */}
-      <div className={`fixed inset-y-0 right-0 z-[9999] w-full max-w-sm bg-slate-900  backdrop-blur-lg border-l border-white/10 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden ${menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}>
+      <div className={`fixed inset-0 z-[9999] w-screen bg-slate-900 backdrop-blur-lg border-l border-white/10 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden ${menuOpen ? "translate-x-0" : "translate-x-full"}`}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
           <Logo className="text-white w-[120px] h-auto" />
           <button onClick={() => setMenuOpen(false)} className="p-1.5 rounded-full hover:bg-white/5 text-slate-300 hover:text-white transition-colors">

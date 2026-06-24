@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String?
+  role         String   @default("client") // "admin" or "client"
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Order {
+  id                 String   @id @default(uuid())
+  orderId            String   @unique
+  clientName         String
+  product            String
+  quantity           Int
+  country            String
+  paymentStatus      String   // "Paid" | "Pending" | "Failed"
+  productionStatus   String
+  status             String   // "Pending" | "In Production" | "Completed" | "Cancelled"
+  orderDate          String
+  amount             Float
+  fabricDetails      String
+  printingDetails    String
+  techPackFile       String
+  clientPhone        String
+  billingEmail       String
+  address            String
+  shippingMethod     String
+  estimatedDelivery  String
+  paymentMethod      String
+  productionTimeline Json     // Array of stages [{ label: string, completed: boolean }]
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("orders")
+}
+
+model RFQ {
+  id                String   @id @default(uuid())
+  fullName          String
+  brandName         String
+  email             String
+  whatsapp          String?
+  productType       String
+  quantity          Int
+  fabricType        String?
+  printingMethod    String?
+  sizeChart         String?
+  deliveryCountry   String
+  techPackFileName  String?
+  notes             String?
+  status            String   @default("new") // "new" | "reviewed" | "quoted"
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("rfqs")
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  status    String   @default("new") // "new" | "replied"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contacts")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  productId   String   @unique
+  name        String
+  description String
+  image       String
+  status      String
+  clientEmail String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Invoice {
+  id           String   @id @default(uuid())
+  invoiceId    String   @unique
+  date         String
+  amount       String
+  status       String
+  customer     String
+  orderId      String
+  pdfUrl       String
+  billingEmail String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("invoices")
+}
+
+model Payment {
+  id           String   @id @default(uuid())
+  paymentId    String   @unique
+  invoice      String
+  date         String
+  amount       String
+  status       String
+  method       String
+  billingEmail String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("payments")
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  date        String
+  category    String
+  clientEmail String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("notifications")
+}
+

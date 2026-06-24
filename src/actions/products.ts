@@ -1,7 +1,7 @@
 "use server";
 
-import { capabilities, portfolio, services } from "../../data/site";
-import { productLibrary } from "../../data/clientPortal";
+import { capabilities, portfolio, services } from "@/data/site";
+import prisma from "@/lib/prisma";
 
 export async function getCapabilitiesAction() {
   return capabilities;
@@ -16,5 +16,12 @@ export async function getPortfolioAction() {
 }
 
 export async function getProductLibraryAction() {
-  return productLibrary;
+  try {
+    return await prisma.product.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (err) {
+    console.error("Error in getProductLibraryAction:", err);
+    return [];
+  }
 }

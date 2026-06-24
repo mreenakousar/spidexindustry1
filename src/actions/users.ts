@@ -1,8 +1,7 @@
 "use server";
 
-import { createClient } from "../../lib/supabase/server";
-import { getUsersCollection } from "../../database/db";
-import { getUserRole } from "../../database/auth";
+import { createClient } from "@/lib/supabase/server";
+import prisma from "@/lib/prisma";
 
 export async function getCurrentUserAction() {
   try {
@@ -10,11 +9,18 @@ export async function getCurrentUserAction() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
 
-    const role = getUserRole(user);
+    // Role source of truth: app_metadata.role (set server-side / SQL only)
+    const role: string = user.app_metadata?.role || "client";
+    const name: string =
+      user.user_metadata?.name ||
+      user.user_metadata?.full_name ||
+      user.email?.split("@")[0] ||
+      "";
+
     return {
       sub: user.id,
       email: user.email || "",
-      name: user.user_metadata?.name || user.user_metadata?.full_name || user.email?.split("@")[0] || "",
+      name,
       role,
     };
   } catch (error) {
@@ -30,8 +36,9 @@ export async function listUsersAction() {
   }
 
   try {
-    const users = await getUsersCollection();
-    const items = await users.find().toArray();
+    const items = await prisma.user.findMany({
+      orderBy: { createdAt: "desc" },
+    });
 
     return items.map((item: any) => {
       const { passwordHash, ...user } = item;

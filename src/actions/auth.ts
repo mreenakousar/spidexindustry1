@@ -1,8 +1,8 @@
 "use server";
 
 import { z } from "zod";
-import { createClient } from "../../lib/supabase/server";
-import { syncUserToDb, DEFAULT_ADMIN_EMAIL } from "../../database/auth";
+import { createClient } from "@/lib/supabase/server";
+import { syncUserToDb, DEFAULT_ADMIN_EMAIL } from "@/database/auth";
 
 const allowedEmail = z.string().trim().refine((value) => {
   return value === DEFAULT_ADMIN_EMAIL || z.string().email().safeParse(value).success;

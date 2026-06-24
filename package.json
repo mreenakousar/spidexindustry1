@@ -17,6 +17,8 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "3.1.1",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
     "@types/gsap": "^1.20.2",
@@ -27,9 +29,8 @@
     "gsap": "^3.15.0",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.537.0",
-    "mongodb": "^7.2.0",
-    "mongoose": "^9.7.0",
     "next": "15.0.0",
+    "pg": "^8.22.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.45.1",
@@ -41,9 +42,11 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "25.9.2",
+    "@types/pg": "^8.20.0",
     "@types/react": "19.2.17",
     "autoprefixer": "10.4.14",
     "postcss": "8.4.33",
+    "prisma": "^7.8.0",
     "tailwindcss": "^3.4.7",
     "typescript": "5.2.2"
   }

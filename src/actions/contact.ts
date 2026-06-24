@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { getContactsCollection } from "../../database/db";
+import prisma from "@/lib/prisma";
 
 const contactSchema = z.object({
   name: z.string().min(1),
@@ -13,11 +13,12 @@ const contactSchema = z.object({
 export async function submitContactAction(input: unknown) {
   try {
     const parsed = contactSchema.parse(input);
-    const collection = await getContactsCollection();
-    await collection.insertOne({
-      ...parsed,
-      status: "new",
-      createdAt: new Date(),
+
+    await prisma.contact.create({
+      data: {
+        ...parsed,
+        status: "new",
+      },
     });
 
     return { ok: true };

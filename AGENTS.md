@@ -11,45 +11,45 @@ Purpose: provide concise, actionable instructions to help AI coding agents be pr
 
 Key locations (quick links):
 
-- App entry / pages: [app](app)
-- API routes: [app/api](app/api)
-- Client-area pages: [app/client-area](app/client-area)
-- Components: [components](components)
-- Data fixtures: [data](data)
-- Types: [types](types)
-- Styles: [styles/globals.css](styles/globals.css)
+- App entry / pages: [src/app](src/app)
+- API routes: [src/app/api](src/app/api)
+- Client-area pages: [src/app/client-area](src/app/client-area)
+- Admin pages: [src/app/admin](src/app/admin)
+- Components: [src/components](src/components)
+- Server Actions: [src/actions](src/actions)
+- Database layer: [src/database](src/database)
+- Supabase clients: [src/lib/supabase](src/lib/supabase)
+- Utility functions: [src/lib](src/lib)
+- Data fixtures: [src/data](src/data)
+- Types: [src/types](src/types)
+- Styles: [src/styles/globals.css](src/styles/globals.css)
+- Middleware: [src/middleware.ts](src/middleware.ts)
 - Project README: [README.md](README.md)
 
 Architecture notes and conventions (minimal):
 
-- Uses the Next.js App Router; prefer `app/` server and client components conventions.
-- TypeScript is enabled; keep types in `types/` and `data/` where appropriate.
-- UI components are under `components/` and organized by feature (cards, forms, navigation, ui, etc.).
-- Client-only interactive code should use `use client` where required in `app/` or `components/`.
-- Styling via Tailwind; global styles in [styles/globals.css](styles/globals.css).
+- Uses the Next.js App Router with a `src/` directory layout.
+- All source code lives inside `src/`. Config files stay at root.
+- TypeScript path alias `@/*` maps to `./src/*` (defined in `tsconfig.json`).
+- Uses Supabase Auth with cookie-based sessions and role-based access control.
+- UI components are under `src/components/` and organized by feature (admin, cards, forms, navigation, ui, etc.).
+- Client-only interactive code should use `use client` where required.
+- Styling via Tailwind; global styles in [src/styles/globals.css](src/styles/globals.css).
 
 Common tasks for agents (concise):
 
-- To add a page: create a `page.tsx` under the desired `app/...` folder.
-- To add an API route: add a `route.ts` under `app/api/...`.
-- To update UI: edit/create components in `components/` and import from pages.
+- To add a page: create a `page.tsx` under the desired `src/app/...` folder.
+- To add an API route: add a `route.ts` under `src/app/api/...`.
+- To add a server action: add to `src/actions/`.
+- To update UI: edit/create components in `src/components/` and import using `@/components/...`.
+- All imports should use `@/` alias (e.g., `import { Button } from "@/components/ui/Button"`).
 
 Potential pitfalls / gotchas:
 
 - This repo targets Next 15; certain older Next patterns may be obsolete.
 - Some components expect client behavior — ensure `use client` is present when using hooks or browser APIs.
 - No test harness detected; run `npm run build` locally to validate TypeScript and Next compilation.
-
-Where to look for more context:
-
-- High-level project overview: [README.md](README.md)
-- Scripts and engine info: [package.json](package.json)
-- If adding infra or CI instructions, prefer creating small targeted docs and link them here.
-
-Suggested next customizations (ask the user before creating):
-
-- Add `.github/copilot-instructions.md` with developer workflow and branch rules.
-- Create a `skills/` folder with helper skills for common repository tasks (e.g., `create-page`, `add-api-route`).
+- The `@/*` alias resolves to `./src/*` — do not use relative paths like `../../components`.
 
 ---
 

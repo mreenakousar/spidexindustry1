@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Eye, RefreshCw, Package, X } from "lucide-react";
+import { Eye, RefreshCw, Package, X, Plus } from "lucide-react";
 import { Card } from "../../../components/ui/card";
 import { Modal } from "../../../components/ui/modal";
 import { DataTable } from "../../../components/ui/data-table";
@@ -118,18 +118,12 @@ export default function MyOrdersPage() {
 
   const headerActions = (
     <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-      <button
-        onClick={openCreateModal}
-        className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-700"
-      >
-        + New Order
-      </button>
-      <Link
-        href="/client-area/my-orders/1002"
-        className="rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-      >
-        View Latest
-      </Link>
+     <Button  onClick={openCreateModal} variant="primary">
+      <span>New Order</span>
+     </Button>
+      <Button onClick={()=> openViewModal(orders[0])} variant="outline">
+        <span>View Latest</span>
+      </Button>
     </div>
   );
 

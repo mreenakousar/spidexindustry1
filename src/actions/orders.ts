@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { z } from "zod";
 import { getOrdersCollection, seedOrdersIfEmpty } from "../../database/db";
-import { verifyJwt } from "../../database/auth";
+import { getCurrentUserAction } from "./users";
 import type { Order, OrderStatus, PaymentStatus } from "../../database/models/order";
 
 const orderSchema = z.object({
@@ -29,9 +29,7 @@ type OrderResult =
   | { ok: false; error: string };
 
 async function requireAdminSession() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  const user = token ? verifyJwt(token) : null;
+  const user = await getCurrentUserAction();
 
   if (!user || user.role !== "admin") {
     throw new Error("Unauthorized");

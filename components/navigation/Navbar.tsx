@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { productCategories } from "../../data/site";
 import * as CategoryIcons from "../ui/CategoryIcons";
 import { ChevronDownIcon, XMarkIcon, UserIcon, Squares2X2Icon, BuildingOfficeIcon, DocumentTextIcon, Bars3Icon } from "@heroicons/react/24/outline";
+import { createClient } from "../../lib/supabase/client";
 
 const navLinks = [
   { href: "/about", label: "About Us", isDropdown: true },
@@ -37,6 +38,59 @@ export default function Navbar() {
   if (pathname?.startsWith("/admin") || pathname?.startsWith("/client-area")) {
     return null;
   }
+
+  const [user, setUser] = useState<any>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser(session.user);
+        const email = session.user.email || "";
+        const adminEmail = "admin@speedxindustry.com"; // System admin email
+        const isSystemAdmin = email.toLowerCase() === adminEmail.toLowerCase();
+        const role = isSystemAdmin ? "admin" : (session.user.user_metadata?.role || "client");
+        setUserRole(role);
+      } else {
+        setUser(null);
+        setUserRole(null);
+      }
+    });
+
+    // Listen to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        setUser(session.user);
+        const email = session.user.email || "";
+        const adminEmail = "admin@speedxindustry.com";
+        const isSystemAdmin = email.toLowerCase() === adminEmail.toLowerCase();
+        const role = isSystemAdmin ? "admin" : (session.user.user_metadata?.role || "client");
+        setUserRole(role);
+      } else {
+        setUser(null);
+        setUserRole(null);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const supabase = createClient();
+      await supabase.auth.signOut();
+      setUser(null);
+      setUserRole(null);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [authDropdownOpen, setAuthDropdownOpen] = useState(false);
@@ -271,6 +325,16 @@ export default function Navbar() {
 
         {/* ACTIONS */}
         <div className="hidden lg:flex items-center gap-4">
+          
+          {/* Quick Dashboard Access Button */}
+          {user && (
+            <Link
+              href={userRole === "admin" ? "/admin" : "/client-area"}
+              className="px-4 py-1.5 text-[13px] border border-blue-500/30 text-blue-400 bg-blue-500/10 font-semibold rounded-full hover:bg-blue-600 hover:text-white transition-all active:scale-95 whitespace-nowrap"
+            >
+              {userRole === "admin" ? "Admin Panel" : "Client Portal"}
+            </Link>
+          )}
 
           {/* LOGIN/SIGNUP DROPDOWN */}
           <div className="relative" onClick={(e) => e.stopPropagation()}>
@@ -284,34 +348,55 @@ export default function Navbar() {
 
             {/* Dropdown Menu */}
             {authDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#0B1224] border border-slate-800/80 rounded-xl shadow-2xl py-2 z-[9999] animate-in fade-in slide-in-from-top-2 duration-150">
-                <div className="px-4 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Welcome
-                </div>
-                <Link
-                  href="/login"
-                  onClick={() => setAuthDropdownOpen(false)}
-                  className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
-                >
-                  Log In
-                </Link>
-                <Link
-                  href="/signup"
-                  onClick={() => setAuthDropdownOpen(false)}
-                  className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
-                >
-                  Sign Up
-                </Link>
-                <div className="border-t border-slate-800/60 my-1" />
-                <button
-                  onClick={() => {
-                    setAuthDropdownOpen(false);
-                    window.location.href = "/";
-                  }}
-                  className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-white/5 hover:text-red-300 transition-colors"
-                >
-                  Logout
-                </button>
+              <div className="absolute right-0 mt-2 w-56 bg-[#0B1224] border border-slate-800/80 rounded-xl shadow-2xl py-2 z-[9999] animate-in fade-in slide-in-from-top-2 duration-150">
+                {user ? (
+                  <>
+                    <div className="px-4 py-1.5 text-xs text-slate-500 uppercase tracking-wider font-semibold">
+                      Account
+                    </div>
+                    <div className="px-4 py-1 text-sm text-slate-200 font-medium truncate max-w-full">
+                      {user.user_metadata?.name || user.email}
+                    </div>
+                    <div className="border-t border-slate-800/60 my-1.5" />
+                    <Link
+                      href={userRole === "admin" ? "/admin" : "/client-area"}
+                      onClick={() => setAuthDropdownOpen(false)}
+                      className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
+                    >
+                      {userRole === "admin" ? "Admin Dashboard" : "Client Portal"}
+                    </Link>
+                    <div className="border-t border-slate-800/60 my-1" />
+                    <button
+                      onClick={() => {
+                        setAuthDropdownOpen(false);
+                        handleLogout();
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-white/5 hover:text-red-300 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="px-4 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                      Welcome
+                    </div>
+                    <Link
+                      href="/login"
+                      onClick={() => setAuthDropdownOpen(false)}
+                      className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
+                    >
+                      Log In
+                    </Link>
+                    <Link
+                      href="/signup"
+                      onClick={() => setAuthDropdownOpen(false)}
+                      className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -404,35 +489,52 @@ export default function Navbar() {
           </Link>
 
           <div className="mt-8 flex flex-col gap-3">
-            <div className="grid grid-cols-2 gap-3">
-              <Link
-                href="/login"
-                onClick={() => setMenuOpen(false)}
-                className="border border-white/20 p-3 rounded-full text-center text-sm font-semibold text-white bg-white/10 hover:bg-white/20 transition-all"
-              >
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                onClick={() => setMenuOpen(false)}
-                className="border border-white/20 p-3 rounded-full text-center text-sm font-semibold text-white bg-white/10 hover:bg-white/20 transition-all"
-              >
-                Sign Up
-              </Link>
-            </div>
-            <button
-              onClick={() => {
-                setMenuOpen(false);
-                window.location.href = "/";
-              }}
-              className="border border-red-500/30 p-3 rounded-full text-center text-sm font-semibold text-red-400 bg-red-500/10 hover:bg-red-500/20 transition-all w-full"
-            >
-              Logout
-            </button>
+            {user ? (
+              <>
+                <div className="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  Signed in as: <span className="text-white normal-case font-semibold">{user.user_metadata?.name || user.email}</span>
+                </div>
+                <Link
+                  href={userRole === "admin" ? "/admin" : "/client-area"}
+                  onClick={() => setMenuOpen(false)}
+                  className="border border-blue-500/30 p-3 rounded-full text-center text-sm font-semibold text-blue-400 bg-blue-500/10 hover:bg-blue-500/20 transition-all w-full"
+                >
+                  {userRole === "admin" ? "Admin Dashboard" : "Client Portal"}
+                </Link>
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="border border-red-500/30 p-3 rounded-full text-center text-sm font-semibold text-red-400 bg-red-500/10 hover:bg-red-500/20 transition-all w-full"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="grid grid-cols-2 gap-3">
+                  <Link
+                    href="/login"
+                    onClick={() => setMenuOpen(false)}
+                    className="border border-white/20 p-3 rounded-full text-center text-sm font-semibold text-white bg-white/10 hover:bg-white/20 transition-all"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/signup"
+                    onClick={() => setMenuOpen(false)}
+                    className="border border-white/20 p-3 rounded-full text-center text-sm font-semibold text-white bg-white/10 hover:bg-white/20 transition-all"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              </>
+            )}
             <Link
               href="/get-quote"
               onClick={() => setMenuOpen(false)}
-              className="bg-blue-600 text-white p-3 rounded-full text-center text-sm font-semibold shadow-md hover:bg-blue-500 transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
+              className="bg-blue-600 text-white p-3 rounded-full text-center text-sm font-semibold shadow-md hover:bg-blue-500 transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] mt-2"
             >
               Request Quote
             </Link>

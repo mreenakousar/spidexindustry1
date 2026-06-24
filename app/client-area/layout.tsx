@@ -1,7 +1,7 @@
 import React from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { verifyJwt } from "../../database/auth";
+import { getCurrentUserAction } from "../../src/actions/users";
 import Sidebar from "../../components/ui/Sidebar";
 
 export const metadata = {
@@ -38,9 +38,7 @@ export default async function ClientAreaLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  const user = token ? verifyJwt(token) : null;
+  const user = await getCurrentUserAction();
 
   if (!user) {
     redirect("/login");
@@ -49,7 +47,7 @@ export default async function ClientAreaLayout({
   const clientUser = {
     name: user.name || "Client User",
     email: user.email || "client@speedxindustry.com",
-    role: "Premium Buyer",
+    role: user.role === "admin" ? "Administrator" : "Premium Buyer",
   };
 
   return (

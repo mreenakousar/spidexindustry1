@@ -1,4 +1,6 @@
 import React from "react";
+import { redirect } from "next/navigation";
+import { getCurrentUserAction } from "../../src/actions/users";
 import Sidebar from "../../components/ui/Sidebar";
 
 export const metadata = {
@@ -26,22 +28,30 @@ const adminLinks = [
   { href: "/admin/settings", label: "Settings", iconName: "settings" },
 ];
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getCurrentUserAction();
+
+  if (!user || user.role !== "admin") {
+    redirect("/login");
+  }
+
+  const adminUser = {
+    name: user.name || "Admin User",
+    email: user.email || "admin@speedxindustry.com",
+    role: "Administrator",
+  };
+
   return (
     <div className="flex h-screen overflow-hidden bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white">
       <Sidebar
         links={adminLinks}
         brandName="Speedx Admin"
         brandSubtitle="ERP Console"
-        user={{
-          name: "Admin User",
-          email: "admin@speedxindustry.com",
-          role: "Administrator",
-        }}
+        user={adminUser}
       />
 
       {/* Main Content Pane */}

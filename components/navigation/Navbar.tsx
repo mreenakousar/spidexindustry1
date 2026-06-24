@@ -21,7 +21,6 @@ const aboutDropdownLinks = [
   { href: "/reviews", label: "Client Reviews", desc: "Customer experiences & testimonials" },
 ];
 
-// Custom inline SVG logo that adapts to text color and has a transparent background
 function Logo({ className = "text-white" }: { className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="160" height="40" viewBox="0 0 160 40" fill="none" className={className}>
@@ -80,7 +79,14 @@ export default function Navbar() {
 
         {/* LOGO */}
         <Link href="/" className="flex items-center shrink-0">
-          <Logo className="text-white hover:text-blue-400 transition-colors w-[120px] md:w-[140px] h-auto" />
+          <Image
+            src="/spidexlogo.png"
+            alt="Speedx Logo"
+            width={140}
+            height={50}
+            className="w-[120px] md:w-[140px] h-auto"
+            priority
+          />
         </Link>
 
         {/* DESKTOP NAV */}
@@ -350,6 +356,15 @@ export default function Navbar() {
         </div>
 
         <div className="p-6 flex flex-col gap-4 overflow-y-auto h-[calc(100vh-72px)] bg-slate-900 ">
+          {/* Mobile Home */}
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="text-base py-3 border-b border-white/10 text-white hover:text-blue-200 font-semibold transition-colors flex justify-between items-center"
+          >
+            Home
+          </Link>
+
           <div className="py-3 border-b border-white/10">
             <span className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-3">Services & Capabilities</span>
             <div className="pl-2 space-y-3">

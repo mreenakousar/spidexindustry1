@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useLayoutEffect } from "react";
@@ -42,9 +43,11 @@ function getRevealTargets() {
   const uniqueCards = cardTargets.filter((card) => !sectionTargets.includes(card));
 
   return {
-    sections: sectionTargets.length > 0 ? Array.from(new Set(sectionTargets)) : Array.from(main.children).filter(
-      (element): element is HTMLElement => element instanceof HTMLElement
-    ),
+    sections: sectionTargets.length > 0
+      ? Array.from(new Set(sectionTargets))
+      : Array.from(main.children).filter(
+        (element): element is HTMLElement => element instanceof HTMLElement
+      ),
     cards: Array.from(new Set(uniqueCards)),
   };
 }
@@ -67,29 +70,30 @@ export default function ScrollRevealProvider() {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (prefersReducedMotion) {
-      gsap.set([...sections, ...cards], { autoAlpha: 1, y: 0, clearProps: "all" });
+      gsap.set([...sections, ...cards], { clearProps: "all" });
       return;
     }
 
     const ctx = gsap.context(() => {
-      gsap.set(sections, { autoAlpha: 0, y: 24, willChange: "transform,opacity" });
-      gsap.set(cards, { autoAlpha: 0, y: 18, willChange: "transform,opacity" });
+
+      gsap.set(sections, { y: 18, willChange: "transform" });
+      gsap.set(cards, { y: 12, willChange: "transform" });
+
 
       ScrollTrigger.batch(sections, {
-        start: "top 86%",
+        start: "top 88%",
         once: true,
         onEnter: (batch) => {
           gsap.to(batch, {
-            autoAlpha: 1,
             y: 0,
-            duration: 0.95,
+            duration: 0.6,
             ease: "power3.out",
-            stagger: 0.08,
+            stagger: 0.06,
             overwrite: "auto",
-            clearProps: "opacity,transform,visibility",
           });
         },
       });
+
 
       if (cards.length > 0) {
         ScrollTrigger.batch(cards, {
@@ -97,13 +101,11 @@ export default function ScrollRevealProvider() {
           once: true,
           onEnter: (batch) => {
             gsap.to(batch, {
-              autoAlpha: 1,
               y: 0,
-              duration: 0.8,
+              duration: 0.45,
               ease: "power3.out",
-              stagger: 0.06,
+              stagger: 0.04,
               overwrite: "auto",
-              clearProps: "opacity,transform,visibility",
             });
           },
         });

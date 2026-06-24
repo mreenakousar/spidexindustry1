@@ -15,14 +15,14 @@ export default function TeamShowcase() {
         label="Our Team"
         title1="The People Behind"
         title2="Every Product"
-        description="Our skilled designers, technicians, and production specialists work together to ensure every product meets the highest standards of quality and craftsmanship."
+        description="Our skilled designers, technicians and production specialists work together to ensure every product meets the highest standards of quality and craftsmanship."
       />
       <FootballAnimation className="absolute top-20 left-10 w-12 h-12 pointer-events-none z-20" />
 
       <div className="mx-auto mt-10 max-w-6xl px-4 sm:mt-12 sm:px-0">
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm">
 
-          {/* Relative wrapper container for responsive Next.js Image fill */}
+
           <div className="relative h-[240px] w-full sm:h-[300px] md:h-[500px]">
             <Image
               src="/speedxteam.jpg"
@@ -32,10 +32,9 @@ export default function TeamShowcase() {
               className="object-cover"
               placeholder="blur"
               blurDataURL={blurPlaceholderUrl}
-              priority={false} // Dynamic lazy load settings
+              priority={false}
             />
 
-            {/* Dark elegant gradient overlay to blend with the industrial vibe */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10" />
 
             <div className="absolute bottom-0 left-0 p-5 sm:p-8 md:p-12 z-20">
@@ -44,8 +43,8 @@ export default function TeamShowcase() {
               </h3>
 
               <p className="mt-3 max-w-2xl text-sm text-slate-200 sm:text-base">
-                From concept development to final delivery, our experienced
-                team ensures precision, quality, and customer satisfaction at
+                From concept development to final delivery. our experienced
+                team ensures precision, quality and customer satisfaction at
                 every stage.
               </p>
             </div>

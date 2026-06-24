@@ -74,6 +74,54 @@ const categoriesData: CategoryData[] = [
       { name: "AeroSport Breathable Gloves", spec: "Silicon grip mapping, lightweight chassis", fabric: "Breathable Stretch-Mesh & Poly", blueprintType: "gloves" },
       { name: "StitchShield Reinforced Utility Gloves", spec: "Kevlar lining, high-impact rubber guard", fabric: "Synthetic Suede & Kevlar Threads", blueprintType: "gloves" }
     ]
+  },
+  {
+    id: "garment-accessories",
+    label: "Garment Accessories",
+    description: "Premium finishing accessories including custom woven labels, metal zippers, drawstrings, and branded hang tags for private label production.",
+    subcategories: ["Tags & Labels", "Zippers & Buttons", "Drawstrings"],
+    products: [
+      { name: "Custom Woven Label", spec: "Heat-seal & sew-in damask weave", fabric: "100% Woven Polyester Thread", blueprintType: "tee" },
+      { name: "YKK-Style Metal Zipper", spec: "5# gauge, auto-lock slider", fabric: "Brass Alloy & Polyester Tape", blueprintType: "jacket" },
+      { name: "Branded Hang Tag Set", spec: "400 GSM matte laminated card + eyelet", fabric: "Premium Cardstock & Cotton String", blueprintType: "shorts" },
+      { name: "Flat Elastic Drawstring", spec: "8mm tubular braid, heat-cut ends", fabric: "100% Polyester Flat Braid", blueprintType: "pants" }
+    ]
+  },
+  {
+    id: "packing-bags",
+    label: "Packing Bags",
+    description: "Custom-branded packaging solutions including poly mailers, tote bags, and drawstring pouches for retail and e-commerce shipping.",
+    subcategories: ["Polymailers", "Tote Bags", "Drawstring Bags"],
+    products: [
+      { name: "Custom Printed Poly Mailer", spec: "10x13\" co-ex film, 2.5 mil thickness", fabric: "Co-Extruded LDPE Poly Film", blueprintType: "shorts" },
+      { name: "Heavy-Duty Canvas Tote", spec: "12oz natural canvas, reinforced handles", fabric: "100% Natural Canvas Cotton", blueprintType: "tee" },
+      { name: "Branded Drawstring Pouch", spec: "30x40cm athletic gym bag style", fabric: "210D Rip-Stop Polyester", blueprintType: "pants" },
+      { name: "Luxury Gift Box Set", spec: "Rigid box + magnetic closure lid", fabric: "1200 GSM Greyboard + Art Paper", blueprintType: "jacket" }
+    ]
+  },
+  {
+    id: "jeans",
+    label: "Jeans",
+    description: "Premium denim manufacturing with custom washes, finishes, and fits — from slim-cut fashion jeans to relaxed workwear styles.",
+    subcategories: ["Slim Fit", "Regular Fit", "Relaxed Fit"],
+    products: [
+      { name: "Slim Taper Stretch Denim", spec: "Mid-rise, tapered leg, 4-way stretch", fabric: "98% Cotton, 2% Elastane Denim", blueprintType: "pants" },
+      { name: "Classic Regular Fit Jean", spec: "Straight leg, 5-pocket construction", fabric: "100% Raw Selvedge Denim", blueprintType: "pants" },
+      { name: "Acid Wash Relaxed Jeans", spec: "Loose silhouette, vintage acid finish", fabric: "Stonewashed 12oz Cotton Denim", blueprintType: "pants" },
+      { name: "Distressed Carpenter Denim", spec: "Relaxed utility, hammer loop detail", fabric: "14oz Enzyme-Washed Denim", blueprintType: "pants" }
+    ]
+  },
+  {
+    id: "caps",
+    label: "Caps",
+    description: "Custom headwear manufacturing including structured baseball caps, unstructured snapbacks, trucker hats with embroidery and screen-print options.",
+    subcategories: ["Baseball Caps", "Snapbacks", "Trucker Hats"],
+    products: [
+      { name: "Structured 6-Panel Baseball Cap", spec: "Mid-profile, buckle strap closure", fabric: "100% Brushed Cotton Twill", blueprintType: "shorts" },
+      { name: "Flat Brim Snapback", spec: "High-profile, 6-panel, flat visor", fabric: "Wool-Acrylic Blend Front Panel", blueprintType: "shorts" },
+      { name: "Mesh Trucker Hat", spec: "5-panel, foam front, snap closure", fabric: "Cotton Front + Polyester Mesh Back", blueprintType: "shorts" },
+      { name: "Dad Hat Washed Cotton", spec: "Low-profile unstructured, slide adjuster", fabric: "100% Garment-Washed Cotton", blueprintType: "shorts" }
+    ]
   }
 ];
 

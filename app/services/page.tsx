@@ -133,7 +133,7 @@ export default function ServicesPage() {
     },
     {
       id: "02",
-      title: "Embroidery Services",
+      title: " Embroidery Services",
       description:
         "Professional embroidery solutions for premium apparel, uniforms and private label clothing brands.",
       image: "/img/4.jpeg",
@@ -178,13 +178,13 @@ export default function ServicesPage() {
   const manufacturingSolutions = [
     {
       title: "Cut & Sew Manufacturing",
-      image: "/img/5.jpeg",
+      image: "/images/cut.jpg",
       description:
         "Manufacturing garments from scratch based on your tech packs, measurements and design specifications.",
     },
     {
       title: "OEM Production",
-      image: "/img/6.jpeg",
+      image: "/images/embroid.jpg",
       description:
         "Large-scale production for established brands requiring consistent quality and reliable delivery schedules.",
     },
@@ -196,7 +196,7 @@ export default function ServicesPage() {
     },
     {
       title: "Packaging & Export",
-      image: "/img/8.jpeg",
+      image: "/images/warehouse.jpg",
       description:
         "Retail-ready packaging and worldwide shipping support for international clients.",
     },
@@ -206,7 +206,7 @@ export default function ServicesPage() {
     {
       step: "01",
       title: "Design Submission",
-      desc: "Share your design, tech pack, logo, measurements, or reference sample.",
+      desc: "Share your design, tech pack, logo, measurements or reference sample.",
     },
     {
       step: "02",
@@ -216,7 +216,7 @@ export default function ServicesPage() {
     {
       step: "03",
       title: "Approval Process",
-      desc: "Finalize sizing, fabric, branding, printing, and packaging details.",
+      desc: "Finalize sizing, fabric, branding, printing and packaging details.",
     },
     {
       step: "04",
@@ -226,7 +226,7 @@ export default function ServicesPage() {
     {
       step: "05",
       title: "Quality Check & Shipping",
-      desc: "Products are inspected, packed, and shipped worldwide.",
+      desc: "Products are inspected, packed and shipped worldwide.",
     },
   ];
 

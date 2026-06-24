@@ -107,7 +107,7 @@ export default function FactoryProductionPage() {
     <section className="bg-white">
       <PageHero
         title="Factory & Production"
-        description="Explore our manufacturing facility, production process, machinery, quality control systems, and factory operations that help us deliver premium garments worldwide."
+        description="Explore our manufacturing facility, production process, machinery, quality control systems and factory operations that help us deliver premium garments worldwide."
         videoSrc="/hero.mp4"
         overlayClass="bg-blue-950/70"
       />

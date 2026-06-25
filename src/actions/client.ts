@@ -286,7 +286,10 @@ export async function getClientPaymentsAction() {
   const user = await requireUserSession();
 
   return prisma.payment.findMany({
-    where: { billingEmail: user.email },
+    where: {
+      billingEmail: user.email,
+      status: "Completed",
+    },
     orderBy: { createdAt: "desc" },
   });
 }
@@ -300,63 +303,30 @@ export async function payInvoiceAction(invoiceId: string, method: string, receip
 
   if (!invoice) throw new Error("Invoice not found or access denied.");
 
-  // Mark invoice as Paid and save receipt
+  // Mark invoice as Processing, save receipt, clear rejectionReason
   await prisma.invoice.update({
     where: { invoiceId },
     data: {
-      status: "Paid",
+      status: "Processing",
       receiptUrl,
+      rejectionReason: null,
     },
   });
 
-  // Mark matching payment record as Completed
+  // Mark matching payment record as Processing
   await prisma.payment.updateMany({
     where: { invoice: invoiceId, billingEmail: user.email },
     data: {
-      status: "Completed",
+      status: "Processing",
       method,
     },
   });
 
-  // Advance order status + timeline
-  const order = await prisma.order.findFirst({
-    where: { orderId: invoice.orderId },
-  });
-
-  if (order) {
-    const timeline =
-      typeof order.productionTimeline === "string"
-        ? JSON.parse(order.productionTimeline)
-        : Array.isArray(order.productionTimeline)
-        ? order.productionTimeline
-        : [];
-
-    const updatedTimeline = timeline.map((stage: any) => {
-      if (
-        stage.label === "Quotation Approved" ||
-        stage.label === "Payment Received"
-      ) {
-        return { ...stage, completed: true };
-      }
-      return stage;
-    });
-
-    await prisma.order.update({
-      where: { orderId: order.orderId },
-      data: {
-        paymentStatus: "Paid",
-        status: "In Production",
-        productionStatus: "Fabric Sourcing",
-        productionTimeline: JSON.stringify(updatedTimeline),
-      },
-    });
-  }
-
   // Notify client
   await prisma.notification.create({
     data: {
-      title: "Payment confirmed",
-      description: `Payment for invoice ${invoiceId} via ${method} has been successfully processed. Your order is now In Production.`,
+      title: "Receipt Uploaded",
+      description: `Your receipt for invoice ${invoiceId} has been uploaded. Status is now Processing. Awaiting admin verification.`,
       date: new Date().toLocaleDateString(),
       category: "Finance",
       clientEmail: user.email,

@@ -149,6 +149,7 @@ export default function InvoicesPage() {
     { key: "orderId",   label: "Order ID" },
     { key: "date",      label: "Issue Date" },
     { key: "amount",    label: "Amount Due" },
+    { key: "status",    label: "Status" },
   ];
 
   const tableData = filteredInvoices.map((inv) => ({
@@ -157,6 +158,24 @@ export default function InvoicesPage() {
     orderId:   <span className="font-mono text-xs text-slate-500">{inv.orderId}</span>,
     date:      inv.date,
     amount:    <span className="font-semibold text-slate-900">{inv.amount}</span>,
+    status: (
+      <div className="flex flex-col gap-1">
+        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold border ${
+          inv.status === "Processing"
+            ? "bg-amber-50 text-amber-700 border-amber-200"
+            : inv.status === "Rejected"
+            ? "bg-rose-50 text-rose-700 border-rose-200"
+            : "bg-blue-50 text-blue-700 border-blue-200"
+        }`}>
+          {inv.status}
+        </span>
+        {inv.status === "Rejected" && inv.rejectionReason && (
+          <span className="text-[10px] text-rose-600 font-semibold max-w-[150px] whitespace-normal break-words" title={inv.rejectionReason}>
+            Reason: {inv.rejectionReason}
+          </span>
+        )}
+      </div>
+    ),
   }));
 
   const tableButtons = [
@@ -174,13 +193,16 @@ export default function InvoicesPage() {
       text: "Pay Now",
       className: "bg-sky-600 text-white hover:bg-sky-700 transition-colors",
       onClick: (row: { id: string }) => {
-        const inv = invoicesList.find((i) => i.id === row.id && i.status === "Pending");
-        if (inv) {
-          setPayingInvoice(inv);
-          setReceiptFile(null);
-          setPaymentError(null);
-          setPaymentSuccess(null);
+        const inv = invoicesList.find((i) => i.id === row.id);
+        if (!inv) return;
+        if (inv.status === "Processing") {
+          alert("This invoice is currently under verification by the admin.");
+          return;
         }
+        setPayingInvoice(inv);
+        setReceiptFile(null);
+        setPaymentError(null);
+        setPaymentSuccess(null);
       },
     },
   ];
@@ -326,6 +348,9 @@ export default function InvoicesPage() {
                     { label: "Client", value: selectedInvoice.customer },
                     { label: "Billing Email", value: selectedInvoice.billingEmail },
                     { label: "Status", value: selectedInvoice.status },
+                    ...(selectedInvoice.status === "Rejected" && selectedInvoice.rejectionReason
+                      ? [{ label: "Rejection Reason", value: selectedInvoice.rejectionReason }]
+                      : []),
                   ].map(({ label, value }) => (
                     <div key={label} className="col-span-2 sm:col-span-1">
                       <p

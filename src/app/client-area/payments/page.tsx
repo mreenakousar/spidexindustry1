@@ -1,19 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getClientPaymentsAction, payInvoiceAction } from "@/actions/client";
+import { useEffect, useState, useMemo } from "react";
+import { getClientPaymentsAction } from "@/actions/client";
 import CountUpNumber from "@/components/ui/CountUpNumber";
 import { Card } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { CheckCircle2, Clock, Banknote } from "lucide-react";
+import { CheckCircle2, Banknote, Calendar, Download } from "lucide-react";
 
 export default function PaymentsPage() {
   const [paymentsList, setPaymentsList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<any>(null);
-  const [paymentMethod, setPaymentMethod] = useState("Bank Transfer");
-  const [processing, setProcessing] = useState(false);
 
   const fetchPayments = async () => {
     try {
@@ -26,49 +23,175 @@ export default function PaymentsPage() {
     }
   };
 
-  useEffect(() => { fetchPayments(); }, []);
+  useEffect(() => {
+    fetchPayments();
+  }, []);
 
-  const paidCount     = paymentsList.filter((p) => p.status === "Completed").length;
-  const pendingCount  = paymentsList.filter((p) => p.status === "Pending").length;
-  const lastTx        = paymentsList.length > 0 ? paymentsList[0] : null;
+  const totalAmountPaid = useMemo(() => {
+    return paymentsList.reduce((acc, p) => {
+      const val = Number(p.amount.replace(/[^0-9.-]+/g, ""));
+      return acc + (isNaN(val) ? 0 : val);
+    }, 0);
+  }, [paymentsList]);
 
-  const handlePayment = async () => {
-    if (!selected || processing) return;
-    setProcessing(true);
-    try {
-      const res = await payInvoiceAction(selected.invoice, paymentMethod);
-      if (res.ok) { setSelected(null); fetchPayments(); }
-    } catch (err) {
-      console.error("Error processing payment:", err);
-    } finally {
-      setProcessing(false);
-    }
-  };
+  const lastTx = paymentsList.length > 0 ? paymentsList[0] : null;
 
   const downloadReceipt = (payment: any) => {
-    const receiptHTML = `
-      <html><head><title>Receipt_${payment.paymentId}</title>
-      <style>body{font-family:Arial,sans-serif;padding:40px;color:#333;background:#f8fafc}
-      .card{border:1px solid #e2e8f0;padding:30px;border-radius:20px;max-width:500px;margin:auto;background:white;box-shadow:0 4px 6px -1px rgb(0 0 0/.1)}
-      h2{color:#0f172a;border-bottom:2px solid #e2e8f0;padding-bottom:12px;margin-top:0}
-      p{margin:12px 0;font-size:14px;display:flex;justify-content:space-between}
-      .label{color:#64748b;font-weight:500}.val{color:#0f172a;font-weight:600}
-      .brand{text-align:center;margin-top:20px;font-size:12px;color:#94a3b8;font-weight:700;letter-spacing:.1em}
-      </style></head><body><div class="card">
-      <h2>Payment Receipt</h2>
-      <p><span class="label">Transaction ID:</span><span class="val">${payment.paymentId}</span></p>
-      <p><span class="label">Invoice ID:</span><span class="val">${payment.invoice}</span></p>
-      <p><span class="label">Date:</span><span class="val">${payment.date}</span></p>
-      <p><span class="label">Amount:</span><span class="val">${payment.amount}</span></p>
-      <p><span class="label">Method:</span><span class="val">${payment.method}</span></p>
-      <p><span class="label">Status:</span><span class="val">${payment.status}</span></p>
-      <div class="brand">SPEEDX INDUSTRY</div></div></body></html>`;
-    const blob = new Blob([receiptHTML], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url; a.download = `receipt_${payment.paymentId}.html`;
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a); URL.revokeObjectURL(url);
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Receipt - ${payment.invoice}</title>
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+            body {
+              font-family: 'Outfit', sans-serif;
+              padding: 40px;
+              color: #1e293b;
+              background: #fff;
+              line-height: 1.5;
+            }
+            .container {
+              max-width: 600px;
+              margin: 0 auto;
+              border: 1px solid #e2e8f0;
+              border-radius: 24px;
+              padding: 40px;
+              box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            }
+            .header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              border-bottom: 2px dashed #e2e8f0;
+              padding-bottom: 24px;
+              margin-bottom: 24px;
+            }
+            .logo {
+              font-weight: 700;
+              font-size: 24px;
+              letter-spacing: -0.05em;
+              color: #0f172a;
+            }
+            .logo span {
+              color: #0284c7;
+            }
+            .receipt-title {
+              font-size: 14px;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              font-weight: 600;
+              color: #64748b;
+            }
+            .details-grid {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 20px;
+              margin-bottom: 30px;
+            }
+            .detail-item {
+              display: flex;
+              flex-direction: column;
+            }
+            .label {
+              font-size: 11px;
+              color: #64748b;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              margin-bottom: 4px;
+            }
+            .value {
+              font-size: 15px;
+              font-weight: 600;
+              color: #0f172a;
+            }
+            .badge-verified {
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              background-color: #f0fdf4;
+              color: #16a34a;
+              border: 1px solid #bbf7d0;
+              padding: 6px 14px;
+              border-radius: 9999px;
+              font-size: 12px;
+              font-weight: 600;
+              width: fit-content;
+              margin-top: 6px;
+            }
+            .footer {
+              text-align: center;
+              margin-top: 40px;
+              font-size: 12px;
+              color: #94a3b8;
+              border-top: 1px solid #f1f5f9;
+              padding-top: 20px;
+            }
+            @media print {
+              body {
+                padding: 0;
+              }
+              .container {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <div class="logo">SPEEDX<span>INDUSTRY</span></div>
+              <div class="receipt-title">Payment Receipt</div>
+            </div>
+            
+            <div class="details-grid">
+              <div class="detail-item">
+                <span class="label">Transaction ID</span>
+                <span class="value">${payment.paymentId}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Invoice Number</span>
+                <span class="value">${payment.invoice}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Date Verified</span>
+                <span class="value">${payment.date}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Amount Paid</span>
+                <span class="value" style="font-size: 18px; color: #0284c7;">${payment.amount}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Payment Method</span>
+                <span class="value">${payment.method || "Bank Transfer"}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Verification Status</span>
+                <div class="badge-verified">
+                  ✓ Verified by Admin
+                </div>
+              </div>
+            </div>
+            
+            <div class="footer">
+              Thank you for partnering with SpeedX Industry.<br>
+              This is an official receipt confirming payment has been verified by admin.
+            </div>
+          </div>
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(function() { window.close(); }, 500);
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
   };
 
   if (loading) {
@@ -86,6 +209,7 @@ export default function PaymentsPage() {
     { key: "invoice",  label: "Invoice ID" },
     { key: "amount",   label: "Amount" },
     { key: "method",   label: "Method" },
+    { key: "date",     label: "Date" },
     { key: "status",   label: "Status" },
   ];
 
@@ -95,40 +219,30 @@ export default function PaymentsPage() {
     invoice: <span className="font-mono text-xs text-slate-500">{p.invoice}</span>,
     amount:  <span className="font-semibold text-slate-900">{p.amount}</span>,
     method:  p.method || "Bank Transfer",
+    date:    p.date,
     status: (
-      <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-        p.status === "Completed" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
-      }`}>
-        {p.status === "Completed" ? "Completed" : "Pending"}
+      <span className="rounded-full px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        Paid / Verified
       </span>
     ),
   }));
 
   const tableButtons = [
     {
-      icon: <span className="text-xs">💳</span>,
-      text: "Pay Now",
-      className: "bg-sky-600 text-white",
+      icon: <Download className="h-4 w-4" />,
+      text: "Download Receipt",
+      className: "bg-sky-600 text-white hover:bg-sky-700 transition-colors",
       onClick: (row: { id: string }) => {
-        const p = paymentsList.find((x) => x.id === row.id && x.status !== "Completed");
-        if (p) setSelected(p);
-      },
-    },
-    {
-      icon: <span className="text-xs">🧳</span>,
-      text: "Receipt",
-      className: "border border-slate-200 bg-slate-50 text-slate-900",
-      onClick: (row: { id: string }) => {
-        const p = paymentsList.find((x) => x.id === row.id && x.status === "Completed");
+        const p = paymentsList.find((x) => x.id === row.id);
         if (p) downloadReceipt(p);
       },
     },
   ];
 
   const stats = [
-    { icon: CheckCircle2, title: "Completed", value: paidCount,    desc: "Transactions paid" },
-    { icon: Clock,        title: "Pending",   value: pendingCount,  desc: "Awaiting payment" },
-    { icon: Banknote,     title: "Last Tx",   value: lastTx?.amount ?? "$0", desc: "Most recent amount", isText: true },
+    { icon: CheckCircle2, title: "Completed Invoices", value: paymentsList.length, desc: "Paid and verified invoices" },
+    { icon: Banknote,     title: "Total Amount Paid",  value: `$${totalAmountPaid.toLocaleString()}`, desc: "Processed payments", isText: true },
+    { icon: Calendar,     title: "Last Payment Date",  value: lastTx?.date ?? "No transactions", desc: "Most recent activity", isText: true },
   ];
 
   return (
@@ -136,9 +250,9 @@ export default function PaymentsPage() {
       {/* HEADER */}
       <PageHeader
         variant="dark"
-        label="Payments"
-        title="Payment System"
-        description="Manage and process manufacturer payments in real time."
+        label="Transactions"
+        title="Transaction History"
+        description="View your payments history and download verified receipts."
       />
 
       {/* STATS */}
@@ -169,7 +283,7 @@ export default function PaymentsPage() {
       {/* TABLE */}
       <Card className="border border-slate-100 p-0 overflow-hidden bg-white">
         <DataTable
-          heading="Transaction Log"
+          heading="Verified Payments Log"
           TableHeaders={tableHeaders}
           TableData={tableData}
           TableButtons={tableButtons}
@@ -180,49 +294,6 @@ export default function PaymentsPage() {
           totalEntries={paymentsList.length}
         />
       </Card>
-
-      {/* PAYMENT MODAL */}
-      {selected && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl w-full max-w-sm shadow-xl overflow-hidden">
-            <div className="bg-slate-900 px-6 py-4 flex items-center justify-between">
-              <h2 className="font-semibold text-white text-sm">Pay Invoice</h2>
-              <button onClick={() => setSelected(null)} className="text-white/70 hover:text-white transition">✕</button>
-            </div>
-            <div className="p-6 space-y-4">
-              <div className="rounded-xl bg-slate-50 border border-slate-100 p-4 space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Invoice ID</span>
-                  <span className="font-semibold">{selected.invoice}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Amount Due</span>
-                  <span className="font-bold text-sky-600">{selected.amount}</span>
-                </div>
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Payment Method</label>
-                <select
-                  value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                  className="w-full border border-slate-200 rounded-xl p-2.5 text-sm bg-slate-50 outline-none focus:border-sky-500"
-                >
-                  <option value="Bank Transfer">Bank Wire / Transfer</option>
-                  <option value="Stripe">Credit / Debit Card (Stripe)</option>
-                  <option value="JazzCash">JazzCash Mobile Wallet</option>
-                  <option value="EasyPaisa">EasyPaisa Mobile Wallet</option>
-                </select>
-              </div>
-              <div className="flex gap-3">
-                <button onClick={() => setSelected(null)} className="flex-1 bg-slate-100 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-200 transition">Cancel</button>
-                <button onClick={handlePayment} disabled={processing} className="flex-1 bg-sky-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-sky-700 transition disabled:opacity-60">
-                  {processing ? "Processing..." : "Confirm Pay"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

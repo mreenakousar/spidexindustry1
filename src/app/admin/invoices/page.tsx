@@ -1,67 +1,25 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Download, Search, Tag, Wallet, X } from "lucide-react";
+import { Download, Search, X, FileText, Check, AlertCircle } from "lucide-react";
 import CountUpNumber from "@/components/ui/CountUpNumber";
+import { listAdminInvoicesAction, verifyInvoiceAction } from "@/actions/adminInvoices";
 
 interface Invoice {
   id: string;
-  client: string;
-  dueDate: string;
-  amount: number;
-  status: "Paid" | "Pending" | "Overdue";
+  invoiceId: string;
+  date: string;
+  amount: string;
+  status: string;
+  customer: string;
   orderId: string;
-  issuedDate: string;
-  method: string;
-  balance: number;
+  pdfUrl: string;
+  billingEmail: string;
+  receiptUrl: string | null;
+  rejectionReason: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
-
-const invoiceData: Invoice[] = [
-  {
-    id: "INV-1001",
-    client: "Arcadia Apparel",
-    dueDate: "2026-06-01",
-    amount: 12400,
-    status: "Paid",
-    orderId: "ORD-5301",
-    issuedDate: "2026-05-22",
-    method: "Wire Transfer",
-    balance: 0,
-  },
-  {
-    id: "INV-1002",
-    client: "Summit Sportswear",
-    dueDate: "2026-06-07",
-    amount: 8200,
-    status: "Pending",
-    orderId: "ORD-5294",
-    issuedDate: "2026-05-28",
-    method: "Credit Card",
-    balance: 8200,
-  },
-  {
-    id: "INV-1003",
-    client: "Uniform Co",
-    dueDate: "2026-05-28",
-    amount: 3750,
-    status: "Overdue",
-    orderId: "ORD-5278",
-    issuedDate: "2026-05-15",
-    method: "Bank Transfer",
-    balance: 3750,
-  },
-  {
-    id: "INV-1004",
-    client: "Velocity Streetwear",
-    dueDate: "2026-06-12",
-    amount: 93000,
-    status: "Pending",
-    orderId: "ORD-5263",
-    issuedDate: "2026-05-20",
-    method: "PayPal",
-    balance: 93000,
-  },
-];
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("en-US", {
@@ -71,14 +29,16 @@ function formatCurrency(value: number) {
   }).format(value);
 }
 
-function badgeClass(status: Invoice["status"]) {
+function badgeClass(status: string) {
   switch (status) {
     case "Paid":
-      return "bg-emerald-100 text-emerald-700";
-    case "Pending":
-      return "bg-amber-100 text-amber-700";
+      return "bg-emerald-100 text-emerald-700 border border-emerald-200";
+    case "Processing":
+      return "bg-amber-100 text-amber-700 border border-amber-200";
+    case "Rejected":
+      return "bg-rose-100 text-rose-700 border border-rose-200";
     default:
-      return "bg-rose-100 text-rose-700";
+      return "bg-blue-100 text-blue-700 border border-blue-200";
   }
 }
 
@@ -116,26 +76,39 @@ function Modal({
 export default function InvoicesPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"All" | Invoice["status"]>(
-    "All",
-  );
+  const [statusFilter, setStatusFilter] = useState<string>("All");
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setInvoices(invoiceData);
+  // Verification UI state
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [showRejectForm, setShowRejectForm] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState("");
+  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+
+  const fetchInvoices = async () => {
+    setIsLoading(true);
+    try {
+      const data = await listAdminInvoicesAction();
+      setInvoices(data as any[]);
+    } catch (err) {
+      console.error("Error loading admin invoices:", err);
+    } finally {
       setIsLoading(false);
-    }, 600);
-    return () => window.clearTimeout(timer);
+    }
+  };
+
+  useEffect(() => {
+    fetchInvoices();
   }, []);
 
   const filteredInvoices = useMemo(() => {
     return invoices.filter((invoice) => {
       const query = search.toLowerCase();
       const matchesSearch =
-        invoice.id.toLowerCase().includes(query) ||
-        invoice.client.toLowerCase().includes(query) ||
+        invoice.invoiceId.toLowerCase().includes(query) ||
+        invoice.customer.toLowerCase().includes(query) ||
         invoice.orderId.toLowerCase().includes(query);
       const matchesStatus =
         statusFilter === "All" || invoice.status === statusFilter;
@@ -143,19 +116,73 @@ export default function InvoicesPage() {
     });
   }, [invoices, search, statusFilter]);
 
-  const totals = useMemo(
-    () => ({
+  const totals = useMemo(() => {
+    return {
       total: invoices.length,
-      revenue: invoices.reduce((sum, invoice) => sum + invoice.amount, 0),
-      paid: invoices.filter((invoice) => invoice.status === "Paid").length,
-      overdue: invoices.filter((invoice) => invoice.status === "Overdue")
-        .length,
-    }),
-    [invoices],
-  );
+      revenue: invoices
+        .filter((inv) => inv.status === "Paid")
+        .reduce((sum, inv) => {
+          const val = Number(inv.amount.replace(/[^0-9.-]+/g, ""));
+          return sum + (isNaN(val) ? 0 : val);
+        }, 0),
+      paid: invoices.filter((inv) => inv.status === "Paid").length,
+      processing: invoices.filter((inv) => inv.status === "Processing").length,
+    };
+  }, [invoices]);
+
+  const handleApprove = async () => {
+    if (!selectedInvoice) return;
+    setIsVerifying(true);
+    setActionError(null);
+    setActionSuccess(null);
+    try {
+      const res = await verifyInvoiceAction(selectedInvoice.invoiceId, "Paid");
+      if (res.ok) {
+        setActionSuccess("Payment approved successfully!");
+        fetchInvoices();
+        setTimeout(() => {
+          setSelectedInvoice(null);
+          setActionSuccess(null);
+        }, 1500);
+      }
+    } catch (err: any) {
+      setActionError(err.message || "Failed to approve invoice");
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleReject = async () => {
+    if (!selectedInvoice || !rejectionReason.trim()) return;
+    setIsVerifying(true);
+    setActionError(null);
+    setActionSuccess(null);
+    try {
+      const res = await verifyInvoiceAction(
+        selectedInvoice.invoiceId,
+        "Rejected",
+        rejectionReason.trim()
+      );
+      if (res.ok) {
+        setActionSuccess("Payment verification rejected successfully.");
+        fetchInvoices();
+        setTimeout(() => {
+          setSelectedInvoice(null);
+          setActionSuccess(null);
+          setShowRejectForm(false);
+          setRejectionReason("");
+        }, 1500);
+      }
+    } catch (err: any) {
+      setActionError(err.message || "Failed to reject invoice");
+    } finally {
+      setIsVerifying(false);
+    }
+  };
 
   return (
     <div className="space-y-8">
+      {/* STATS OVERVIEW */}
       <div className="grid gap-4 lg:grid-cols-4">
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
@@ -167,7 +194,7 @@ export default function InvoicesPage() {
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-            Total Revenue
+            Approved Revenue
           </p>
           <p className="mt-4 text-4xl font-semibold text-emerald-600">
             <CountUpNumber value={formatCurrency(totals.revenue)} />
@@ -183,10 +210,10 @@ export default function InvoicesPage() {
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-            Overdue
+            Awaiting Verification
           </p>
-          <p className="mt-4 text-4xl font-semibold text-rose-600">
-            <CountUpNumber value={totals.overdue} />
+          <p className="mt-4 text-4xl font-semibold text-amber-600">
+            <CountUpNumber value={totals.processing} />
           </p>
         </div>
       </div>
@@ -198,8 +225,7 @@ export default function InvoicesPage() {
               Invoices
             </h1>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-              Review invoicing status and send payment reminders for apparel
-              manufacturing orders.
+              Review invoicing status, verify payments receipts, and manage outstanding balances.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -215,87 +241,119 @@ export default function InvoicesPage() {
             </div>
             <select
               value={statusFilter}
-              onChange={(e) =>
-                setStatusFilter(e.target.value as Invoice["status"] | "All")
-              }
+              onChange={(e) => setStatusFilter(e.target.value)}
               className="rounded-2xl border border-slate-200 bg-slate-50 py-3 px-4 text-sm text-slate-900 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
               aria-label="Filter by invoice status"
             >
-              <option>All</option>
-              <option>Paid</option>
-              <option>Pending</option>
-              <option>Overdue</option>
+              <option value="All">All</option>
+              <option value="Paid">Paid</option>
+              <option value="Processing">Processing</option>
+              <option value="Pending">Pending</option>
+              <option value="Rejected">Rejected</option>
             </select>
           </div>
         </div>
 
         <div className="mt-6 overflow-x-auto">
-          <table className="min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-700">
-            <thead className="bg-slate-50 text-slate-700 dark:bg-slate-950 dark:text-slate-200">
-              <tr>
-                <th className="px-5 py-4 text-left">Invoice #</th>
-                <th className="px-5 py-4 text-left">Client</th>
-                <th className="px-5 py-4 text-left">Order</th>
-                <th className="px-5 py-4 text-left">Amount</th>
-                <th className="px-5 py-4 text-left">Status</th>
-                <th className="px-5 py-4 text-left">Due Date</th>
-                <th className="px-5 py-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-              {filteredInvoices.map((invoice) => (
-                <tr
-                  key={invoice.id}
-                  className="hover:bg-slate-50 dark:hover:bg-slate-800"
-                >
-                  <td className="px-5 py-4 text-slate-900 dark:text-white">
-                    {invoice.id}
-                  </td>
-                  <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
-                    {invoice.client}
-                  </td>
-                  <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
-                    {invoice.orderId}
-                  </td>
-                  <td className="px-5 py-4 text-slate-900 dark:text-white">
-                    {formatCurrency(invoice.amount)}
-                  </td>
-                  <td className="px-5 py-4">
-                    <span
-                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${badgeClass(invoice.status)}`}
-                    >
-                      {invoice.status}
-                    </span>
-                  </td>
-                  <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
-                    {invoice.dueDate}
-                  </td>
-                  <td className="px-5 py-4 text-right">
-                    <button
-                      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
-                      onClick={() => setSelectedInvoice(invoice)}
-                    >
-                      <Download className="h-3.5 w-3.5" /> View
-                    </button>
-                  </td>
-                </tr>
+          {isLoading ? (
+            <div className="space-y-4 py-6">
+              {[...Array(4)].map((_, index) => (
+                <div
+                  key={index}
+                  className="h-16 rounded-3xl bg-slate-100 animate-pulse dark:bg-slate-800"
+                />
               ))}
-            </tbody>
-          </table>
+            </div>
+          ) : filteredInvoices.length === 0 ? (
+            <div className="py-12 text-center text-slate-500">No invoices match the current filters.</div>
+          ) : (
+            <table className="min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-700">
+              <thead className="bg-slate-50 text-slate-700 dark:bg-slate-950 dark:text-slate-200">
+                <tr>
+                  <th className="px-5 py-4 text-left">Invoice #</th>
+                  <th className="px-5 py-4 text-left">Client</th>
+                  <th className="px-5 py-4 text-left">Order ID</th>
+                  <th className="px-5 py-4 text-left">Amount</th>
+                  <th className="px-5 py-4 text-left">Status</th>
+                  <th className="px-5 py-4 text-left">Date Issued</th>
+                  <th className="px-5 py-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                {filteredInvoices.map((invoice) => (
+                  <tr
+                    key={invoice.id}
+                    className="hover:bg-slate-50 dark:hover:bg-slate-800"
+                  >
+                    <td className="px-5 py-4 text-slate-900 dark:text-white font-mono font-semibold">
+                      {invoice.invoiceId}
+                    </td>
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
+                      {invoice.customer}
+                    </td>
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300 font-mono text-xs">
+                      {invoice.orderId}
+                    </td>
+                    <td className="px-5 py-4 text-slate-900 dark:text-white font-semibold">
+                      {invoice.amount}
+                    </td>
+                    <td className="px-5 py-4">
+                      <span
+                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${badgeClass(invoice.status)}`}
+                      >
+                        {invoice.status}
+                      </span>
+                    </td>
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
+                      {invoice.date}
+                    </td>
+                    <td className="px-5 py-4 text-right">
+                      <button
+                        className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
+                        onClick={() => {
+                          setSelectedInvoice(invoice);
+                          setShowRejectForm(false);
+                          setRejectionReason("");
+                          setActionError(null);
+                          setActionSuccess(null);
+                        }}
+                      >
+                        {invoice.status === "Processing" ? "Verify / View" : "View"}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
       <Modal open={!!selectedInvoice} onClose={() => setSelectedInvoice(null)}>
         {selectedInvoice && (
           <div className="space-y-6">
+            {/* Action Banners */}
+            {actionError && (
+              <div className="flex items-center gap-2 rounded-xl bg-rose-50 border border-rose-100 p-4 text-rose-700 text-sm">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                <span>{actionError}</span>
+              </div>
+            )}
+            {actionSuccess && (
+              <div className="flex items-center gap-2 rounded-xl bg-emerald-50 border border-emerald-100 p-4 text-emerald-700 text-sm">
+                <Check className="h-4 w-4 shrink-0" />
+                <span>{actionSuccess}</span>
+              </div>
+            )}
+
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-950">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                    {selectedInvoice.id}
+                  <p className="text-sm font-mono text-slate-500 dark:text-slate-400">
+                    {selectedInvoice.invoiceId}
                   </p>
                   <h3 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-                    {selectedInvoice.client}
+                    {selectedInvoice.customer}
                   </h3>
                 </div>
                 <span
@@ -307,47 +365,150 @@ export default function InvoicesPage() {
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <div className="rounded-3xl bg-white p-4 shadow-sm dark:bg-slate-900">
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Issued
+                    Issued Date
                   </p>
                   <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
-                    {selectedInvoice.issuedDate}
+                    {selectedInvoice.date}
                   </p>
                 </div>
                 <div className="rounded-3xl bg-white p-4 shadow-sm dark:bg-slate-900">
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Due
+                    Amount
                   </p>
-                  <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
-                    {selectedInvoice.dueDate}
+                  <p className="mt-2 text-lg font-bold text-sky-600">
+                    {selectedInvoice.amount}
                   </p>
                 </div>
               </div>
             </div>
+
             <div className="grid gap-4 lg:grid-cols-2">
               <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-950">
                 <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                   Order Reference
                 </p>
-                <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
+                <p className="mt-2 font-mono text-base text-slate-900 dark:text-white">
                   {selectedInvoice.orderId}
                 </p>
               </div>
               <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-950">
                 <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                  Payment Method
+                  Billing Email
                 </p>
-                <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
-                  {selectedInvoice.method}
+                <p className="mt-2 text-base text-slate-900 dark:text-white">
+                  {selectedInvoice.billingEmail}
                 </p>
               </div>
             </div>
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-950">
-              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                Outstanding Balance
-              </p>
-              <p className="mt-2 text-3xl font-semibold text-rose-600 dark:text-rose-400">
-                {formatCurrency(selectedInvoice.balance)}
-              </p>
+
+            {/* Display Rejection Reason if any */}
+            {selectedInvoice.status === "Rejected" && selectedInvoice.rejectionReason && (
+              <div className="rounded-3xl border border-rose-200 bg-rose-50/50 p-6">
+                <p className="text-sm font-semibold text-rose-800">
+                  Rejection Reason
+                </p>
+                <p className="mt-1 text-xs text-rose-700">
+                  {selectedInvoice.rejectionReason}
+                </p>
+              </div>
+            )}
+
+            {/* DISPLAY UPLOADED RECEIPT */}
+            {selectedInvoice.receiptUrl && (
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-950 space-y-3">
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  Uploaded Payment Proof
+                </p>
+                {selectedInvoice.receiptUrl.toLowerCase().endsWith(".pdf") ? (
+                  <a
+                    href={selectedInvoice.receiptUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sky-600 hover:underline text-sm font-semibold"
+                  >
+                    <FileText className="h-5 w-5" /> View Uploaded Receipt PDF
+                  </a>
+                ) : (
+                  <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 max-h-96 flex justify-center">
+                    <img
+                      src={selectedInvoice.receiptUrl}
+                      alt="Receipt Proof"
+                      className="max-h-96 w-full object-contain"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* VERIFICATION ACTIONS FOR PROCESSING STATUS */}
+            {selectedInvoice.status === "Processing" && (
+              <div className="rounded-3xl border border-amber-200 bg-amber-50/50 p-6 space-y-4">
+                <h4 className="font-semibold text-slate-900 text-sm">
+                  Verify Client Payment Proof
+                </h4>
+                <p className="text-xs text-slate-500">
+                  Please review the client's uploaded receipt. Approve it to advance the order to In Production, or reject it with a reason if incorrect.
+                </p>
+                
+                {!showRejectForm ? (
+                  <div className="flex gap-3">
+                    <button
+                      onClick={handleApprove}
+                      disabled={isVerifying}
+                      className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm py-2.5 px-4 rounded-xl transition disabled:opacity-50"
+                    >
+                      {isVerifying ? "Processing..." : "Approve & Mark Paid"}
+                    </button>
+                    <button
+                      onClick={() => setShowRejectForm(true)}
+                      disabled={isVerifying}
+                      className="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-sm py-2.5 px-4 rounded-xl transition disabled:opacity-50"
+                    >
+                      Reject Payment
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                      Rejection Reason
+                    </label>
+                    <textarea
+                      value={rejectionReason}
+                      onChange={(e) => setRejectionReason(e.target.value)}
+                      placeholder="e.g. Amount mismatch or Proof not clear"
+                      rows={3}
+                      className="w-full border border-slate-200 rounded-xl p-3 text-sm outline-none focus:border-sky-500 bg-white"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleReject}
+                        disabled={isVerifying || !rejectionReason.trim()}
+                        className="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-sm py-2 px-3 rounded-lg transition disabled:opacity-50"
+                      >
+                        Submit Rejection
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowRejectForm(false);
+                          setRejectionReason("");
+                        }}
+                        className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm py-2 px-3 rounded-lg transition"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="flex justify-end pt-4 border-t border-slate-200">
+              <button
+                onClick={() => setSelectedInvoice(null)}
+                className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm py-2.5 px-5 rounded-xl transition"
+              >
+                Close
+              </button>
             </div>
           </div>
         )}

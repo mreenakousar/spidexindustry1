@@ -107,9 +107,10 @@ model Invoice {
   orderId      String
   pdfUrl       String
   billingEmail String
-  receiptUrl   String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  receiptUrl      String?
+  rejectionReason String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@map("invoices")
 }

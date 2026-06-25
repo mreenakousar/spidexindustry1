@@ -1,56 +1,22 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CheckCircle2, Download, Search, Wallet, X } from "lucide-react";
+import { CheckCircle2, Search, X } from "lucide-react";
+import { listAdminPaymentsAction } from "@/actions/adminInvoices";
+import CountUpNumber from "@/components/ui/CountUpNumber";
 
 interface PaymentRecord {
   id: string;
+  paymentId: string;
+  invoice: string;
   date: string;
-  client: string;
-  amount: number;
-  method: "Stripe" | "PayPal" | "Bank Transfer" | "Wire Transfer";
-  status: "Paid" | "Pending" | "Failed";
-  orderId: string;
+  amount: string;
+  status: string;
+  method: string;
+  billingEmail: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
-
-const paymentData: PaymentRecord[] = [
-  {
-    id: "PMT-1001",
-    date: "2026-06-02",
-    client: "Arcadia Apparel",
-    amount: 12400,
-    method: "Stripe",
-    status: "Paid",
-    orderId: "ORD-5301",
-  },
-  {
-    id: "PMT-1002",
-    date: "2026-06-01",
-    client: "Summit Sportswear",
-    amount: 8200,
-    method: "PayPal",
-    status: "Pending",
-    orderId: "ORD-5294",
-  },
-  {
-    id: "PMT-1003",
-    date: "2026-05-29",
-    client: "Uniform Co",
-    amount: 3750,
-    method: "Bank Transfer",
-    status: "Failed",
-    orderId: "ORD-5278",
-  },
-  {
-    id: "PMT-1004",
-    date: "2026-06-03",
-    client: "Velocity Streetwear",
-    amount: 93000,
-    method: "PayPal",
-    status: "Pending",
-    orderId: "ORD-5263",
-  },
-];
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("en-US", {
@@ -60,14 +26,16 @@ function formatCurrency(value: number) {
   }).format(value);
 }
 
-function badgeClass(status: PaymentRecord["status"]) {
+function badgeClass(status: string) {
   switch (status) {
-    case "Paid":
-      return "bg-emerald-100 text-emerald-700";
-    case "Pending":
-      return "bg-amber-100 text-amber-700";
+    case "Completed":
+      return "bg-emerald-100 text-emerald-700 border border-emerald-200";
+    case "Processing":
+      return "bg-amber-100 text-amber-700 border border-amber-200";
+    case "Failed":
+      return "bg-rose-100 text-rose-700 border border-rose-200";
     default:
-      return "bg-rose-100 text-rose-700";
+      return "bg-slate-100 text-slate-700 border border-slate-200";
   }
 }
 
@@ -118,69 +86,80 @@ function EmptyState() {
 export default function PaymentsPage() {
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<
-    "All" | PaymentRecord["status"]
-  >("All");
-  const [selectedPayment, setSelectedPayment] = useState<PaymentRecord | null>(
-    null,
-  );
+  const [statusFilter, setStatusFilter] = useState<string>("All");
+  const [selectedPayment, setSelectedPayment] = useState<PaymentRecord | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setPayments(paymentData);
+  const fetchPayments = async () => {
+    setIsLoading(true);
+    try {
+      const data = await listAdminPaymentsAction();
+      setPayments(data as any[]);
+    } catch (err) {
+      console.error("Error fetching admin payments:", err);
+    } finally {
       setIsLoading(false);
-    }, 600);
-    return () => window.clearTimeout(timer);
+    }
+  };
+
+  useEffect(() => {
+    fetchPayments();
   }, []);
 
-  const filteredPayments = useMemo(
-    () =>
-      payments.filter((payment) => {
-        const query = search.toLowerCase();
-        const matchesSearch =
-          payment.client.toLowerCase().includes(query) ||
-          payment.id.toLowerCase().includes(query) ||
-          payment.orderId.toLowerCase().includes(query);
-        const matchesStatus =
-          statusFilter === "All" || payment.status === statusFilter;
-        return matchesSearch && matchesStatus;
-      }),
-    [payments, search, statusFilter],
-  );
+  const filteredPayments = useMemo(() => {
+    return payments.filter((payment) => {
+      const query = search.toLowerCase();
+      const matchesSearch =
+        payment.paymentId.toLowerCase().includes(query) ||
+        payment.invoice.toLowerCase().includes(query) ||
+        payment.billingEmail.toLowerCase().includes(query);
+      const matchesStatus =
+        statusFilter === "All" || payment.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [payments, search, statusFilter]);
 
-  const totals = useMemo(
-    () => ({
+  const totals = useMemo(() => {
+    return {
       totalReceived: payments
-        .filter((payment) => payment.status === "Paid")
-        .reduce((sum, payment) => sum + payment.amount, 0),
+        .filter((payment) => payment.status === "Completed")
+        .reduce((sum, payment) => {
+          const val = Number(payment.amount.replace(/[^0-9.-]+/g, ""));
+          return sum + (isNaN(val) ? 0 : val);
+        }, 0),
       pending: payments
-        .filter((payment) => payment.status === "Pending")
-        .reduce((sum, payment) => sum + payment.amount, 0),
+        .filter((payment) => payment.status === "Pending" || payment.status === "Processing")
+        .reduce((sum, payment) => {
+          const val = Number(payment.amount.replace(/[^0-9.-]+/g, ""));
+          return sum + (isNaN(val) ? 0 : val);
+        }, 0),
       failed: payments
         .filter((payment) => payment.status === "Failed")
-        .reduce((sum, payment) => sum + payment.amount, 0),
-    }),
-    [payments],
-  );
+        .reduce((sum, payment) => {
+          const val = Number(payment.amount.replace(/[^0-9.-]+/g, ""));
+          return sum + (isNaN(val) ? 0 : val);
+        }, 0),
+    };
+  }, [payments]);
 
   return (
     <div className="space-y-8">
+      {/* STATS */}
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
             Total Received
           </p>
-          <p className="mt-4 text-4xl font-semibold text-slate-900 dark:text-white">
-            {formatCurrency(totals.totalReceived)}
+          <p className="mt-4 text-4xl font-semibold text-emerald-600">
+            <CountUpNumber value={formatCurrency(totals.totalReceived)} />
           </p>
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-            Pending
+            Pending / Processing
           </p>
           <p className="mt-4 text-4xl font-semibold text-amber-600">
-            {formatCurrency(totals.pending)}
+            <CountUpNumber value={formatCurrency(totals.pending)} />
           </p>
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
@@ -188,7 +167,7 @@ export default function PaymentsPage() {
             Failed
           </p>
           <p className="mt-4 text-4xl font-semibold text-rose-600">
-            {formatCurrency(totals.failed)}
+            <CountUpNumber value={formatCurrency(totals.failed)} />
           </p>
         </div>
       </div>
@@ -197,11 +176,10 @@ export default function PaymentsPage() {
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">
-              Payments
+              Payments Log
             </h1>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-              Review payment performance, reconcile transactions, and manage
-              outstanding balances.
+              Review payment performance, reconcile transactions, and manage outstanding balances.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -216,18 +194,15 @@ export default function PaymentsPage() {
             </div>
             <select
               value={statusFilter}
-              onChange={(e) =>
-                setStatusFilter(
-                  e.target.value as PaymentRecord["status"] | "All",
-                )
-              }
+              onChange={(e) => setStatusFilter(e.target.value)}
               className="rounded-2xl border border-slate-200 bg-slate-50 py-3 px-4 text-sm text-slate-900 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
               aria-label="Filter by payment status"
             >
-              <option>All</option>
-              <option>Paid</option>
-              <option>Pending</option>
-              <option>Failed</option>
+              <option value="All">All</option>
+              <option value="Completed">Completed</option>
+              <option value="Processing">Processing</option>
+              <option value="Pending">Pending</option>
+              <option value="Failed">Failed</option>
             </select>
           </div>
         </div>
@@ -238,8 +213,8 @@ export default function PaymentsPage() {
               {[...Array(3)].map((_, index) => (
                 <div
                   key={index}
-                  className="h-16 rounded-3xl bg-slate-100 dark:bg-slate-800"
-                ></div>
+                  className="h-16 rounded-3xl bg-slate-100 animate-pulse dark:bg-slate-800"
+                />
               ))}
             </div>
           ) : filteredPayments.length === 0 ? (
@@ -248,12 +223,13 @@ export default function PaymentsPage() {
             <table className="min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-700">
               <thead className="bg-slate-50 text-slate-700 dark:bg-slate-950 dark:text-slate-200">
                 <tr>
-                  <th className="px-5 py-4 text-left">Date</th>
-                  <th className="px-5 py-4 text-left">Client</th>
-                  <th className="px-5 py-4 text-left">Order</th>
+                  <th className="px-5 py-4 text-left">Payment ID</th>
+                  <th className="px-5 py-4 text-left">Invoice #</th>
+                  <th className="px-5 py-4 text-left">Client Email</th>
                   <th className="px-5 py-4 text-left">Amount</th>
                   <th className="px-5 py-4 text-left">Method</th>
                   <th className="px-5 py-4 text-left">Status</th>
+                  <th className="px-5 py-4 text-left">Date</th>
                   <th className="px-5 py-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -263,17 +239,17 @@ export default function PaymentsPage() {
                     key={payment.id}
                     className="hover:bg-slate-50 dark:hover:bg-slate-800"
                   >
-                    <td className="px-5 py-4 text-slate-900 dark:text-white">
-                      {payment.date}
+                    <td className="px-5 py-4 text-slate-900 dark:text-white font-mono font-semibold">
+                      {payment.paymentId}
+                    </td>
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300 font-mono text-xs">
+                      {payment.invoice}
                     </td>
                     <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
-                      {payment.client}
+                      {payment.billingEmail}
                     </td>
-                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
-                      {payment.orderId}
-                    </td>
-                    <td className="px-5 py-4 text-slate-900 dark:text-white">
-                      {formatCurrency(payment.amount)}
+                    <td className="px-5 py-4 text-slate-900 dark:text-white font-semibold">
+                      {payment.amount}
                     </td>
                     <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
                       {payment.method}
@@ -285,12 +261,15 @@ export default function PaymentsPage() {
                         {payment.status}
                       </span>
                     </td>
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
+                      {payment.date}
+                    </td>
                     <td className="px-5 py-4 text-right">
                       <button
                         className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
                         onClick={() => setSelectedPayment(payment)}
                       >
-                        <Download className="h-3.5 w-3.5" /> Details
+                        Details
                       </button>
                     </td>
                   </tr>
@@ -307,28 +286,28 @@ export default function PaymentsPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-950">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Payment
+                  Payment Reference
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-                  {selectedPayment.id}
+                <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white font-mono">
+                  {selectedPayment.paymentId}
                 </p>
               </div>
               <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-950">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Order
+                  Invoice Reference
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-                  {selectedPayment.orderId}
+                <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white font-mono">
+                  {selectedPayment.invoice}
                 </p>
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Client
+                  Client Email
                 </p>
                 <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
-                  {selectedPayment.client}
+                  {selectedPayment.billingEmail}
                 </p>
               </div>
               <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
@@ -344,8 +323,8 @@ export default function PaymentsPage() {
               <p className="text-sm text-slate-500 dark:text-slate-400">
                 Amount
               </p>
-              <p className="mt-2 text-3xl font-semibold text-slate-900 dark:text-white">
-                {formatCurrency(selectedPayment.amount)}
+              <p className="mt-2 text-3xl font-bold text-sky-600">
+                {selectedPayment.amount}
               </p>
             </div>
           </div>

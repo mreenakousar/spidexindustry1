@@ -270,7 +270,12 @@ export async function getClientInvoicesAction() {
   const user = await requireUserSession();
 
   return prisma.invoice.findMany({
-    where: { billingEmail: user.email },
+    where: {
+      billingEmail: user.email,
+      status: {
+        not: "Paid",
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 }
@@ -286,7 +291,7 @@ export async function getClientPaymentsAction() {
   });
 }
 
-export async function payInvoiceAction(invoiceId: string, method: string) {
+export async function payInvoiceAction(invoiceId: string, method: string, receiptUrl?: string) {
   const user = await requireUserSession();
 
   const invoice = await prisma.invoice.findFirst({
@@ -295,10 +300,13 @@ export async function payInvoiceAction(invoiceId: string, method: string) {
 
   if (!invoice) throw new Error("Invoice not found or access denied.");
 
-  // Mark invoice as Paid
+  // Mark invoice as Paid and save receipt
   await prisma.invoice.update({
     where: { invoiceId },
-    data: { status: "Paid" },
+    data: {
+      status: "Paid",
+      receiptUrl,
+    },
   });
 
   // Mark matching payment record as Completed

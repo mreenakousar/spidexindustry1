@@ -1,171 +1,78 @@
 
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowUpRight } from 'lucide-react';
 import SectionHeader from '../ui/SectionHeader';
 import FootballAnimation from '../ui/FootballAnimation';
-import DetailModal, { type CapabilityDetail } from '../ui/DetailModal';
 import ArrowCircle from '../ui/ArrowCircle';
 
-const premiumCapabilities: CapabilityDetail[] = [
+interface CapabilityCard {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+}
+const premiumCapabilities: CapabilityCard[] = [
   {
     id: "streetwear",
     title: "Premium Streetwear",
-    description: "High-GSM oversized hoodies, drop-shoulder tees, and joggers featuring custom mineral washes, vintage textures, and high-fidelity 3D puff printing.",
+    description: "High-GSM oversized hoodies, drop-shoulder tees and joggers featuring custom mineral washes, vintage textures and high-fidelity 3D puff printing.",
     image: "/img/2.jpeg",
-    slug: "/capabilities/streetwear",
-    moq: "50 pcs",
-    fabric: "Cotton / Fleece",
-    gsm: "320–500 GSM",
-    turnaround: "15–20 days",
-    highlights: [
-      "Oversized & drop-shoulder cuts",
-      "Custom mineral wash & vintage textures",
-      "3D puff print & embroidery options",
-      "Private label & branded packaging",
-    ],
   },
   {
     id: "sportswear",
     title: "Elite Sportswear",
-    description: "Engineered performance apparel with moisture-wicking technology, 4-way stretch fabrics, and ergonomic flatlock stitching for global brands.",
-    image: "/img/8.jpeg",
-    slug: "/capabilities/sportswear",
-    moq: "100 pcs",
-    fabric: "Polyester / Spandex",
-    gsm: "180–260 GSM",
-    turnaround: "18–25 days",
-    highlights: [
-      "Moisture-wicking & quick-dry technology",
-      "4-way stretch for maximum mobility",
-      "Flatlock stitching for zero chafing",
-      "Sublimation & heat-transfer branding",
-    ],
+    description: "Engineered performance apparel with moisture-wicking technology, 4-way stretch fabrics and ergonomic flatlock stitching for global brands.",
+    image: "/sportswear/sporthero.jpeg",
   },
   {
     id: "gymwear",
     title: "Gymwear",
-    description: "Compression gear, seamless fits, and high-durability training wear designed to withstand intense athletic performance while maintaining shape.",
-    image: "/img/3.jpeg",
-    slug: "/capabilities/gymwear",
-    moq: "100 pcs",
-    fabric: "Nylon / Spandex",
-    gsm: "200–300 GSM",
-    turnaround: "15–22 days",
-    highlights: [
-      "Seamless & compression-fit construction",
-      "Anti-odor & sweat-wicking properties",
-      "Shape retention after repeated washes",
-      "Custom colorways & reflective detailing",
-    ],
+    description: "Compression gear, seamless fits and high-durability training wear designed to withstand intense athletic performance while maintaining shape.",
+    image: "/gymwear/gym5.jpeg",
   },
   {
     id: "jackets",
     title: "Jackets",
-    description: "Custom bomber jackets, windbreakers, and heavy-duty outerwear featuring weather-resistant materials, custom zippers, and internal premium linings.",
-    image: "/img/jacket2.jpeg",
-    slug: "/capabilities/jackets",
-    moq: "50 pcs",
-    fabric: "Nylon / Polyester",
-    gsm: "280–420 GSM",
-    turnaround: "20–28 days",
-    highlights: [
-      "Weather-resistant shell fabrics",
-      "YKK or custom branded zippers",
-      "Quilted & fleece inner linings",
-      "Embroidery, patches & woven labels",
-    ],
+    description: "Custom bomber jackets, windbreakers and heavy-duty outerwear featuring weather-resistant materials, custom zippers and internal premium linings.",
+    image: "/jackets/jacket.jpeg",
   },
   {
     id: "gloves",
     title: "Gloves",
-    description: "Precision-cut tactical, gym, and lifestyle gloves crafted with premium leather, reinforced palms, and custom embossed branding.",
+    description: "Precision-cut tactical, gym and lifestyle gloves crafted with premium leather, reinforced palms and custom embossed branding.",
     image: "/img/glove.jpeg",
-    slug: "/capabilities/gloves",
-    moq: "100 pcs",
-    fabric: "Leather / Synthetic",
-    gsm: "—",
-    turnaround: "15–20 days",
-    highlights: [
-      "Premium full-grain & synthetic leather",
-      "Reinforced palm & finger protection",
-      "Custom embossed or debossed branding",
-      "Available: tactical, gym & lifestyle styles",
-    ],
   },
   {
     id: "private-label",
     title: "Private Label Goods",
-    description: "Full-service custom manufacturing from pattern drafting and fabric sourcing to bespoke custom labels, hangtags, and sustainable packaging.",
+    description: "Full-service custom manufacturing from pattern drafting and fabric sourcing to bespoke custom labels, hangtags and sustainable packaging.",
     image: "/img/6.jpeg",
-    slug: "/capabilities/private-label",
-    moq: "50 pcs",
-    fabric: "All fabrics",
-    gsm: "Custom",
-    turnaround: "20–35 days",
-    highlights: [
-      "End-to-end pattern drafting & sampling",
-      "Custom woven labels, hangtags & packaging",
-      "Eco-friendly & sustainable material options",
-      "Dedicated account manager per project",
-    ],
   },
-    {
-    id: "accessories-packaging",
+  {
+    id: "accessories",
     title: "Accessories & Packaging",
-    description: "Full-service custom manufacturing from pattern drafting and fabric sourcing to bespoke custom labels, hangtags, and sustainable packaging.",
+    description: "Premium garment accessories including luxury stone buttons, custom hardware and trims, paired with high-quality custom packaging bags and boxes.",
     image: "/images/Accessories.jpg",
-    slug: "/capabilities/accessories-packaging",
-    moq: "50 pcs",
-    fabric: "All fabrics",
-    gsm: "Custom",
-    turnaround: "20–35 days",
-    highlights: [
-      "End-to-end pattern drafting & sampling",
-      "Custom woven labels, hangtags & packaging",
-      "Eco-friendly & sustainable material options",
-      "Dedicated account manager per project",
-    ],
   },
-   {
-    id: "caps-hats",
+  {
+    id: "caps",
     title: "Caps & Hats",
-    description: "Full-service custom manufacturing from pattern drafting and fabric sourcing to bespoke custom labels, hangtags, and sustainable packaging.",
+    description: "Premium headwear including snapbacks, dad hats and beanies with custom 3D embroidery, structured panels and adjustable premium closures.",
     image: "/img/cap.jpeg",
-    slug: "/capabilities/caps-hats",
-    moq: "50 pcs",
-    fabric: "All fabrics",
-    gsm: "Custom",
-    turnaround: "20–35 days",
-    highlights: [
-      "End-to-end pattern drafting & sampling",
-      "Custom woven labels, hangtags & packaging",
-      "Eco-friendly & sustainable material options",
-      "Dedicated account manager per project",
-    ],
   },
-   {
-    id: "jeans-denim",
+  {
+    id: "denim",
     title: "Jeans & Denim",
-    description: "Full-service custom manufacturing from pattern drafting and fabric sourcing to bespoke custom labels, hangtags, and sustainable packaging.",
-    image: "/images/cap.jpg",
-    slug: "/capabilities/jeans-denim",
-    moq: "50 pcs",
-    fabric: "All fabrics",
-    gsm: "Custom",
-    turnaround: "20–35 days",
-    highlights: [
-      "End-to-end pattern drafting & sampling",
-      "Custom woven labels, hangtags & packaging",
-      "Eco-friendly & sustainable material options",
-      "Dedicated account manager per project",
-    ],
+    description: "Custom denim jackets and jeans featuring heavy-duty construction, bespoke hardware, vintage distressed finishes and specialized washes.",
+    image: "/jeans/jean1.jpeg",
   },
 ];
+
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -174,7 +81,6 @@ if (typeof window !== "undefined") {
 export default function ManufacturingCapabilities() {
   const containerRef = useRef<HTMLDivElement>(null);
   const blurPlaceholderUrl = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMTExIi8+PC9zdmc+";
-  const [selectedCard, setSelectedCard] = useState<CapabilityDetail | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -221,9 +127,9 @@ export default function ManufacturingCapabilities() {
           <div className="grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 sm:gap-y-10 md:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12">
             {premiumCapabilities.map((c) => {
               return (
-                <button
+                <Link
                   key={c.id}
-                  onClick={() => setSelectedCard(c)}
+                  href="/product-categories"
                   className="streetwear-card group flex h-full flex-col overflow-hidden rounded-none border border-zinc-900 bg-zinc-900/40 transition-all duration-500 hover:border-zinc-800 backdrop-blur-sm text-left cursor-pointer"
                 >
                   <div className="relative aspect-[4/5] w-full overflow-hidden border-b border-zinc-900 bg-zinc-950">
@@ -253,19 +159,13 @@ export default function ManufacturingCapabilities() {
                       {c.description}
                     </p>
                   </div>
-                </button>
+                </Link>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Detail Modal */}
-      <DetailModal
-        open={!!selectedCard}
-        onClose={() => setSelectedCard(null)}
-        data={selectedCard}
-      />
     </>
   );
 }

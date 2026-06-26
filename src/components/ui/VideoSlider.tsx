@@ -90,12 +90,13 @@ export default function VideoSlider() {
 
             {/* PLAY OVERLAY */}
             {!playing && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black">
+              <div className="absolute inset-0 flex items-center justify-center z-20">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                 <button
                   onClick={handlePlay}
-                  className="bg-white/90 hover:bg-white transition p-6 rounded-full"
+                  className="w-16 h-16 sm:w-20 sm:h-20 bg-white/15 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-blue-600 hover:border-blue-600 text-white shadow-2xl z-30"
                 >
-                  <FaPlay className="text-black text-2xl ml-1" />
+                  <FaPlay className="text-white text-xl sm:text-2xl ml-1" />
                 </button>
               </div>
             )}

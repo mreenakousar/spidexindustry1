@@ -10,12 +10,21 @@ export const metadata = {
 };
 
 const sampleImages = [
+   "/gymwear/gym5.jpeg",
+  "/img/12.jpeg",
+    "/img/3.jpeg",
   "/img/1.jpeg",
   "/img/2.jpeg",
-  "/img/3.jpeg",
+
   "/img/4.jpeg",
   "/img/5.jpeg",
   "/img/6.jpeg",
+ 
+  "/img/8.jpeg",
+  "/img/9.jpeg",
+  "/img/10.jpeg",
+  "/img/11.jpeg",
+  
 ];
 
 export default function Portfolio() {
@@ -90,7 +99,7 @@ export default function Portfolio() {
             center
           />
 
-        
+
           <VideoSlider />
         </div>
 

@@ -21,10 +21,10 @@ const categoriesData: CategoryData[] = [
     description: "High-performance athletic apparel constructed with specialized moisture-wicking and UV-resistant materials.",
     subcategories: ["Performance Tees", "Tracksuits", "Jerseys", "Sport Shorts", "Outerwear"],
     products: [
-      { name: "AeroDry Performance Tee", spec: "140 GSM Active Athletic Fit", fabric: "100% Polyester Micro-Mesh", blueprintType: "tee" },
-      { name: "Apex Pro Tracksuit Jacket", spec: "Tapered silhouette with zip styling", fabric: "92% Poly, 8% Spandex Blend", blueprintType: "jacket" },
-      { name: "Vanguard Sublimated Jersey", spec: "Interlock knit, team customization ready", fabric: "100% Interlock Polyester", blueprintType: "tee" },
-      { name: "Endurance Utility Shorts", spec: "4-Way stretch active running shorts", fabric: "90% Nylon, 10% Elastane", blueprintType: "shorts" }
+      { name: "AeroDry Performance Tee", spec: "140 GSM Active Athletic Fit", fabric: "100% Polyester Micro-Mesh", blueprintType: "tee", image: "/sportswear/sport6.jpeg" },
+      { name: "Apex Pro Tracksuit Jacket", spec: "Tapered silhouette with zip styling", fabric: "92% Poly, 8% Spandex Blend", blueprintType: "jacket", image: "/sportswear/sport2.jpeg" },
+      { name: "Vanguard Sublimated Jersey", spec: "Interlock knit, team customization ready", fabric: "100% Interlock Polyester", blueprintType: "tee", image: "/sportswear/sport3.jpeg" },
+      { name: "Endurance Utility Shorts", spec: "4-Way stretch active running shorts", fabric: "90% Nylon, 10% Elastane", blueprintType: "shorts", image: "/sportswear/sport4.jpeg" }
     ]
   },
   {
@@ -33,10 +33,10 @@ const categoriesData: CategoryData[] = [
     description: "Form-fitting base layers and training gear engineered for flexibility, compression, and durability.",
     subcategories: ["Tank Tops", "Leggings", "Compression Wear", "Sports Bras", "Gym Shorts"],
     products: [
-      { name: "Flex Racerback Tank", spec: "Athletic cut ribbed training top", fabric: "95% Combed Cotton, 5% Spandex", blueprintType: "tee" },
-      { name: "SculptFit Compression Leggings", spec: "Squat-proof, high-waisted support", fabric: "78% Nylon, 22% Spandex", blueprintType: "pants" },
-      { name: "ArmorTech Compression Longsleeve", spec: "Base layer muscle support system", fabric: "Polyester-Polyurethane Knit", blueprintType: "pants" },
-      { name: "Impact High-Support Sports Bra", spec: "Molded cups, breathable mesh liner", fabric: "80% Polyester, 20% Elastane", blueprintType: "jacket" }
+      { name: "Flex Racerback Tank", spec: "Athletic cut ribbed training top", fabric: "95% Combed Cotton, 5% Spandex", blueprintType: "tee", image: "/gymwear/gym1.jpeg" },
+      { name: "SculptFit Compression Leggings", spec: "Squat-proof, high-waisted support", fabric: "78% Nylon, 22% Spandex", blueprintType: "pants", image: "/gymwear/gym2.jpeg" },
+      { name: "ArmorTech Compression Longsleeve", spec: "Base layer muscle support system", fabric: "Polyester-Polyurethane Knit", blueprintType: "pants", image: "/gymwear/gym4.jpeg" },
+      { name: "Impact High-Support Sports Bra", spec: "Molded cups, breathable mesh liner", fabric: "80% Polyester, 20% Elastane", blueprintType: "jacket", image: "/gymwear/gym5.jpeg" }
     ]
   },
   {
@@ -45,10 +45,10 @@ const categoriesData: CategoryData[] = [
     description: "Premium oversized fashion styles manufactured with heavyweight canvas fabrics and custom print finishes.",
     subcategories: ["Graphic Tees", "Hoodies", "Cargo Pants", "Bomber Jackets", "Caps & Hats"],
     products: [
-      { name: "Oversized Boxy Tee", spec: "240 GSM heavy combed cotton streetwear", fabric: "100% Premium Combed Cotton", blueprintType: "tee" },
-      { name: "Urban Fleece Pullover Hoodie", spec: "380 GSM heavyweight custom hoodie", fabric: "80% Organic Cotton, 20% Polyester", blueprintType: "hoodie" },
-      { name: "Tactical Multi-Pocket Jogger", spec: "Ripstop structure, reinforced seams", fabric: "Cotton-Spandex Ripstop Blend", blueprintType: "pants" },
-      { name: "Satin Vintage Bomber Jacket", spec: "Quilted lined retro shell bomber", fabric: "100% Polyester Satin Outershell", blueprintType: "jacket" }
+      { name: "Oversized Boxy Tee", spec: "240 GSM heavy combed cotton streetwear", fabric: "100% Premium Combed Cotton", blueprintType: "tee", image: "/streetwear/street1.jpeg" },
+      { name: "Urban Fleece Pullover Hoodie", spec: "380 GSM heavyweight custom hoodie", fabric: "80% Organic Cotton, 20% Polyester", blueprintType: "hoodie", image: "/streetwear/street2.jpeg" },
+      { name: "Tactical Multi-Pocket Jogger", spec: "Ripstop structure, reinforced seams", fabric: "Cotton-Spandex Ripstop Blend", blueprintType: "pants", image: "/streetwear/street6.jpeg" },
+      { name: "Satin Vintage Bomber Jacket", spec: "Quilted lined retro shell bomber", fabric: "100% Polyester Satin Outershell", blueprintType: "jacket", image: "/streetwear/street4.jpeg" }
     ]
   },
   {
@@ -57,10 +57,10 @@ const categoriesData: CategoryData[] = [
     description: "Custom outerwear solutions featuring weather-proof softshell layers and insulated thermal winter garments.",
     subcategories: ["Bomber Jackets", "Softshell", "Puffer"],
     products: [
-      { name: "Metropolis Softshell Jacket", spec: "Windproof membrane, fleece lining", fabric: "TPU Laminated Technical Polyester", blueprintType: "jacket" },
-      { name: "Sub-Zero Thermal Puffer", spec: "Baffled thermal chambers, down-alt fill", fabric: "Ripstop Nylon Shell & Synthetic Fill", blueprintType: "jacket" },
-      { name: "Elements Waterproof Windbreaker", spec: "Packable windproof utility jacket", fabric: "100% Lightweight Ripstop Nylon", blueprintType: "jacket" },
-      { name: "Legacy Wool Varsity Jacket", spec: "Classic fit Melton wool, genuine leather trim", fabric: "Melton Wool & Full Grain Cowhide", blueprintType: "jacket" }
+      { name: "Metropolis Softshell Jacket", spec: "Windproof membrane, fleece lining", fabric: "TPU Laminated Technical Polyester", blueprintType: "jacket", image: "/jackets/jacket4.jpeg" },
+      { name: "Sub-Zero Thermal Puffer", spec: "Baffled thermal chambers, down-alt fill", fabric: "Ripstop Nylon Shell & Synthetic Fill", blueprintType: "jacket", image: "/jackets/jacket3.jpeg" },
+      { name: "Elements Waterproof Windbreaker", spec: "Packable windproof utility jacket", fabric: "100% Lightweight Ripstop Nylon", blueprintType: "jacket", image: "/jackets/jacket7.jpeg" },
+      { name: "Legacy Wool Varsity Jacket", spec: "Classic fit Melton wool, genuine leather trim", fabric: "Melton Wool & Full Grain Cowhide", blueprintType: "jacket", image: "/jackets/jacket6.jpeg" }
     ]
   },
   {
@@ -69,10 +69,58 @@ const categoriesData: CategoryData[] = [
     description: "Utility and performance gloves designed for professional training, grip support, and thermal insulation.",
     subcategories: ["Training Gloves", "Winter Gloves", "Sport Gloves"],
     products: [
-      { name: "Pro Grip Weightlifting Gloves", spec: "Padded gel palm, double wrist wrap strap", fabric: "Amara Premium Leather & Lycra", blueprintType: "gloves" },
-      { name: "ThermaFit Touchscreen Gloves", spec: "Windproof panels, capacitive fingertips", fabric: "Neoprene Face & Brushed Fleece Core", blueprintType: "gloves" },
-      { name: "AeroSport Breathable Gloves", spec: "Silicon grip mapping, lightweight chassis", fabric: "Breathable Stretch-Mesh & Poly", blueprintType: "gloves" },
-      { name: "StitchShield Reinforced Utility Gloves", spec: "Kevlar lining, high-impact rubber guard", fabric: "Synthetic Suede & Kevlar Threads", blueprintType: "gloves" }
+      { name: "Pro Grip Weightlifting Gloves", spec: "Padded gel palm, double wrist wrap strap", fabric: "Amara Premium Leather & Lycra", blueprintType: "gloves", image: "/images/gloves.jpg" },
+      { name: "ThermaFit Touchscreen Gloves", spec: "Windproof panels, capacitive fingertips", fabric: "Neoprene Face & Brushed Fleece Core", blueprintType: "gloves", image: "/images/gloves2.jpg" },
+      { name: "AeroSport Breathable Gloves", spec: "Silicon grip mapping, lightweight chassis", fabric: "Breathable Stretch-Mesh & Poly", blueprintType: "gloves", image: "/images/quality.jpg" },
+      { name: "StitchShield Reinforced Utility Gloves", spec: "Kevlar lining, high-impact rubber guard", fabric: "Synthetic Suede & Kevlar Threads", blueprintType: "gloves", image: "/images/guideline.jpg" }
+    ]
+  },
+  {
+    id: "garment-accessories",
+    label: "Garment Accessories",
+    description: "Premium finishing accessories including custom woven labels, metal zippers, drawstrings, and branded hang tags for private label production.",
+    subcategories: ["Tags & Labels", "Zippers & Buttons", "Drawstrings"],
+    products: [
+      { name: "Custom Woven Label", spec: "Heat-seal & sew-in damask weave", fabric: "100% Woven Polyester Thread", blueprintType: "tee", image: "/images/Accessories.jpg" },
+      { name: "YKK-Style Metal Zipper", spec: "5# gauge, auto-lock slider", fabric: "Brass Alloy & Polyester Tape", blueprintType: "jacket", image: "/images/tajima.jpg" },
+      { name: "Branded Hang Tag Set", spec: "400 GSM matte laminated card + eyelet", fabric: "Premium Cardstock & Cotton String", blueprintType: "shorts", image: "/images/embroid.jpg" },
+      { name: "Flat Elastic Drawstring", spec: "8mm tubular braid, heat-cut ends", fabric: "100% Polyester Flat Braid", blueprintType: "pants", image: "/images/embro.jpg" }
+    ]
+  },
+  {
+    id: "packing-bags",
+    label: "Packing Bags",
+    description: "Custom-branded packaging solutions including poly mailers, tote bags, and drawstring pouches for retail and e-commerce shipping.",
+    subcategories: ["Polymailers", "Tote Bags", "Drawstring Bags"],
+    products: [
+      { name: "Custom Printed Poly Mailer", spec: "10x13\" co-ex film, 2.5 mil thickness", fabric: "Co-Extruded LDPE Poly Film", blueprintType: "shorts", image: "/images/packing.jpg" },
+      { name: "Heavy-Duty Canvas Tote", spec: "12oz natural canvas, reinforced handles", fabric: "100% Natural Canvas Cotton", blueprintType: "tee", image: "/images/packbag.jpg" },
+      { name: "Branded Drawstring Pouch", spec: "30x40cm athletic gym bag style", fabric: "210D Rip-Stop Polyester", blueprintType: "pants", image: "/images/packingstuf.jpg" },
+      { name: "Luxury Gift Box Set", spec: "Rigid box + magnetic closure lid", fabric: "1200 GSM Greyboard + Art Paper", blueprintType: "jacket", image: "/images/packing1.avif" }
+    ]
+  },
+  {
+    id: "jeans",
+    label: "Jeans",
+    description: "Premium denim manufacturing with custom washes, finishes, and fits — from slim-cut fashion jeans to relaxed workwear styles.",
+    subcategories: ["Slim Fit", "Regular Fit", "Relaxed Fit"],
+    products: [
+      { name: "Slim Taper Stretch Denim", spec: "Mid-rise, tapered leg, 4-way stretch", fabric: "98% Cotton, 2% Elastane Denim", blueprintType: "pants", image: "/images/cut4.jpg" },
+      { name: "Classic Regular Fit Jean", spec: "Straight leg, 5-pocket construction", fabric: "100% Raw Selvedge Denim", blueprintType: "pants", image: "/images/print.jpg" },
+      { name: "Acid Wash Relaxed Jeans", spec: "Loose silhouette, vintage acid finish", fabric: "Stonewashed 12oz Cotton Denim", blueprintType: "pants", image: "/images/quality.jpg" },
+      { name: "Distressed Carpenter Denim", spec: "Relaxed utility, hammer loop detail", fabric: "14oz Enzyme-Washed Denim", blueprintType: "pants", image: "/images/cuttings.jpg" }
+    ]
+  },
+  {
+    id: "caps",
+    label: "Caps",
+    description: "Custom headwear manufacturing including structured baseball caps, unstructured snapbacks, trucker hats with embroidery and screen-print options.",
+    subcategories: ["Baseball Caps", "Snapbacks", "Trucker Hats"],
+    products: [
+      { name: "Structured 6-Panel Baseball Cap", spec: "Mid-profile, buckle strap closure", fabric: "100% Brushed Cotton Twill", blueprintType: "shorts", image: "/images/cap.jpg" },
+      { name: "Flat Brim Snapback", spec: "High-profile, 6-panel, flat visor", fabric: "Wool-Acrylic Blend Front Panel", blueprintType: "shorts", image: "/images/tajima.jpg" },
+      { name: "Mesh Trucker Hat", spec: "5-panel, foam front, snap closure", fabric: "Cotton Front + Polyester Mesh Back", blueprintType: "shorts", image: "/images/embroid.jpg" },
+      { name: "Dad Hat Washed Cotton", spec: "Low-profile unstructured, slide adjuster", fabric: "100% Garment-Washed Cotton", blueprintType: "shorts", image: "/images/embro.jpg" }
     ]
   }
 ];
@@ -114,6 +162,17 @@ export default function CategorySections() {
                 ))}
               </div>
             </div>
+            {category.id === "gymwear" && (
+              <div className="flex flex-wrap justify-center gap-4 my-6">
+                <img src="/gymwear/gym1.jpeg" alt="Gymwear 1" className="h-48 w-auto object-cover rounded" />
+                <img src="/gymwear/gym2.jpeg" alt="Gymwear 2" className="h-48 w-auto object-cover rounded" />
+                <img src="/gymwear/gym3.jpeg" alt="Gymwear 3" className="h-48 w-auto object-cover rounded" />
+                <img src="/gymwear/gym4.jpeg" alt="Gymwear 4" className="h-48 w-auto object-cover rounded" />
+                <img src="/gymwear/gym5.jpeg" alt="Gymwear 5" className="h-48 w-auto object-cover rounded" />
+                <img src="/gymwear/gym6.jpeg" alt="Gymwear 6" className="h-48 w-auto object-cover rounded" />
+                <img src="/gymwear/gym7.jpeg" alt="Gymwear 7" className="h-48 w-auto object-cover rounded" />
+              </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {category.products.map((product) => (

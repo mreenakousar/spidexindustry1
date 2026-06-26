@@ -1,9 +1,10 @@
 
 import Image from "next/image";
-import FinalCTA from "@/components/sections/FinalCTA";
-import PageHero from "@/components/ui/PageHero";
-import CountUpNumber from "@/components/ui/CountUpNumber";
-import SectionHeading from "@/components/ui/SectionHeading";
+import FinalCTA from "../../components/sections/FinalCTA";
+import PageHero from "../../components/ui/PageHero";
+import CountUpNumber from "../../components/ui/CountUpNumber";
+import SectionHeading from "../../components/ui/SectionHeading";
+import VideoCardGroup from "../../components/ui/VideoCardGroup";
 
 export const metadata = {
   title: "Factory & Production - Speedx Industry",
@@ -107,7 +108,7 @@ export default function FactoryProductionPage() {
     <section className="bg-white">
       <PageHero
         title="Factory & Production"
-        description="Explore our manufacturing facility, production process, machinery, quality control systems, and factory operations that help us deliver premium garments worldwide."
+        description="Explore our manufacturing facility, production process, machinery, quality control systems and factory operations that help us deliver premium garments worldwide."
         videoSrc="/hero.mp4"
         overlayClass="bg-blue-950/70"
       />
@@ -216,29 +217,16 @@ export default function FactoryProductionPage() {
             center={true}
           />
 
-          <div className="mt-10 grid gap-6 md:mt-14 md:grid-cols-2 lg:gap-8">
-            {videos.map((video: ProductionVideo) => (
-              <div
-                key={video.title}
-                className="overflow-hidden rounded-2xl bg-white shadow-sm"
-              >
-                <video
-                  controls
-                  preload="metadata"
-                  className="h-52 w-full object-cover sm:h-64 md:h-80"
-                >
-                  <source src={video.src} type="video/mp4" />
-                  Your browser does not support video.
-                </video>
-
-                <div className="p-5 sm:p-6">
-                  <h3 className="text-base font-semibold sm:text-lg">
-                    {video.title}
-                  </h3>
-                </div>
-              </div>
-            ))}
-          </div>
+          <VideoCardGroup
+            className="mt-10 grid gap-6 md:mt-14 md:grid-cols-2 lg:gap-8"
+            items={videos.map((video) => ({
+              id: video.title,
+              title: video.title,
+              description: "",
+              videoSrc: video.src,
+              services: [],
+            }))}
+          />
         </div>
       </div>
 
@@ -252,7 +240,7 @@ export default function FactoryProductionPage() {
               playsInline
               className="h-full w-full object-cover"
             >
-              <source src="/factory.mp4" type="video/mp4" />
+              <source src="/hero.mp4" type="video/mp4" />
             </video>
           </div>
 

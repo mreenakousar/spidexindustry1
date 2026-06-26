@@ -1,8 +1,14 @@
+
 "use client";
 
 import SectionHeader from "../ui/SectionHeader";
 import FootballAnimation from "../ui/FootballAnimation";
 import Image from "next/image";
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ProcessStep {
   title: string;
@@ -10,60 +16,73 @@ interface ProcessStep {
   imageUrl: string;
 }
 
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import React, { useEffect, useRef } from "react";
-
 export default function ProcessTimeline() {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+
+  }, []);
+
   const steps: ProcessStep[] = [
     {
       title: "Consultation",
-      description: "Discuss fabric weights, tech packs, custom trims, and target project deadlines.",
+      description:
+        "We discuss your requirements, fabric preferences, branding elements, quantities and production timelines to create a clear project roadmap.",
       imageUrl: "/images/cloth.jpg",
     },
     {
       title: "Design Review",
-      description: "Review vector artwork, 3D mockups, print placements, and embroidery mapping.",
-      imageUrl: "/images/tech2.jpg",
+      description:
+        "Our team reviews artwork, logos, color combinations, sizing specifications and mockups to ensure every detail meets your expectations.",
+      imageUrl: "/images/guideline.jpg",
     },
     {
       title: "Sampling",
-      description: "Physical prototype creation including pattern cutting to lock final fit approvals.",
-      imageUrl: "/images/embro.jpg",
+      description:
+        "A physical sample is produced for approval, allowing you to verify fit, fabric quality, stitching and overall appearance before bulk production.",
+      imageUrl: "/images/sampling.jpg",
     },
     {
       title: "Production",
-      description: "Bulk manufacturing using high-GSM fabrics, heavy-duty stitching, and custom treatments.",
-      imageUrl: "/images/print.jpg",
+      description:
+        "Once approved, bulk manufacturing begins using premium materials, advanced machinery and experienced craftsmanship for consistent quality.",
+      imageUrl: "/images/embroid.jpg",
     },
     {
       title: "Quality Inspection",
-      description: "Strict multi-point checks checking measurements, loose threads, and printing durability.",
-      imageUrl: "/images/warehouse.jpg",
+      description:
+        "Every product undergoes strict quality checks, including measurements, stitching accuracy, print durability and finishing standards.",
+      imageUrl: "/images/quality.jpg",
     },
     {
       title: "Packaging",
-      description: "Custom steam-ironing, brand tags attachments, and secure poly-bag sealing.",
-      imageUrl: "/images/packing.jpg",
+      description:
+        "Finished products are carefully folded, tagged, packed, and prepared according to your branding and shipping requirements.",
+      imageUrl: "/images/packingstuf.jpg",
     },
     {
       title: "Worldwide Delivery",
-      description: "Dispatched globally with tracking integrations via premium ocean or air cargo networks.",
+      description:
+        "Orders are shipped worldwide through trusted logistics partners with secure packaging and tracking for reliable delivery.",
       imageUrl: "/images/warehouse.jpg",
     },
   ];
 
-  const blurPlaceholderUrl = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMjIyIi8+PC9zdmc+";
+  const blurPlaceholderUrl =
+    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMjIyIi8+PC9zdmc+";
 
   return (
-    <section className="mt-8 py-10 sm:mt-16 sm:py-12">
+    <section
+      ref={containerRef}
+      className="relative mt-8 py-10 sm:mt-16 sm:py-12"
+    >
       <SectionHeader
         label="Process"
         title1="Manufacturing"
         title2="Journey"
-        description="From concept to delivery, every step is carefully managed to ensure premium quality and customer satisfaction."
+        description="From concept to delivery, every step is carefully managed to ensure premium quality, consistency and customer satisfaction."
       />
+
       <FootballAnimation className="absolute top-20 left-10 w-12 h-12 pointer-events-none z-20" />
 
       <div className="relative max-w-7xl mx-auto mt-10 px-4 sm:mt-16 sm:px-6 lg:px-8">
@@ -88,13 +107,12 @@ export default function ProcessTimeline() {
                 <div className="w-full lg:w-[46%] pl-14 sm:pl-16 lg:pl-0">
                   <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-primary/40 hover:bg-white/10 lg:hover:scale-[1.01] shadow-2xl">
                     <div className="flex flex-col sm:flex-row h-full">
-
                       <div className="relative w-full sm:w-2/5 h-44 sm:h-auto min-h-[160px] overflow-hidden transition-all duration-500">
                         <Image
                           src={item.imageUrl}
-                          alt={`${item.title} phase description visual`}
+                          alt={`${item.title} - Custom Sportswear Manufacturing Process`}
                           fill
-                          sizes="(max-w-7xl) 30vw, 400px"
+                          sizes="(max-width: 768px) 100vw, 50vw"
                           className="object-cover transition-transform duration-500 group-hover:scale-[1.03] group-hover:brightness-110"
                           placeholder="blur"
                           blurDataURL={blurPlaceholderUrl}
@@ -103,7 +121,7 @@ export default function ProcessTimeline() {
 
                       <div className="p-5 sm:p-6 flex-1 flex flex-col justify-center">
                         <span className="text-xs font-bold text-primary tracking-wider uppercase mb-1">
-                          Step 0{idx + 1}
+                          Step {String(idx + 1).padStart(2, "0")}
                         </span>
 
                         <h3 className="text-lg font-bold text-white tracking-tight">
@@ -114,11 +132,9 @@ export default function ProcessTimeline() {
                           {item.description}
                         </p>
                       </div>
-
                     </div>
                   </div>
                 </div>
-
               </div>
             );
           })}

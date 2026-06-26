@@ -29,7 +29,7 @@ export default function WhyChooseUs() {
     {
       title: "Private Label",
       description:
-        "Custom neck labels, hang tags, packaging, and branding solutions to build your own identity.",
+        "Custom neck labels, hang tags, packaging and branding solutions to build your own identity.",
       icon: BuildingOffice2Icon,
     },
     {
@@ -68,10 +68,10 @@ export default function WhyChooseUs() {
           label="Why Choose Us"
           title1="Trusted Manufacturing"
           title2="Partner"
-          description="We help startups, established brands, and wholesalers manufacture premium-quality apparel with reliable production, quality control, and worldwide logistics support."
+          description="We help startups, established brands and wholesalers manufacture premium-quality apparel with reliable production, quality control and worldwide logistics support."
         />
         <FootballAnimation className="absolute top-20 left-10 w-12 h-12 pointer-events-none z-20" />
-        
+
         {/* Grid Container */}
         <div className="mt-10 grid gap-5 sm:grid-cols-2 md:gap-6 xl:grid-cols-3 sm:mt-12 md:mt-14">
           {items.map((item) => {
@@ -82,10 +82,10 @@ export default function WhyChooseUs() {
                 key={item.title}
                 className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl sm:p-8"
               >
-                {/* Top Accent - Always Visible Now */}
+
                 <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-600 to-cyan-500" />
 
-                {/* Icon - Always Blue background with white icon */}
+
                 <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 sm:mb-6 sm:h-14 sm:w-14">
                   <Icon className="h-7 w-7 text-white" />
                 </div>
@@ -99,15 +99,15 @@ export default function WhyChooseUs() {
                   {item.description}
                 </p>
 
-             <Link
-  href="/get-quote"
-  className="mt-6 text-blue-600 font-medium flex items-center gap-2 transition-all duration-300"
->
-  Learn More
-  <span className="transform transition-transform duration-300 group-hover:translate-x-1">
-    →
-  </span>
-</Link>
+                <Link
+                  href="/get-quote"
+                  className="mt-6 text-blue-600 font-medium flex items-center gap-2 transition-all duration-300"
+                >
+                  Learn More
+                  <span className="transform transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </Link>
               </div>
             );
           })}

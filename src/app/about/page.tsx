@@ -64,26 +64,26 @@ export default function About() {
           <div>
             <SectionHeading title="Our Story" />
 
-        <p className="mt-5 text-sm leading-7 text-slate-600 sm:mt-6 sm:text-base sm:leading-8">
-  Spidex Industry is a trusted garment manufacturing company committed to
-  delivering premium-quality apparel solutions to brands across the globe.
-  With years of experience in the industry. we specialize in transforming
-  ideas into high-quality finished products through precision, innovation
-  and strict quality control at every stage of production.
-</p>
+            <p className="mt-5 text-sm leading-7 text-slate-600 sm:mt-6 sm:text-base sm:leading-8">
+              Spidex Industry is a trusted garment manufacturing company committed to
+              delivering premium-quality apparel solutions to brands across the globe.
+              With years of experience in the industry. we specialize in transforming
+              ideas into high-quality finished products through precision, innovation
+              and strict quality control at every stage of production.
+            </p>
 
-<p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-  We proudly work with international clothing brands, startups, sportswear
-  labels, gym wear companies and fashion businesses, offering complete
-  manufacturing solutions including custom designs, bulk production and
-  private labeling. Our focus is on reliability, timely delivery and
-  building long-term partnerships based on trust and consistency.
-</p>
+            <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
+              We proudly work with international clothing brands, startups, sportswear
+              labels, gym wear companies and fashion businesses, offering complete
+              manufacturing solutions including custom designs, bulk production and
+              private labeling. Our focus is on reliability, timely delivery and
+              building long-term partnerships based on trust and consistency.
+            </p>
           </div>
 
           <div className="relative h-[280px] overflow-hidden rounded-2xl shadow-xl sm:h-[360px] md:h-[420px]">
             <Image
-              src="/speedxteam.jpg"
+              src="/team/factory.png"
               alt="Speedx Industry Factory"
               fill
               className="object-cover"
@@ -137,7 +137,7 @@ export default function About() {
               playsInline
               className="h-full w-full object-cover"
             >
-              <source src="/factory.mp4" type="video/mp4" />
+              <source src="/hero.mp4" type="video/mp4" />
             </video>
           </div>
 
@@ -214,27 +214,61 @@ export default function About() {
 
       {/* 5. Team Section */}
       <div className="bg-slate-50">
-  <div className="container mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+        <div className="container mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
 
-    <SectionHeading
-      title="Meet Our Team"
-      description="Our experienced team ensures smooth production, strict quality control, and professional customer support for every project."
-      center={true}
-    />
+          <SectionHeading
+            title="The Visionaries Behind Spidex Industry"
+            description="Driven by strategic vision and operational excellence, our leadership team unites design innovation with premium manufacturing to deliver top-tier custom apparel globally."
+            center={true}
+          />
 
-    <div className="mt-10 flex justify-center lg:mt-14">
-      <div className="relative w-full max-w-5xl h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition">
-        <Image
-          src="/speedxteam.jpg"  
-          alt="Spidex Industry Team"
-          fill
-          className="object-cover"
-        />
+          <div className="mx-auto mt-10 max-w-6xl px-4 sm:mt-12 sm:px-0">
+            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+
+              <div className="grid gap-8 p-5 sm:p-8 md:grid-cols-2 md:gap-6">
+
+                <div className="relative flex flex-col items-center justify-center rounded-xl p-6 bg-white overflow-hidden border border-slate-100 shadow-sm transition-all duration-300">
+
+                  <div className="absolute -inset-[10px] bg-gradient-to-r from-blue-600 via-transparent to-blue-600 animate-[spin_5s_linear_infinite] -z-10" />
+                  <div className="absolute inset-[2px] bg-white rounded-[10px] -z-10" />
+
+                  <Image
+                    src="/team/ceo.jpeg"
+                    alt="Founder & CEO"
+                    width={200}
+                    height={200}
+                    className="rounded-full object-cover mb-4 relative z-10 border-4 border-slate-100 shadow-inner"
+                  />
+                  <h4 className="text-xl font-bold text-slate-900 relative z-10">Founder &amp; CEO</h4>
+                  <p className="mt-2 text-sm text-slate-600 text-center relative z-10">
+                    Leading the vision and strategy, driving innovation and growth across the company.
+                  </p>
+                </div>
+
+                <div className="relative flex flex-col items-center justify-center rounded-xl p-6 bg-white overflow-hidden border border-slate-100 shadow-sm transition-all duration-300">
+
+                  <div className="absolute -inset-[10px] bg-gradient-to-r from-blue-600 via-transparent to-blue-600 animate-[spin_5s_linear_infinite] -z-10" />
+                  <div className="absolute inset-[2px] bg-white rounded-[10px] -z-10" />
+
+                  <Image
+                    src="/team/director.jpeg"
+                    alt="Managing Director"
+                    width={200}
+                    height={200}
+                    className="rounded-full object-cover mb-4 relative z-10 border-4 border-slate-100 shadow-inner"
+                  />
+                  <h4 className="text-xl font-bold text-slate-900 relative z-10">Managing Director</h4>
+                  <p className="mt-2 text-sm text-slate-600 text-center relative z-10">
+                    Overseeing operations and ensuring excellence in delivery and client satisfaction.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
-
-  </div>
-</div>
 
       {/* 6. CTA */}
       <FinalCTA />

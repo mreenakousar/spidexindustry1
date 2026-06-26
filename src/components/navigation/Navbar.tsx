@@ -24,7 +24,6 @@ const aboutDropdownLinks = [
   { href: "/reviews", label: "Client Reviews", desc: "Customer experiences & testimonials" },
 ];
 
-// Custom inline SVG logo that adapts to text color and has a transparent background
 function Logo({ className = "text-white" }: { className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="160" height="40" viewBox="0 0 160 40" fill="none" className={className}>
@@ -127,7 +126,14 @@ export default function Navbar() {
 
         {/* LOGO */}
         <Link href="/" className="flex items-center shrink-0">
-          <Logo className="text-white hover:text-blue-400 transition-colors w-[120px] md:w-[140px] h-auto" />
+          <Image
+            src="/spidexlogo.png"
+            alt="Speedx Logo"
+            width={140}
+            height={50}
+            className="w-[120px] md:w-[140px] h-auto"
+            priority
+          />
         </Link>
 
         {/* DESKTOP NAV */}
@@ -427,16 +433,36 @@ export default function Navbar() {
       />
 
       {/* MOBILE & TABLET DRAWER SLIDE-IN FROM RIGHT */}
-      <div className={`fixed inset-y-0 right-0 z-[9999] w-full max-w-sm bg-slate-900  backdrop-blur-lg border-l border-white/10 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden ${menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}>
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+      <div className={`fixed inset-0 z-[9999] w-screen bg-slate-900 backdrop-blur-lg border-l border-white/10 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden ${menuOpen ? "translate-x-0" : "translate-x-full"}`}>
+        {/* <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
           <Logo className="text-white w-[120px] h-auto" />
+          <button onClick={() => setMenuOpen(false)} className="p-1.5 rounded-full hover:bg-white/5 text-slate-300 hover:text-white transition-colors">
+            <XMarkIcon className="w-6 h-6" />
+          </button>
+        </div> */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+          {/* Public folder se image */}
+          <img
+            src="/spidexlogo.png"
+            alt="Logo"
+            className="w-[120px] h-auto object-contain"
+          />
+
           <button onClick={() => setMenuOpen(false)} className="p-1.5 rounded-full hover:bg-white/5 text-slate-300 hover:text-white transition-colors">
             <XMarkIcon className="w-6 h-6" />
           </button>
         </div>
 
         <div className="p-6 flex flex-col gap-4 overflow-y-auto h-[calc(100vh-72px)] bg-slate-900 ">
+          {/* Mobile Home */}
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="text-base py-3 border-b border-white/10 text-white hover:text-blue-200 font-semibold transition-colors flex justify-between items-center"
+          >
+            Home
+          </Link>
+
           <div className="py-3 border-b border-white/10">
             <span className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-3">Services & Capabilities</span>
             <div className="pl-2 space-y-3">

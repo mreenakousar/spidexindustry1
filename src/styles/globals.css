@@ -62,3 +62,14 @@ body {
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+/* Animated moving blue border line */
+@keyframes borderSlide {
+  0% { transform: translateY(0%); }
+  50% { transform: translateY(100%); }
+  100% { transform: translateY(0%); }
+}
+.animate-border-line {
+  width: 1px;
+  background: linear-gradient(to bottom, #0ea5e9, #3b82f6);
+  animation: borderSlide 3s linear infinite;
+}

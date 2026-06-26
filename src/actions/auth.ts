@@ -1,9 +1,8 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { z } from "zod";
-import { ensureAdminUser, getUsersCollection } from "../../database/db";
-import { DEFAULT_ADMIN_EMAIL, hashPassword, signJwt, verifyPassword } from "../../database/auth";
+import { createClient } from "@/lib/supabase/server";
+import { syncUserToDb, DEFAULT_ADMIN_EMAIL } from "@/database/auth";
 
 const allowedEmail = z.string().trim().refine((value) => {
   return value === DEFAULT_ADMIN_EMAIL || z.string().email().safeParse(value).success;
@@ -24,98 +23,97 @@ type AuthResult =
   | { ok: true; role: "admin" | "client" }
   | { ok: false; error: string };
 
-async function setAuthCookie(token: string) {
-  const cookieStore = await cookies();
-  cookieStore.set("token", token, {
-    httpOnly: true,
-    path: "/",
-    maxAge: 60 * 60 * 24 * 7,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
-}
-
 export async function loginAction(input: unknown): Promise<AuthResult> {
-  await ensureAdminUser();
-
   const parsed = loginSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: "Invalid login details." };
   }
 
-  const users = await getUsersCollection();
-  const user = await users.findOne({ email: parsed.data.email });
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: parsed.data.email,
+      password: parsed.data.password,
+    });
 
-  if (!user) {
-    return { ok: false, error: "Invalid credentials." };
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    if (!data?.user) {
+      return { ok: false, error: "Invalid credentials." };
+    }
+
+    const user = data.user;
+    
+    // Assign admin role if email matches system admin email
+    const isSystemAdmin = user.email?.toLowerCase() === DEFAULT_ADMIN_EMAIL.toLowerCase();
+    if (isSystemAdmin && user.user_metadata?.role !== "admin") {
+      await supabase.auth.updateUser({
+        data: { role: "admin" }
+      });
+      user.user_metadata = { ...user.user_metadata, role: "admin" };
+    }
+
+    await syncUserToDb(user);
+    const role = isSystemAdmin ? "admin" : (user.user_metadata?.role || "client");
+
+    return { ok: true, role };
+  } catch (err: any) {
+    return { ok: false, error: err?.message || "Unable to login at this time." };
   }
-
-  const isValid = await verifyPassword(parsed.data.password, user.passwordHash);
-  if (!isValid) {
-    return { ok: false, error: "Invalid credentials." };
-  }
-
-  const token = signJwt({
-    sub: user._id?.toString() ?? user.email,
-    email: user.email,
-    name: user.name,
-    role: user.role,
-  });
-
-  await setAuthCookie(token);
-  return { ok: true, role: user.role };
 }
 
 export async function signupAction(input: unknown): Promise<AuthResult> {
-  await ensureAdminUser();
-
   const parsed = signupSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: "Invalid signup details." };
   }
 
-  const users = await getUsersCollection();
-  if (parsed.data.email.toLowerCase() === DEFAULT_ADMIN_EMAIL.toLowerCase()) {
-    return {
-      ok: false,
-      error: "Use the admin login for this account.",
-    };
+  try {
+    const supabase = await createClient();
+    
+    // Default role is client unless they are the system admin email
+    const isSystemAdmin = parsed.data.email.toLowerCase() === DEFAULT_ADMIN_EMAIL.toLowerCase();
+    const role = isSystemAdmin ? "admin" : "client";
+
+    const { data, error } = await supabase.auth.signUp({
+      email: parsed.data.email,
+      password: parsed.data.password,
+      options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api/auth/callback`,
+        data: {
+          name: parsed.data.name,
+          role,
+        },
+      },
+    });
+
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    if (!data?.user) {
+      return { ok: false, error: "Unable to create account." };
+    }
+
+    await syncUserToDb(data.user);
+
+    return { ok: true, role };
+  } catch (err: any) {
+    return { ok: false, error: err?.message || "Unable to create account at this time." };
   }
-
-  const existing = await users.findOne({ email: parsed.data.email });
-  if (existing) {
-    return { ok: false, error: "A user with that email already exists." };
-  }
-
-  const passwordHash = await hashPassword(parsed.data.password);
-  await users.insertOne({
-    name: parsed.data.name,
-    email: parsed.data.email,
-    passwordHash,
-    role: "client",
-    createdAt: new Date(),
-  });
-
-  const token = signJwt({
-    sub: parsed.data.email,
-    email: parsed.data.email,
-    name: parsed.data.name,
-    role: "client",
-  });
-
-  await setAuthCookie(token);
-  return { ok: true, role: "client" };
 }
 
 export async function logoutAction() {
-  const cookieStore = await cookies();
-  cookieStore.set("token", "", {
-    httpOnly: true,
-    path: "/",
-    maxAge: 0,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
-
-  return { ok: true };
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+    return { ok: true };
+  } catch (error: any) {
+    return { ok: false, error: error?.message || "Unable to logout." };
+  }
 }

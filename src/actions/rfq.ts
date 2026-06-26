@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { getRfqsCollection } from "../../database/db";
+import prisma from "@/lib/prisma";
 
 const rfqSchema = z.object({
   fullName: z.string().min(2),
@@ -24,15 +24,17 @@ export async function submitRfqAction(input: unknown) {
       typeof input === "object" && input !== null
         ? (input as Record<string, unknown>)
         : ({} as Record<string, unknown>);
+
     const parsed = rfqSchema.parse({
       ...payload,
       quantity: Number((payload as any).quantity),
     });
-    const collection = await getRfqsCollection();
-    await collection.insertOne({
-      ...parsed,
-      status: "new",
-      createdAt: new Date(),
+
+    await prisma.rFQ.create({
+      data: {
+        ...parsed,
+        status: "new",
+      },
     });
 
     return { ok: true };

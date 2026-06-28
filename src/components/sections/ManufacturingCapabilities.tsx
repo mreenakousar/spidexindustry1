@@ -69,7 +69,7 @@ const premiumCapabilities: CapabilityCard[] = [
     id: "denim",
     title: "Jeans & Denim",
     description: "Custom denim jackets and jeans featuring heavy-duty construction, bespoke hardware, vintage distressed finishes and specialized washes.",
-    image: "/jeans/jean1.jpeg",
+    image: "/jeans/jeans1.jpeg",
   },
 ];
 

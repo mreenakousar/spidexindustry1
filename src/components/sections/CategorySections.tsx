@@ -69,10 +69,10 @@ const categoriesData: CategoryData[] = [
     description: "Utility and performance gloves designed for professional training, grip support, and thermal insulation.",
     subcategories: ["Training Gloves", "Winter Gloves", "Sport Gloves"],
     products: [
-      { name: "Pro Grip Weightlifting Gloves", spec: "Padded gel palm, double wrist wrap strap", fabric: "Amara Premium Leather & Lycra", blueprintType: "gloves", image: "/images/gloves.jpg" },
-      { name: "ThermaFit Touchscreen Gloves", spec: "Windproof panels, capacitive fingertips", fabric: "Neoprene Face & Brushed Fleece Core", blueprintType: "gloves", image: "/images/gloves2.jpg" },
-      { name: "AeroSport Breathable Gloves", spec: "Silicon grip mapping, lightweight chassis", fabric: "Breathable Stretch-Mesh & Poly", blueprintType: "gloves", image: "/images/quality.jpg" },
-      { name: "StitchShield Reinforced Utility Gloves", spec: "Kevlar lining, high-impact rubber guard", fabric: "Synthetic Suede & Kevlar Threads", blueprintType: "gloves", image: "/images/guideline.jpg" }
+      { name: "Pro Grip Weightlifting Gloves", spec: "Padded gel palm, double wrist wrap strap", fabric: "Amara Premium Leather & Lycra", blueprintType: "gloves", image: "/gloves/glove1.jpeg" },
+      { name: "ThermaFit Touchscreen Gloves", spec: "Windproof panels, capacitive fingertips", fabric: "Neoprene Face & Brushed Fleece Core", blueprintType: "gloves", image: "/gloves/glove2.jpeg" },
+      { name: "AeroSport Breathable Gloves", spec: "Silicon grip mapping, lightweight chassis", fabric: "Breathable Stretch-Mesh & Poly", blueprintType: "gloves", image: "/gloves/glove3.jpeg" },
+      { name: "StitchShield Reinforced Utility Gloves", spec: "Kevlar lining, high-impact rubber guard", fabric: "Synthetic Suede & Kevlar Threads", blueprintType: "gloves", image: "/gloves/glove4.jpeg" }
     ]
   },
   {
@@ -81,10 +81,10 @@ const categoriesData: CategoryData[] = [
     description: "Premium finishing accessories including custom woven labels, metal zippers, drawstrings, and branded hang tags for private label production.",
     subcategories: ["Tags & Labels", "Zippers & Buttons", "Drawstrings"],
     products: [
-      { name: "Custom Woven Label", spec: "Heat-seal & sew-in damask weave", fabric: "100% Woven Polyester Thread", blueprintType: "tee", image: "/images/Accessories.jpg" },
-      { name: "YKK-Style Metal Zipper", spec: "5# gauge, auto-lock slider", fabric: "Brass Alloy & Polyester Tape", blueprintType: "jacket", image: "/images/tajima.jpg" },
-      { name: "Branded Hang Tag Set", spec: "400 GSM matte laminated card + eyelet", fabric: "Premium Cardstock & Cotton String", blueprintType: "shorts", image: "/images/embroid.jpg" },
-      { name: "Flat Elastic Drawstring", spec: "8mm tubular braid, heat-cut ends", fabric: "100% Polyester Flat Braid", blueprintType: "pants", image: "/images/embro.jpg" }
+      { name: "Custom Woven Label", spec: "Heat-seal & sew-in damask weave", fabric: "100% Woven Polyester Thread", blueprintType: "tee", image: "/accessories/fabric5.webp" },
+      { name: "YKK-Style Metal Zipper", spec: "5# gauge, auto-lock slider", fabric: "Brass Alloy & Polyester Tape", blueprintType: "jacket", image: "/accessories/fabric2.jpg" },
+      { name: "Branded Hang Tag Set", spec: "400 GSM matte laminated card + eyelet", fabric: "Premium Cardstock & Cotton String", blueprintType: "shorts", image: "/accessories/fabric3.jpg" },
+      { name: "Flat Elastic Drawstring", spec: "8mm tubular braid, heat-cut ends", fabric: "100% Polyester Flat Braid", blueprintType: "pants", image: "/accessories/fabric4.webp" }
     ]
   },
   {
@@ -105,10 +105,10 @@ const categoriesData: CategoryData[] = [
     description: "Premium denim manufacturing with custom washes, finishes, and fits — from slim-cut fashion jeans to relaxed workwear styles.",
     subcategories: ["Slim Fit", "Regular Fit", "Relaxed Fit"],
     products: [
-      { name: "Slim Taper Stretch Denim", spec: "Mid-rise, tapered leg, 4-way stretch", fabric: "98% Cotton, 2% Elastane Denim", blueprintType: "pants", image: "/images/cut4.jpg" },
-      { name: "Classic Regular Fit Jean", spec: "Straight leg, 5-pocket construction", fabric: "100% Raw Selvedge Denim", blueprintType: "pants", image: "/images/print.jpg" },
-      { name: "Acid Wash Relaxed Jeans", spec: "Loose silhouette, vintage acid finish", fabric: "Stonewashed 12oz Cotton Denim", blueprintType: "pants", image: "/images/quality.jpg" },
-      { name: "Distressed Carpenter Denim", spec: "Relaxed utility, hammer loop detail", fabric: "14oz Enzyme-Washed Denim", blueprintType: "pants", image: "/images/cuttings.jpg" }
+      { name: "Slim Taper Stretch Denim", spec: "Mid-rise, tapered leg, 4-way stretch", fabric: "98% Cotton, 2% Elastane Denim", blueprintType: "pants", image: "/jeans/jean1.jpeg" },
+      { name: "Classic Regular Fit Jean", spec: "Straight leg, 5-pocket construction", fabric: "100% Raw Selvedge Denim", blueprintType: "pants", image: "/jeans/jean3.jpeg" },
+      { name: "Acid Wash Relaxed Jeans", spec: "Loose silhouette, vintage acid finish", fabric: "Stonewashed 12oz Cotton Denim", blueprintType: "pants", image: "/jeans/jean4.jpeg" },
+      { name: "Distressed Carpenter Denim", spec: "Relaxed utility, hammer loop detail", fabric: "14oz Enzyme-Washed Denim", blueprintType: "pants", image: "/jeans/jean5.jpeg" }
     ]
   },
   {
@@ -117,10 +117,10 @@ const categoriesData: CategoryData[] = [
     description: "Custom headwear manufacturing including structured baseball caps, unstructured snapbacks, trucker hats with embroidery and screen-print options.",
     subcategories: ["Baseball Caps", "Snapbacks", "Trucker Hats"],
     products: [
-      { name: "Structured 6-Panel Baseball Cap", spec: "Mid-profile, buckle strap closure", fabric: "100% Brushed Cotton Twill", blueprintType: "shorts", image: "/images/cap.jpg" },
-      { name: "Flat Brim Snapback", spec: "High-profile, 6-panel, flat visor", fabric: "Wool-Acrylic Blend Front Panel", blueprintType: "shorts", image: "/images/tajima.jpg" },
-      { name: "Mesh Trucker Hat", spec: "5-panel, foam front, snap closure", fabric: "Cotton Front + Polyester Mesh Back", blueprintType: "shorts", image: "/images/embroid.jpg" },
-      { name: "Dad Hat Washed Cotton", spec: "Low-profile unstructured, slide adjuster", fabric: "100% Garment-Washed Cotton", blueprintType: "shorts", image: "/images/embro.jpg" }
+      { name: "Structured 6-Panel Baseball Cap", spec: "Mid-profile, buckle strap closure", fabric: "100% Brushed Cotton Twill", blueprintType: "shorts", image: "/cap/cap1.jpeg" },
+      { name: "Flat Brim Snapback", spec: "High-profile, 6-panel, flat visor", fabric: "Wool-Acrylic Blend Front Panel", blueprintType: "shorts", image: "/cap/cap2.jpeg" },
+      { name: "Mesh Trucker Hat", spec: "5-panel, foam front, snap closure", fabric: "Cotton Front + Polyester Mesh Back", blueprintType: "shorts", image: "/cap/cap3.jpeg" },
+      { name: "Dad Hat Washed Cotton", spec: "Low-profile unstructured, slide adjuster", fabric: "100% Garment-Washed Cotton", blueprintType: "shorts", image: "/cap/cap4.jpeg" }
     ]
   }
 ];

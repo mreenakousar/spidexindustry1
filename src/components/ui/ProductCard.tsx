@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 
 export interface Product {
@@ -119,45 +119,111 @@ const ApparelWireframe: React.FC<{ type: Product["blueprintType"] }> = ({ type }
 };
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-none border border-zinc-900 bg-zinc-900/40 transition-all duration-500 hover:border-zinc-800 backdrop-blur-sm text-white">
+    <>
+      <div 
+        className="group flex h-full flex-col overflow-hidden rounded-none border border-zinc-900 bg-zinc-900/40 transition-all duration-500 hover:border-zinc-800 backdrop-blur-sm text-white cursor-pointer"
+        onClick={() => setIsModalOpen(true)}
+      >
 
-      {/* Aspect Ratio 4:5 Blueprint Box */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden">
-        <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-      </div>
-
-      {/* Content Details */}
-      <div className="relative flex flex-grow flex-col bg-black p-5 sm:p-6 space-y-4">
-
-        {/* Title & Premium Arrow */}
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="text-lg font-bold uppercase tracking-tight text-white transition-colors duration-300 group-hover:text-blue-400 line-clamp-1">
-            {product.name}
-          </h3>
-          {/* Animated Arrow on Card Hover */}
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-zinc-800 bg-zinc-900 text-zinc-400 transition-all duration-300 group-hover:border-blue-500 group-hover:bg-blue-600 group-hover:text-white group-hover:rotate-45 group-hover:scale-110">
-            <ArrowUpRight className="w-4 h-4" />
-          </div>
+        {/* Aspect Ratio 4:5 Blueprint Box */}
+        <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
         </div>
 
-        {/* Technical Matrix Labeling (Dark Premium Version) */}
-        <div className="space-y-2 text-[10px] font-mono p-3 bg-zinc-950 border border-zinc-900/80">
-          <div className="flex justify-between border-b border-zinc-900 pb-2">
-            <span className="text-zinc-500 uppercase tracking-wider text-[9px]">SPECIFICATION:</span>
-            <span className="text-zinc-300 font-semibold text-right truncate max-w-[140px] uppercase">
-              {product.spec}
-            </span>
+        {/* Content Details */}
+        <div className="relative flex flex-grow flex-col bg-black p-5 sm:p-6 space-y-4">
+
+          {/* Title & Premium Arrow */}
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-lg font-bold uppercase tracking-tight text-white transition-colors duration-300 group-hover:text-blue-400 line-clamp-1">
+              {product.name}
+            </h3>
+            {/* Animated Arrow on Card Hover */}
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-zinc-800 bg-zinc-900 text-zinc-400 transition-all duration-300 group-hover:border-blue-500 group-hover:bg-blue-600 group-hover:text-white group-hover:rotate-45 group-hover:scale-110">
+              <ArrowUpRight className="w-4 h-4" />
+            </div>
           </div>
-          <div className="flex justify-between pt-1">
-            <span className="text-zinc-500 uppercase tracking-wider text-[9px]">FABRIC:</span>
-            <span className="text-blue-400 font-semibold text-right truncate max-w-[140px] uppercase">
-              {product.fabric}
-            </span>
+
+          {/* Technical Matrix Labeling (Dark Premium Version) */}
+          <div className="space-y-2 text-[10px] font-mono p-3 bg-zinc-950 border border-zinc-900/80">
+            <div className="flex justify-between border-b border-zinc-900 pb-2">
+              <span className="text-zinc-500 uppercase tracking-wider text-[9px]">SPECIFICATION:</span>
+              <span className="text-zinc-300 font-semibold text-right truncate max-w-[140px] uppercase">
+                {product.spec}
+              </span>
+            </div>
+            <div className="flex justify-between pt-1">
+              <span className="text-zinc-500 uppercase tracking-wider text-[9px]">FABRIC:</span>
+              <span className="text-blue-400 font-semibold text-right truncate max-w-[140px] uppercase">
+                {product.fabric}
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Details Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}>
+          <div 
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-zinc-950 border border-zinc-800 flex flex-col md:flex-row shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button 
+              className="absolute top-4 right-4 z-10 p-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded-full transition-colors border border-zinc-800"
+              onClick={() => setIsModalOpen(false)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Left: Image */}
+            <div className="w-full md:w-1/2 bg-black flex items-center justify-center border-b md:border-b-0 md:border-r border-zinc-800">
+              <img src={product.image} alt={product.name} className="w-full h-full object-cover max-h-[50vh] md:max-h-[85vh]" />
+            </div>
+
+            {/* Right: Details */}
+            <div className="w-full md:w-1/2 p-6 sm:p-10 flex flex-col justify-center space-y-6 text-white bg-zinc-900/50">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight text-white mb-2">{product.name}</h2>
+                <div className="h-1 w-12 bg-blue-600 mb-6"></div>
+              </div>
+
+              <div className="space-y-4 font-mono text-sm">
+                <div className="border-b border-zinc-800 pb-3">
+                  <span className="block text-zinc-500 uppercase tracking-wider text-[10px] mb-1">SPECIFICATION DETAILS</span>
+                  <span className="text-zinc-200">{product.spec}</span>
+                </div>
+                
+                <div className="border-b border-zinc-800 pb-3">
+                  <span className="block text-zinc-500 uppercase tracking-wider text-[10px] mb-1">FABRIC QUALITY</span>
+                  <span className="text-blue-400 font-semibold">{product.fabric}</span>
+                </div>
+                
+                <div className="border-b border-zinc-800 pb-3">
+                  <span className="block text-zinc-500 uppercase tracking-wider text-[10px] mb-1">BLUEPRINT MODEL</span>
+                  <span className="text-zinc-200 uppercase">{product.blueprintType}</span>
+                </div>
+              </div>
+              
+              <div className="pt-4">
+                <button 
+                  className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold tracking-widest uppercase text-xs transition-colors"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Close Details
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-
-      </div>
-    </div>
+      )}
+    </>
   );
 }

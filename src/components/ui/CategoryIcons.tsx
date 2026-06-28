@@ -85,6 +85,14 @@ export function CapsIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function SocksIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M14 3v8a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h1a2 2 0 0 0 2-2V3z"/>
+    </svg>
+  );
+}
+
 export default {
   SportIcon,
   GymIcon,
@@ -95,4 +103,5 @@ export default {
   BagsIcon,
   JeansIcon,
   CapsIcon,
+  SocksIcon,
 };

@@ -132,6 +132,13 @@ export const productCategories = [
       { label: "Trucker Hats", href: "/product-categories/caps/trucker", sub: [] },
     ],
   },
+  {
+    id: "socks",
+    label: "Socks",
+    icon: "SocksIcon",
+    href: "/product-categories/socks",
+    sub: [],
+  },
 ];
 
 export const capabilities = [

@@ -89,28 +89,6 @@ export const productCategories = [
     ],
   },
   {
-    id: "garment-accessories",
-    label: "Garment Accessories",
-    icon: "AccessoriesIcon",
-    href: "/product-categories/garment-accessories",
-    sub: [
-      { label: "Tags & Labels", href: "/product-categories/garment-accessories/tags", sub: [] },
-      { label: "Zippers & Buttons", href: "/product-categories/garment-accessories/zippers", sub: [] },
-      { label: "Drawstrings", href: "/product-categories/garment-accessories/drawstrings", sub: [] },
-    ],
-  },
-  {
-    id: "packing-bags",
-    label: "Packing Bags",
-    icon: "BagsIcon",
-    href: "/product-categories/packing-bags",
-    sub: [
-      { label: "Polymailers", href: "/product-categories/packing-bags/polymailers", sub: [] },
-      { label: "Tote Bags", href: "/product-categories/packing-bags/tote-bags", sub: [] },
-      { label: "Drawstring Bags", href: "/product-categories/packing-bags/drawstring", sub: [] },
-    ],
-  },
-  {
     id: "jeans",
     label: "Jeans",
     icon: "JeansIcon",
@@ -138,6 +116,28 @@ export const productCategories = [
     icon: "SocksIcon",
     href: "/product-categories/socks",
     sub: [],
+  },
+  {
+    id: "garment-accessories",
+    label: "Garment Accessories",
+    icon: "AccessoriesIcon",
+    href: "/product-categories/garment-accessories",
+    sub: [
+      { label: "Tags & Labels", href: "/product-categories/garment-accessories/tags", sub: [] },
+      { label: "Zippers & Buttons", href: "/product-categories/garment-accessories/zippers", sub: [] },
+      { label: "Drawstrings", href: "/product-categories/garment-accessories/drawstrings", sub: [] },
+    ],
+  },
+  {
+    id: "packing-bags",
+    label: "Packing Bags",
+    icon: "BagsIcon",
+    href: "/product-categories/packing-bags",
+    sub: [
+      { label: "Polymailers", href: "/product-categories/packing-bags/polymailers", sub: [] },
+      { label: "Tote Bags", href: "/product-categories/packing-bags/tote-bags", sub: [] },
+      { label: "Drawstring Bags", href: "/product-categories/packing-bags/drawstring", sub: [] },
+    ],
   },
 ];
 

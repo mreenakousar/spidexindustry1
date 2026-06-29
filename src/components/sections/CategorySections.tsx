@@ -76,30 +76,6 @@ const categoriesData: CategoryData[] = [
     ]
   },
   {
-    id: "garment-accessories",
-    label: "Garment Accessories",
-    description: "Finishing touches for your brand, including custom metallic zipper sliders, foiled cardstock hang tags, tubular drawstrings and assorted buttons.",
-    subcategories: ["Tags & Labels", "Zippers & Buttons", "Drawstrings"],
-    products: [
-      { name: "Custom Zipper Sliders", spec: "Various metal and custom molded sliders", fabric: "Metal Alloy & Rubber", blueprintType: "tee", image: "/accessories/fabric5.webp" },
-      { name: "Carbonado Foiled Hang Tags", spec: "Matte black card with copper foil logo", fabric: "Premium Cardstock", blueprintType: "jacket", image: "/accessories/fabric2.jpg" },
-      { name: "Grey Tubular Drawstring", spec: "Braided grey cotton/poly cord spool", fabric: "Cotton Polyester Blend", blueprintType: "shorts", image: "/accessories/fabric3.jpg" },
-      { name: "Assorted Custom Buttons", spec: "Mixed plastic and resin custom buttons", fabric: "Resin & Plastic", blueprintType: "pants", image: "/accessories/fabric4.webp" }
-    ]
-  },
-  {
-    id: "packing-bags",
-    label: "Packing Bags",
-    description: "Complete packaging solutions spanning from printed poly mailers and heavy-duty canvas totes to branded drawstring pouches and luxury gift boxes.",
-    subcategories: ["Polymailers", "Tote Bags", "Drawstring Bags"],
-    products: [
-      { name: "Custom Printed Poly Mailer", spec: "10x13\" co-ex film, 2.5 mil thickness", fabric: "Co-Extruded LDPE Poly Film", blueprintType: "shorts", image: "/images/packing.jpg" },
-      { name: "Heavy-Duty Canvas Tote", spec: "12oz natural canvas, reinforced handles", fabric: "100% Natural Canvas Cotton", blueprintType: "tee", image: "/images/packbag.jpg" },
-      { name: "Branded Drawstring Pouch", spec: "30x40cm athletic gym bag style", fabric: "210D Rip-Stop Polyester", blueprintType: "pants", image: "/images/packingstuf.jpg" },
-      { name: "Luxury Gift Box Set", spec: "Rigid box + magnetic closure lid", fabric: "1200 GSM Greyboard + Art Paper", blueprintType: "jacket", image: "/images/packing1.avif" }
-    ]
-  },
-  {
     id: "jeans",
     label: "Jeans",
     description: "Fashion-forward denim featuring distressed straight legs, vintage baggy fits, sparkling embellishments and rhinestone details.",
@@ -133,6 +109,30 @@ const categoriesData: CategoryData[] = [
       { name: "Nordic Fair Isle Knit Socks", spec: "Thick winter knit with geometric patterns", fabric: "Wool & Acrylic Blend", blueprintType: "shorts", image: "/socks/sock6.jpg" },
       { name: "Alligator Novelty Socks", spec: "Playful crocodile design with open mouth", fabric: "Breathable Cotton Knit", blueprintType: "pants", image: "/socks/sock3.jpg" },
       { name: "Alien Abduction UFO Socks", spec: "UFO beam graphic with 'TAKE ME AWAY!' text", fabric: "Premium Cotton Blend", blueprintType: "jacket", image: "/socks/sock4.jpg" }
+    ]
+  },
+  {
+    id: "garment-accessories",
+    label: "Garment Accessories",
+    description: "Finishing touches for your brand, including custom metallic zipper sliders, foiled cardstock hang tags, tubular drawstrings and assorted buttons.",
+    subcategories: ["Tags & Labels", "Zippers & Buttons", "Drawstrings"],
+    products: [
+      { name: "Custom Zipper Sliders", spec: "Various metal and custom molded sliders", fabric: "Metal Alloy & Rubber", blueprintType: "tee", image: "/accessories/fabric5.webp" },
+      { name: "Carbonado Foiled Hang Tags", spec: "Matte black card with copper foil logo", fabric: "Premium Cardstock", blueprintType: "jacket", image: "/accessories/fabric2.jpg" },
+      { name: "Grey Tubular Drawstring", spec: "Braided grey cotton/poly cord spool", fabric: "Cotton Polyester Blend", blueprintType: "shorts", image: "/accessories/fabric3.jpg" },
+      { name: "Assorted Custom Buttons", spec: "Mixed plastic and resin custom buttons", fabric: "Resin & Plastic", blueprintType: "pants", image: "/accessories/fabric4.webp" }
+    ]
+  },
+  {
+    id: "packing-bags",
+    label: "Packing Bags",
+    description: "Complete packaging solutions spanning from printed poly mailers and heavy-duty canvas totes to branded drawstring pouches and luxury gift boxes.",
+    subcategories: ["Polymailers", "Tote Bags", "Drawstring Bags"],
+    products: [
+      { name: "Custom Printed Poly Mailer", spec: "10x13\" co-ex film, 2.5 mil thickness", fabric: "Co-Extruded LDPE Poly Film", blueprintType: "shorts", image: "/images/packing.jpg" },
+      { name: "Heavy-Duty Canvas Tote", spec: "12oz natural canvas, reinforced handles", fabric: "100% Natural Canvas Cotton", blueprintType: "tee", image: "/images/packbag.jpg" },
+      { name: "Branded Drawstring Pouch", spec: "30x40cm athletic gym bag style", fabric: "210D Rip-Stop Polyester", blueprintType: "pants", image: "/images/packingstuf.jpg" },
+      { name: "Luxury Gift Box Set", spec: "Rigid box + magnetic closure lid", fabric: "1200 GSM Greyboard + Art Paper", blueprintType: "jacket", image: "/images/packing1.avif" }
     ]
   }
 ];

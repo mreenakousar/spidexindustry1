@@ -8,11 +8,11 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start"
   },
   "engines": {
-    "node": "^18 || ^20"
+    "node": "24.x"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
